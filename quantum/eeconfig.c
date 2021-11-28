@@ -4,17 +4,18 @@
 #include "eeconfig.h"
 #include "action_layer.h"
 
-#ifdef STM32_EEPROM_ENABLE
-#    include <hal.h>
-#    include "eeprom_stm32.h"
-#endif
-
 #if defined(EEPROM_DRIVER)
 #    include "eeprom_driver.h"
 #endif
 
 #if defined(HAPTIC_ENABLE)
 #    include "haptic.h"
+#endif
+
+#if defined(VIA_ENABLE)
+bool via_eeprom_is_valid(void);
+void via_eeprom_set_valid(bool valid);
+void eeconfig_init_via(void);
 #endif
 
 /** \brief eeconfig enable
@@ -37,9 +38,6 @@ __attribute__((weak)) void eeconfig_init_kb(void) {
  * FIXME: needs doc
  */
 void eeconfig_init_quantum(void) {
-#ifdef STM32_EEPROM_ENABLE
-    EEPROM_Erase();
-#endif
 #if defined(EEPROM_DRIVER)
     eeprom_driver_erase();
 #endif
@@ -77,6 +75,13 @@ void eeconfig_init_quantum(void) {
     // when a haptic-enabled firmware is loaded onto the keyboard.
     eeprom_update_dword(EECONFIG_HAPTIC, 0);
 #endif
+#if defined(VIA_ENABLE)
+    // Invalidate VIA eeprom config, and then reset.
+    // Just in case if power is lost mid init, this makes sure that it pets
+    // properly re-initialized.
+    via_eeprom_set_valid(false);
+    eeconfig_init_via();
+#endif
 
     eeconfig_init_kb();
 }
@@ -98,9 +103,6 @@ void eeconfig_enable(void) { eeprom_update_word(EECONFIG_MAGIC, EECONFIG_MAGIC_N
  * FIXME: needs doc
  */
 void eeconfig_disable(void) {
-#ifdef STM32_EEPROM_ENABLE
-    EEPROM_Erase();
-#endif
 #if defined(EEPROM_DRIVER)
     eeprom_driver_erase();
 #endif
@@ -111,13 +113,29 @@ void eeconfig_disable(void) {
  *
  * FIXME: needs doc
  */
-bool eeconfig_is_enabled(void) { return (eeprom_read_word(EECONFIG_MAGIC) == EECONFIG_MAGIC_NUMBER); }
+bool eeconfig_is_enabled(void) {
+    bool is_eeprom_enabled = (eeprom_read_word(EECONFIG_MAGIC) == EECONFIG_MAGIC_NUMBER);
+#ifdef VIA_ENABLE
+    if (is_eeprom_enabled) {
+        is_eeprom_enabled = via_eeprom_is_valid();
+    }
+#endif
+    return is_eeprom_enabled;
+}
 
 /** \brief eeconfig is disabled
  *
  * FIXME: needs doc
  */
-bool eeconfig_is_disabled(void) { return (eeprom_read_word(EECONFIG_MAGIC) == EECONFIG_MAGIC_NUMBER_OFF); }
+bool eeconfig_is_disabled(void) {
+    bool is_eeprom_disabled = (eeprom_read_word(EECONFIG_MAGIC) == EECONFIG_MAGIC_NUMBER_OFF);
+#ifdef VIA_ENABLE
+    if (!is_eeprom_disabled) {
+        is_eeprom_disabled = !via_eeprom_is_valid();
+    }
+#endif
+    return is_eeprom_disabled;
+}
 
 /** \brief eeconfig read debug
  *

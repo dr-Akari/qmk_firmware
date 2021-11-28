@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include <stdio.h>
 
 #ifdef HAPTIC_ENABLE
 #    include "haptic.h"
@@ -79,10 +78,10 @@ void render_user_status(void) {
 
 void keyboard_post_init_user(void) { oled_scroll_set_speed(0); }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
     if (is_asleep) {
         oled_off();
-        return;
+        return false;;
     }
 
     if (timer_elapsed32(oled_timer) < 30000) {
@@ -90,15 +89,35 @@ void oled_task_user(void) {
         oled_scroll_off();
         oled_write_P(PSTR("SplitKB's Zima"), false);
         char layer[2] = {0};
-        snprintf(layer, sizeof(layer), "%d", get_highest_layer(layer_state));
+        uint8_t n        = get_highest_layer(layer_state);
+        layer[1]         = '\0';
+        layer[0]         = '0' + n % 10;
         oled_write_P(PSTR("   L:"), false);
         oled_write_ln(layer, false);
         oled_write_ln_P(PSTR("--------------"), false);
         if (rgblight_is_enabled()) {
             oled_write_P(PSTR("HSV: "), false);
-            char rgbs[14];
-            snprintf(rgbs, sizeof(rgbs), "%3d, %3d, %3d", rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val());
-            oled_write_ln(rgbs, false);
+            char hsv_char[4];
+            n           = rgblight_get_hue();
+            hsv_char[3] = '\0';
+            hsv_char[2] = '0' + n % 10;
+            hsv_char[1] = (n /= 10) % 10 ? '0' + (n) % 10 : (n / 10) % 10 ? '0' : ' ';
+            hsv_char[0] = n / 10 ? '0' + n / 10 : ' ';
+            oled_write(hsv_char, false);
+            oled_write_P(PSTR(", "), false);
+            n           = rgblight_get_sat();
+            hsv_char[3] = '\0';
+            hsv_char[2] = '0' + n % 10;
+            hsv_char[1] = (n /= 10) % 10 ? '0' + (n) % 10 : (n / 10) % 10 ? '0' : ' ';
+            hsv_char[0] = n / 10 ? '0' + n / 10 : ' ';
+            oled_write(hsv_char, false);
+            oled_write_P(PSTR(", "), false);
+            n           = rgblight_get_val();
+            hsv_char[3] = '\0';
+            hsv_char[2] = '0' + n % 10;
+            hsv_char[1] = (n /= 10) % 10 ? '0' + (n) % 10 : (n / 10) % 10 ? '0' : ' ';
+            hsv_char[0] = n / 10 ? '0' + n / 10 : ' ';
+            oled_write_ln(hsv_char, false);
         } else {
             oled_write_ln_P(PSTR("RGB LIGHT DISABLED"), false);
         }
@@ -112,6 +131,7 @@ void oled_task_user(void) {
             oled_off();
         }
     }
+    return false;
 }
 
 void suspend_power_down_user(void) { is_asleep = true; }
@@ -125,10 +145,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
+    oled_timer = timer_read32();
     if (clockwise) {
-        tap_code16(KC_VOLU);
+        tap_code_delay(KC_VOLU, 10);
     } else {
-        tap_code16(KC_VOLD);
+        tap_code_delay(KC_VOLD, 10);
     }
-    return true;
+    return false;
 }

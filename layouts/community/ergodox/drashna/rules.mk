@@ -1,4 +1,4 @@
-BOOTMAGIC_ENABLE = lite     # Enable Bootmagic Lite
+BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
 TAP_DANCE_ENABLE   = no
 COMMAND_ENABLE     = no  # Commands for debug and configuration
 CONSOLE_ENABLE     = no
@@ -7,7 +7,6 @@ SPACE_CADET_ENABLE = no
 ifeq ($(strip $(KEYBOARD)), ergodox_ez)
     RGBLIGHT_ENABLE            = yes
     RGB_MATRIX_ENABLE          = yes
-    RGBLIGHT_TWINKLE           = no
     INDICATOR_LIGHTS           = no
     RGBLIGHT_STARTUP_ANIMATION = yes
     PIMORONI_TRACKBALL_ENABLE  = yes
