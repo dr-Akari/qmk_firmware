@@ -25,10 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    include "split_common/split_util.h"
 #    include "split_common/transactions.h"
 
-#    ifndef ERROR_DISCONNECT_COUNT
-#        define ERROR_DISCONNECT_COUNT 5
-#    endif  // ERROR_DISCONNECT_COUNT
-
 #    define ROWS_PER_HAND (MATRIX_ROWS / 2)
 #else
 #    define ROWS_PER_HAND (MATRIX_ROWS)
@@ -73,7 +69,7 @@ uint8_t thisHand, thatHand;
 // user-defined overridable functions
 __attribute__((weak)) void matrix_init_pins(void);
 __attribute__((weak)) void matrix_read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row);
-__attribute__((weak)) void matrix_read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col);
+__attribute__((weak)) void matrix_read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col, matrix_row_t row_shifter);
 #ifdef SPLIT_KEYBOARD
 __attribute__((weak)) void matrix_slave_scan_kb(void) { matrix_slave_scan_user(); }
 __attribute__((weak)) void matrix_slave_scan_user(void) {}
@@ -117,10 +113,11 @@ __attribute__((weak)) void matrix_read_cols_on_row(matrix_row_t current_matrix[]
     // Start with a clear matrix row
     matrix_row_t current_row_value = 0;
 
-    for (uint8_t col_index = 0; col_index < MATRIX_COLS; col_index++) {
+    matrix_row_t row_shifter = MATRIX_ROW_SHIFTER;
+    for (uint8_t col_index = 0; col_index < MATRIX_COLS; col_index++, row_shifter <<= 1) {
         pin_t pin = direct_pins[current_row][col_index];
         if (pin != NO_PIN) {
-            current_row_value |= readPin(pin) ? 0 : (MATRIX_ROW_SHIFTER << col_index);
+            current_row_value |= readPin(pin) ? 0 : row_shifter;
         }
     }
 
@@ -173,11 +170,12 @@ __attribute__((weak)) void matrix_read_cols_on_row(matrix_row_t current_matrix[]
     matrix_output_select_delay();
 
     // For each col...
-    for (uint8_t col_index = 0; col_index < MATRIX_COLS; col_index++) {
+    matrix_row_t row_shifter = MATRIX_ROW_SHIFTER;
+    for (uint8_t col_index = 0; col_index < MATRIX_COLS; col_index++, row_shifter <<= 1) {
         uint8_t pin_state = readMatrixPin(col_pins[col_index]);
 
         // Populate the matrix row with the state of the col pin
-        current_row_value |= pin_state ? 0 : (MATRIX_ROW_SHIFTER << col_index);
+        current_row_value |= pin_state ? 0 : row_shifter;
     }
 
     // Unselect row
@@ -221,7 +219,7 @@ __attribute__((weak)) void matrix_init_pins(void) {
     }
 }
 
-__attribute__((weak)) void matrix_read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col) {
+__attribute__((weak)) void matrix_read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col, matrix_row_t row_shifter) {
     bool key_pressed = false;
 
     // Select col
@@ -235,11 +233,11 @@ __attribute__((weak)) void matrix_read_rows_on_col(matrix_row_t current_matrix[]
         // Check row pin state
         if (readMatrixPin(row_pins[row_index]) == 0) {
             // Pin LO, set col bit
-            current_matrix[row_index] |= (MATRIX_ROW_SHIFTER << current_col);
+            current_matrix[row_index] |= row_shifter;
             key_pressed = true;
         } else {
             // Pin HI, clear col bit
-            current_matrix[row_index] &= ~(MATRIX_ROW_SHIFTER << current_col);
+            current_matrix[row_index] &= ~row_shifter;
         }
     }
 
@@ -292,10 +290,8 @@ void matrix_init(void) {
     matrix_init_pins();
 
     // initialize matrix state: all keys off
-    for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-        raw_matrix[i] = 0;
-        matrix[i]     = 0;
-    }
+    memset(matrix, 0, sizeof(matrix));
+    memset(raw_matrix, 0, sizeof(raw_matrix));
 
     debounce_init(ROWS_PER_HAND);
 
@@ -307,34 +303,30 @@ void matrix_init(void) {
 }
 
 #ifdef SPLIT_KEYBOARD
+// Fallback implementation for keyboards not using the standard split_util.c
+__attribute__((weak)) bool transport_master_if_connected(matrix_row_t master_matrix[], matrix_row_t slave_matrix[]) {
+    transport_master(master_matrix, slave_matrix);
+    return true;  // Treat the transport as always connected
+}
+
 bool matrix_post_scan(void) {
     bool changed = false;
     if (is_keyboard_master()) {
-        static uint8_t error_count;
-
+        static bool  last_connected              = false;
         matrix_row_t slave_matrix[ROWS_PER_HAND] = {0};
-        if (!transport_master(matrix + thisHand, slave_matrix)) {
-            error_count++;
+        if (transport_master_if_connected(matrix + thisHand, slave_matrix)) {
+            changed = memcmp(matrix + thatHand, slave_matrix, sizeof(slave_matrix)) != 0;
 
-            if (error_count > ERROR_DISCONNECT_COUNT) {
-                // reset other half if disconnected
-                for (int i = 0; i < ROWS_PER_HAND; ++i) {
-                    matrix[thatHand + i] = 0;
-                    slave_matrix[i]      = 0;
-                }
+            last_connected = true;
+        } else if (last_connected) {
+            // reset other half when disconnected
+            memset(slave_matrix, 0, sizeof(slave_matrix));
+            changed = true;
 
-                changed = true;
-            }
-        } else {
-            error_count = 0;
-
-            for (int i = 0; i < ROWS_PER_HAND; ++i) {
-                if (matrix[thatHand + i] != slave_matrix[i]) {
-                    matrix[thatHand + i] = slave_matrix[i];
-                    changed              = true;
-                }
-            }
+            last_connected = false;
         }
+
+        if (changed) memcpy(matrix + thatHand, slave_matrix, sizeof(slave_matrix));
 
         matrix_scan_quantum();
     } else {
@@ -357,8 +349,9 @@ uint8_t matrix_scan(void) {
     }
 #elif (DIODE_DIRECTION == ROW2COL)
     // Set col, read rows
-    for (uint8_t current_col = 0; current_col < MATRIX_COLS; current_col++) {
-        matrix_read_rows_on_col(curr_matrix, current_col);
+    matrix_row_t row_shifter = MATRIX_ROW_SHIFTER;
+    for (uint8_t current_col = 0; current_col < MATRIX_COLS; current_col++, row_shifter <<= 1) {
+        matrix_read_rows_on_col(curr_matrix, current_col, row_shifter);
     }
 #endif
 
