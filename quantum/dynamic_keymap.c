@@ -149,7 +149,7 @@ void dynamic_keymap_reset(void) {
 
 void dynamic_keymap_get_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
     uint16_t dynamic_keymap_eeprom_size = DYNAMIC_KEYMAP_LAYER_COUNT * MATRIX_ROWS * MATRIX_COLS * 2;
-    void    *source                     = (void *)(DYNAMIC_KEYMAP_EEPROM_ADDR + offset);
+    void *   source                     = (void *)(DYNAMIC_KEYMAP_EEPROM_ADDR + offset);
     uint8_t *target                     = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < dynamic_keymap_eeprom_size) {
@@ -164,7 +164,7 @@ void dynamic_keymap_get_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
 
 void dynamic_keymap_set_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
     uint16_t dynamic_keymap_eeprom_size = DYNAMIC_KEYMAP_LAYER_COUNT * MATRIX_ROWS * MATRIX_COLS * 2;
-    void    *target                     = (void *)(DYNAMIC_KEYMAP_EEPROM_ADDR + offset);
+    void *   target                     = (void *)(DYNAMIC_KEYMAP_EEPROM_ADDR + offset);
     uint8_t *source                     = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < dynamic_keymap_eeprom_size) {
@@ -195,7 +195,7 @@ uint8_t dynamic_keymap_macro_get_count(void) { return DYNAMIC_KEYMAP_MACRO_COUNT
 uint16_t dynamic_keymap_macro_get_buffer_size(void) { return DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE; }
 
 void dynamic_keymap_macro_get_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
-    void    *source = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + offset);
+    void *   source = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + offset);
     uint8_t *target = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE) {
@@ -209,7 +209,7 @@ void dynamic_keymap_macro_get_buffer(uint16_t offset, uint16_t size, uint8_t *da
 }
 
 void dynamic_keymap_macro_set_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
-    void    *target = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + offset);
+    void *   target = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + offset);
     uint8_t *source = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE) {
