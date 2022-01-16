@@ -42,18 +42,20 @@ typedef struct {
 
 /* special keypos_t entries */
 #define KEYLOC_TICK 255
-#define KEYLOC_ENCODER_CW 254
-#define KEYLOC_ENCODER_CCW 253
+#define KEYLOC_COMBO 254
+#define KEYLOC_ENCODER_CW 253
+#define KEYLOC_ENCODER_CCW 252
 
 /* Rules for No Event:
  * 1) (time == 0) to handle (keyevent_t){} as empty event
  * 2) Matrix(255, 255) to make TICK event available
  */
 static inline bool IS_NOEVENT(keyevent_t event) { return event.time == 0 || (event.key.row == KEYLOC_TICK && event.key.col == KEYLOC_TICK); }
-static inline bool IS_KEYEVENT(keyevent_t event) { return (event.key.row < MATRIX_ROWS && event.key.col < MATRIX_COLS); }
-static inline bool IS_ENCODEREVENT(keyevent_t event) { return (event.key.row == KEYLOC_ENCODER_CW || event.key.row == KEYLOC_ENCODER_CCW); }
-static inline bool IS_PRESSED(keyevent_t event) { return (!IS_NOEVENT(event) && event.pressed); }
-static inline bool IS_RELEASED(keyevent_t event) { return (!IS_NOEVENT(event) && !event.pressed); }
+static inline bool IS_KEYEVENT(keyevent_t event) { return event.key.row < MATRIX_ROWS && event.key.col < MATRIX_COLS; }
+static inline bool IS_COMBOEVENT(keyevent_t event) { return event.key.row == KEYLOC_COMBO; }
+static inline bool IS_ENCODEREVENT(keyevent_t event) { return event.key.row == KEYLOC_ENCODER_CW || event.key.row == KEYLOC_ENCODER_CCW; }
+static inline bool IS_PRESSED(keyevent_t event) { return !IS_NOEVENT(event) && event.pressed; }
+static inline bool IS_RELEASED(keyevent_t event) { return !IS_NOEVENT(event) && !event.pressed; }
 
 /* Tick event */
 #define TICK \
