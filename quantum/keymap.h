@@ -53,7 +53,11 @@ extern const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS];
 
 #if defined(ENCODER_ENABLE)
 #    ifdef SPLIT_KEYBOARD
-#        define NUM_ENCODERS (2 * sizeof(((pin_t[])ENCODERS_PAD_A)) / sizeof(pin_t))
+#        if defined(ENCODERS_PAD_A_RIGHT)
+#            define NUM_ENCODERS (sizeof(((pin_t[])ENCODERS_PAD_A) + sizeof(((pin_t[])ENCODERS_PAD_A_RIGHT)) / sizeof(pin_t))
+#        else
+#            define NUM_ENCODERS (2 * sizeof(((pin_t[])ENCODERS_PAD_A)) / sizeof(pin_t))
+#        endif
 #    else  // SPLIT_KEYBOARD
 #        define NUM_ENCODERS (sizeof(((pin_t[])ENCODERS_PAD_A)) / sizeof(pin_t))
 #    endif  // SPLIT_KEYBOARD
