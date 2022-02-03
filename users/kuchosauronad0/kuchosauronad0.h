@@ -68,7 +68,7 @@ void     matrix_scan_keymap(void);
 uint32_t layer_state_set_keymap (uint32_t state);
 uint32_t default_layer_state_set_keymap (uint32_t state);
 void     led_set_keymap(uint8_t usb_led);
-void     eeconfig_init_keymap(void);
+void     nvconfig_init_keymap(void);
 
 void tmux_prefix(void);
 void tmux_pane_zoom(void);

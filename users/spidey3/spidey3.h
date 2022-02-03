@@ -50,7 +50,7 @@ typedef enum layer_ack {
 
 #    define RGB_LAYER_ACK_DURATION 500
 
-void          eeconfig_init_user_rgb(void);
+void          nvconfig_init_user_rgb(void);
 void          matrix_init_user_rgb(void);
 void          matrix_scan_user_rgb(void);
 void          keyboard_post_init_user_rgb(void);
@@ -66,7 +66,7 @@ void          shutdown_user_rgb(void);
 #endif
 
 #ifdef UNICODEMAP_ENABLE
-void eeconfig_init_user_unicode(void);
+void nvconfig_init_user_unicode(void);
 #endif
 
 #ifdef SPI_DEBUG_SCAN_RATE

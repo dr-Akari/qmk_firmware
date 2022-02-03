@@ -16,7 +16,7 @@
 #endif
 
 #ifdef EE_HANDS
-#    include "eeconfig.h"
+#    include "nvconfig.h"
 #endif
 
 #ifndef SPLIT_USB_TIMEOUT
@@ -46,7 +46,7 @@ bool is_keyboard_left(void) {
     setPinInput(SPLIT_HAND_PIN);
     return readPin(SPLIT_HAND_PIN);
 #elif defined(EE_HANDS)
-    return eeconfig_read_handedness();
+    return nvconfig_read_handedness();
 #elif defined(MASTER_RIGHT)
     return !is_helix_master();
 #endif

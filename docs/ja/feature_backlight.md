@@ -76,8 +76,8 @@ BACKLIGHT_DRIVER = software
 | `BREATHING_PERIOD`            | `6`                | 各バックライトの "明滅" の長さ（秒）                                                          |
 | `BACKLIGHT_ON_STATE`          | `1`                | バックライトが "オン" の時のバックライトピンの状態 - high の場合は `1`、low の場合は `0`      |
 | `BACKLIGHT_LIMIT_VAL`         | `255`              | バックライトの最大デューティサイクル -- `255` で最大輝度になり、それ未満では最大値が減少する  |
-| `BACKLIGHT_DEFAULT_LEVEL`     | `BACKLIGHT_LEVELS` | EEPROM をクリアする時に使うデフォルトのバックライトレベル                                     |
-| `BACKLIGHT_DEFAULT_BREATHING` | *定義なし*         | EEPROM をクリアする時に、バックライトのブリージングを有効にするかどうか                       |
+| `BACKLIGHT_DEFAULT_LEVEL`     | `BACKLIGHT_LEVELS` | NVRAM をクリアする時に使うデフォルトのバックライトレベル                                     |
+| `BACKLIGHT_DEFAULT_BREATHING` | *定義なし*         | NVRAM をクリアする時に、バックライトのブリージングを有効にするかどうか                       |
 
 独自のキーボードを設計しているわけではない限り、通常は `BACKLIGHT_PIN` または `BACKLIGHT_ON_STATE` を変更する必要はありません。
 
@@ -133,7 +133,7 @@ AVR ボードでは、QMK はどのドライバを使うかを以下の表に従
 このように `OCRxx` は基本的に LED のデューティサイクル、従って輝度を制御します。`0x0000` は完全にオフで、 `0xFFFF` は完全にオンです。
 
 明滅動作の効果はカウンタがリセットされる(秒間あたりおよそ244回)たびに呼び出される `TIMER1_OVF_vect` の割り込みハンドラを登録することで可能になります。
-このハンドラで、増分カウンタの値が事前に計算された輝度曲線にマップされます。明滅動作をオフにするには、割り込みを単純に禁止し、輝度を EEPROM に格納されているレベルに再設定します。
+このハンドラで、増分カウンタの値が事前に計算された輝度曲線にマップされます。明滅動作をオフにするには、割り込みを単純に禁止し、輝度を NVRAM に格納されているレベルに再設定します。
 
 #### タイマー支援 PWM 実装 :id=timer-assisted-implementation
 

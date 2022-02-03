@@ -17,23 +17,23 @@ static edvorakjp_state_t edvorakjp_state;
 /*
  * private methods
  */
-uint8_t eeconfig_read_edvorakjp(void) { return eeprom_read_byte(EECONFIG_EDVORAK); }
+uint8_t nvconfig_read_edvorakjp(void) { return nvram_read_u8(NVCONFIG_EDVORAK); }
 
-void eeconfig_update_edvorakjp(uint8_t val) { eeprom_update_byte(EECONFIG_EDVORAK, val); }
+void nvconfig_update_edvorakjp(uint8_t val) { nvram_update_u8(NVCONFIG_EDVORAK, val); }
 
 /*
  * public methods
  */
 void edvorakjp_status_init(void) {
     edvorakjp_state.japanese_mode = false;
-    edvorakjp_config.raw          = eeconfig_read_edvorakjp();
+    edvorakjp_config.raw          = nvconfig_read_edvorakjp();
 }
 
 bool get_enable_kc_lang(void) { return edvorakjp_config.enable_kc_lang; }
 
 void set_enable_kc_lang(bool new_state) {
     edvorakjp_config.enable_kc_lang = new_state;
-    eeconfig_update_edvorakjp(edvorakjp_config.raw);
+    nvconfig_update_edvorakjp(edvorakjp_config.raw);
 }
 
 bool get_japanese_mode(void) { return edvorakjp_state.japanese_mode; }

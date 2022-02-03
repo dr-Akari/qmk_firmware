@@ -204,7 +204,7 @@ void matrix_scan_user() {
         if (timer_elapsed32(timer) >= (uint32_t) BACKLIGHT_IDLE_TIMEOUT * 1000) {
             is_idle = true;
 
-            // Both backlight_level and backlight_level_noeeprom modify the global backlight config (not useful)
+            // Both backlight_level and backlight_level_no_nvram modify the global backlight config (not useful)
             // Instead, use backlight_set in order to restore the current backlight level later on
             backlight_set(0);
         }

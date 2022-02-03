@@ -471,8 +471,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user() {
-  led_matrix_enable_noeeprom();
-  led_matrix_set_val_noeeprom(UINT8_MAX);
+  led_matrix_enable_no_nvram();
+  led_matrix_set_val_no_nvram(UINT8_MAX);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -531,7 +531,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case EPRM:
       if (record->event.pressed) {
-        eeconfig_init();
+        nvconfig_init();
       }
       return false;
     case VRSN:

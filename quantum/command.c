@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bootloader.h"
 #include "action_layer.h"
 #include "action_util.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "sleep_led.h"
 #include "led.h"
 #include "command.h"
@@ -248,10 +248,10 @@ static void print_status(void) {
 
 #if !defined(NO_PRINT) && !defined(USER_PRINT)
 static void print_eeconfig(void) {
-    xprintf("eeconfig:\ndefault_layer: %u\n", eeconfig_read_default_layer());
+    xprintf("eeconfig:\ndefault_layer: %u\n", nvconfig_read_default_layer());
 
     debug_config_t dc;
-    dc.raw = eeconfig_read_debug();
+    dc.raw = nvconfig_read_debug();
     xprintf(/* clang-format off */
 
         "debug_config.raw: %02X\n"
@@ -268,7 +268,7 @@ static void print_eeconfig(void) {
     ); /* clang-format on */
 
     keymap_config_t kc;
-    kc.raw = eeconfig_read_keymap();
+    kc.raw = nvconfig_read_keymap();
     xprintf(/* clang-format off */
 
         "keymap_config.raw: %02X\n"
@@ -299,7 +299,7 @@ static void print_eeconfig(void) {
 #    ifdef BACKLIGHT_ENABLE
 
     backlight_config_t bc;
-    bc.raw = eeconfig_read_backlight();
+    bc.raw = nvconfig_read_backlight();
     xprintf(/* clang-format off */
         "backlight_config"
 
@@ -343,7 +343,7 @@ static bool command_common(uint8_t code) {
         // clear eeprom
         case MAGIC_KC(MAGIC_KEY_EEPROM_CLEAR):
             print("Clearing EEPROM\n");
-            eeconfig_init();
+            nvconfig_init();
             break;
 
 #ifdef KEYBOARD_LOCK_ENABLE

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   #include "audio.h"
   #include "musical_notes.h"
 #endif
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "process_unicode.h"
 #include "quantum.h"
 #ifdef RGBSPS_ENABLE
@@ -954,7 +954,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 #ifdef RGBSPS_ENABLE
   led_set_default_layer_indicator();

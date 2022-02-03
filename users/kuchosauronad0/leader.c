@@ -96,8 +96,8 @@ void matrix_scan_user(void) {
 void leader_start(void) {
 #ifdef RGBLIGHT_ENABLE
  rgblight_savebase();
- rgblight_mode_noeeprom(1);
- rgblight_sethsv_noeeprom_goldenrod();
+ rgblight_mode_no_nvram(1);
+ rgblight_sethsv_no_nvram_goldenrod();
 #endif
 }
 

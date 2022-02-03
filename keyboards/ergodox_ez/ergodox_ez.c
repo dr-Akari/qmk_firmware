@@ -65,7 +65,7 @@ void matrix_init_kb(void) {
     PORTD |= (1 << 5 | 1 << 4);
     PORTE |= (1 << 6);
 
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
     ergodox_led_all_set((uint8_t)keyboard_config.led_level * 255 / 4);
 #ifdef RGB_MATRIX_ENABLE
     if (keyboard_config.rgb_matrix_enable) {
@@ -341,7 +341,7 @@ led_config_t g_led_config = { {
 
 #    ifdef ORYX_CONFIGURATOR
 void keyboard_post_init_kb(void) {
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
     keyboard_post_init_user();
 }
 #    endif
@@ -357,7 +357,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     keyboard_config.led_level = 0;
                 }
                 ergodox_led_all_set((uint8_t)keyboard_config.led_level * 255 / 4);
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
                 layer_state_set_kb(layer_state);
             }
             break;
@@ -366,7 +366,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 keyboard_config.disable_layer_led ^= 1;
                 if (keyboard_config.disable_layer_led) rgb_matrix_set_color_all(0, 0, 0);
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
             }
             break;
         case RGB_TOG:
@@ -382,7 +382,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                         keyboard_config.rgb_matrix_enable = true;
                     } break;
                 }
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
             }
             return false;
 #    endif
@@ -391,12 +391,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 }
 #endif
 
-void eeconfig_init_kb(void) {  // EEPROM is getting reset!
+void nvconfig_init_kb(void) {  // EEPROM is getting reset!
     keyboard_config.raw               = 0;
     keyboard_config.led_level         = 4;
     keyboard_config.rgb_matrix_enable = true;
-    eeconfig_update_kb(keyboard_config.raw);
-    eeconfig_init_user();
+    nvconfig_update_kb(keyboard_config.raw);
+    nvconfig_init_user();
 }
 
 #ifdef ORYX_ENABLE

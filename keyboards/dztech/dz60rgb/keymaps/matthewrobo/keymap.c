@@ -241,9 +241,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record)
 			key_timer = timer_read32();
 		} else {
 			if (timer_elapsed32(key_timer) >= 500) {
-				rgb_matrix_enable_noeeprom();
-				rgb_matrix_mode_noeeprom(1);
-				rgb_matrix_sethsv_noeeprom(11, 11, 11);
+				rgb_matrix_enable_no_nvram();
+				rgb_matrix_mode_no_nvram(1);
+				rgb_matrix_sethsv_no_nvram(11, 11, 11);
 				wait_ms(150);
 				reset_keyboard();
 			} else {

@@ -108,7 +108,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case USER01:
             if (record->event.pressed) {
                 keyboard_config.led_level ^= 1;
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
                 if (keyboard_config.led_level) {
                     layer_state_set_kb(layer_state);
                 } else {

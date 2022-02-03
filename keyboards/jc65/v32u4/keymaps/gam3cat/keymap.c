@@ -215,7 +215,7 @@ void matrix_init_user(void) {
     #endif
     #ifdef RGBLIGHT_ENABLE
         rgblight_mode(1);
-        rgblight_sethsv_noeeprom(180,100,100);
+        rgblight_sethsv_no_nvram(180,100,100);
     #endif
 }
 
@@ -227,35 +227,35 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
        case _BL:
            custom_backlight_level(0);
-           rgblight_sethsv_noeeprom(180,100,255);
+           rgblight_sethsv_no_nvram(180,100,255);
            break;
        case _WL:
            custom_backlight_level(1);
-           rgblight_sethsv_noeeprom(180,95,240);
+           rgblight_sethsv_no_nvram(180,95,240);
            break;
        case _NL:
            custom_backlight_level(1);
-           rgblight_sethsv_noeeprom(180,90,225);
+           rgblight_sethsv_no_nvram(180,90,225);
            break;
        case _DL:
            custom_backlight_level(1);
-           rgblight_sethsv_noeeprom(180,85,210);
+           rgblight_sethsv_no_nvram(180,85,210);
            break;
        case _CL:
            custom_backlight_level(1);
-           rgblight_sethsv_noeeprom(180,80,195);
+           rgblight_sethsv_no_nvram(180,80,195);
            break;
        case _FL:
            custom_backlight_level(2);
-           rgblight_sethsv_noeeprom(230,255,255);
+           rgblight_sethsv_no_nvram(230,255,255);
            break;
        case _AL:
            custom_backlight_level(3);
-           rgblight_sethsv_noeeprom(250,255,255);
+           rgblight_sethsv_no_nvram(250,255,255);
            break;
        default:
            custom_backlight_level(0);
-           rgblight_sethsv_noeeprom(180,100,100);
+           rgblight_sethsv_no_nvram(180,100,100);
            break;
     }
     return state;

@@ -14,12 +14,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <stdint.h>
+#include <string.h>
 
-/*
-    The size of the transient EEPROM buffer size.
-*/
-#ifndef TRANSIENT_EEPROM_SIZE
-#    include "eeconfig.h"
-#    define TRANSIENT_EEPROM_SIZE (((EECONFIG_SIZE + 3) / 4) * 4)  // based off eeconfig's current usage, aligned to 4-byte sizes, to deal with LTO
-#endif
+#include "nvram_driver.h"
+
+void nvram_driver_init(void) {
+    /* Any initialisation code */
+ }
+
+void nvram_driver_erase(void) {
+    /* Wipe out the EEPROM, setting values to zero */
+}
+
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
+    /*
+        Read a block of data:
+            buf: target buffer
+            addr: 0-based offset within the EEPROM
+            len: length to read
+     */
+}
+
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
+    /*
+        Write a block of data:
+            buf: target buffer
+            addr: 0-based offset within the EEPROM
+            len: length to write
+     */
+}

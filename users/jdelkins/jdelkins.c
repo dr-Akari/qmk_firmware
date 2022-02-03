@@ -121,14 +121,14 @@ void keyboard_post_init_keymap(void) {
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     keyboard_post_init_keymap();
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw = 0;
     user_config.system_mac = false;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -158,7 +158,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TG_SYS:
             if (record->event.pressed) {
                 user_config.system_mac ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             break;
 

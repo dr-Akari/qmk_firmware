@@ -25,16 +25,16 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (get_highest_layer(state)) {
         case _NUMPAD:
-            rgblight_sethsv_noeeprom(HSV_GREEN);
+            rgblight_sethsv_no_nvram(HSV_GREEN);
             break;
         case _NAVIGATION:
-            rgblight_sethsv_noeeprom(HSV_MAGENTA);
+            rgblight_sethsv_no_nvram(HSV_MAGENTA);
             break;
         case _SYMBOLS:
-            rgblight_sethsv_noeeprom(HSV_AZURE);
+            rgblight_sethsv_no_nvram(HSV_AZURE);
             break;
         default:  //  for any other layers, or the default layer
-            rgblight_sethsv_noeeprom(HSV_DEFAULT);
+            rgblight_sethsv_no_nvram(HSV_DEFAULT);
             break;
     }
     return state;

@@ -192,7 +192,7 @@ float music_scale[][2]     = SONG(MUSIC_SCALE_SOUND);
 int RGB_current_mode;
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
@@ -377,7 +377,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGBRST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
           RGB_current_mode = rgblight_config.mode;
           RGBAnimation = false;
@@ -503,7 +503,7 @@ void led_ripple_effect(char r, char g, char b) {
     static int keys_sum[] = { 0, 6, 12, 18, 25 };
 
     if (scan_count == -1) {
-      rgblight_enable_noeeprom();
+      rgblight_enable_no_nvram();
       rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
     } else if (scan_count >= 0 && scan_count < 5) {
       for (unsigned char c=keybuf_begin; c!=keybuf_end; c++) {

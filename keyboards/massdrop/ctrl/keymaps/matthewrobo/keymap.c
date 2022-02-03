@@ -167,11 +167,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     case LED_FLAG_UNDERGLOW: {
                         // This line is for LED idle timer. It disables the toggle so you can turn off LED completely if you like
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                     } break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                     } break;
                 }
                 return false;

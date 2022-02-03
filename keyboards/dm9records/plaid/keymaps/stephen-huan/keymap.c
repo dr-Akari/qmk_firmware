@@ -159,7 +159,7 @@ void keyboard_post_init_user(void) {
   setPinOutput(LED_GREEN);
 
   // Call the post init code.
-  led_config.raw = eeconfig_read_user();
+  led_config.raw = nvconfig_read_user();
 
   if(led_config.red_mode == LEDMODE_ON) {
       writePinHigh(LED_RED);
@@ -170,11 +170,11 @@ void keyboard_post_init_user(void) {
   }
 }
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset! 
+void nvconfig_init_user(void) {  // EEPROM is getting reset! 
   led_config.raw = 0;
   led_config.red_mode = LEDMODE_ON;
   led_config.green_mode = LEDMODE_MODS;
-  eeconfig_update_user(led_config.raw);
+  nvconfig_update_user(led_config.raw);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -349,7 +349,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   if (keycode >= LED_1 && keycode <= LED_0) {
-    eeconfig_update_user(led_config.raw);
+    nvconfig_update_user(led_config.raw);
   }
 
   return true;

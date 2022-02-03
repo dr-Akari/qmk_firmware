@@ -15,13 +15,13 @@
  */
 #include "greatwizard.h"
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config_t user_config;
     user_config.raw              = 0;
 #ifdef RGBLIGHT_ENABLE
     user_config.rgb_layer_change = true;
 #endif
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
     keyboard_init();
 }
 

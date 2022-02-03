@@ -89,15 +89,15 @@ void matrix_scan_user(void) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
     case raise:
-        rgblight_mode_noeeprom(1);
+        rgblight_mode_no_nvram(1);
         rgblight_setrgb(0xc7, 0x00, 0xf4);
         break;
     case lower:
-        rgblight_mode_noeeprom(1);
+        rgblight_mode_no_nvram(1);
         rgblight_setrgb(0x00, 0xa3, 0x0d);
         break;
     default: // for any other layers, or the default layer
-        rgblight_mode_noeeprom(5);
+        rgblight_mode_no_nvram(5);
         rgblight_setrgb(0xFF, 0xB6, 0x00);
         break;
     }

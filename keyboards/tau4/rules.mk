@@ -19,7 +19,7 @@ AUDIO_ENABLE = no           # Audio output
 ENCODER_ENABLE = yes        # Rotary Encoder support
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306    # OLED display support
-# EEPROM_DRIVER ?= i2c        # Driver for external EEPROM chip
+# NVRAM_DRIVER ?= i2c        # Driver for external EEPROM chip
 # This is currently not working due to QMK not officially supporting the chip used on the Tau4, I am working on a fix.
 
 LAYOUTS = ortho_4x12

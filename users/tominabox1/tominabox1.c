@@ -6,11 +6,11 @@ __attribute__ ((weak))
 void keyboard_post_init_keymap(void) {}
 
 void keyboard_post_init_user(void) { // sets the backlighting to come on upon successful load then turn off
-  rgblight_enable_noeeprom();
-  rgblight_sethsv_noeeprom(RGB_RED);
-  rgblight_mode_noeeprom(0);
+  rgblight_enable_no_nvram();
+  rgblight_sethsv_no_nvram(RGB_RED);
+  rgblight_mode_no_nvram(0);
   wait_ms(700);
-  rgblight_disable_noeeprom();
+  rgblight_disable_no_nvram();
 }
 #endif // RGBLIGHT
 #endif // Dimple
@@ -29,7 +29,7 @@ void suspend_power_down_user(void) {
     if (!is_suspended) {
         is_suspended = true;
         rgb_matrix_enabled = (bool)rgb_matrix_config.enable;
-        rgb_matrix_disable_noeeprom();
+        rgb_matrix_disable_no_nvram();
     }
 }
 
@@ -40,7 +40,7 @@ void suspend_wakeup_init_user(void) {
     rgb_matrix_set_suspend_state(false);
     is_suspended = false;
     if (rgb_matrix_enabled) {
-        rgb_matrix_enable_noeeprom();
+        rgb_matrix_enable_no_nvram();
     }
 }
 

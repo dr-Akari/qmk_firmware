@@ -120,16 +120,16 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 	state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 	switch (get_highest_layer(state)) {
 		case _LOWER:
-			rgblight_sethsv_noeeprom(HSV_GREEN);
+			rgblight_sethsv_no_nvram(HSV_GREEN);
 			break;
 		case _RAISE:
-			rgblight_sethsv_noeeprom(HSV_GOLD);
+			rgblight_sethsv_no_nvram(HSV_GOLD);
 			break;
 		case _ADJUST:
-			rgblight_sethsv_noeeprom(HSV_RED);
+			rgblight_sethsv_no_nvram(HSV_RED);
 			break;
 		default:
-			rgblight_sethsv_noeeprom(HSV_WHITE);
+			rgblight_sethsv_no_nvram(HSV_WHITE);
 			break;
 	}
 	return state;

@@ -56,7 +56,7 @@ By default, the DPI is set to `400`. The Charybdis supports up to 16 different D
 
 Calling `charybdis_cycle_pointer_default_dpi(bool forward)` will cycle forward or backward the possible values.
 
-Use `charybdis_cycle_pointer_default_dpi_noeeprom(bool forward)` to change the DPI value without persisting the change to EEPROM (_ie._ resetting the board will revert to the last saved value).
+Use `charybdis_cycle_pointer_default_dpi_no_nvram(bool forward)` to change the DPI value without persisting the change to EEPROM (_ie._ resetting the board will revert to the last saved value).
 
 `charybdis_get_pointer_default_dpi()` returns the current DPI value.
 
@@ -103,7 +103,7 @@ By default, sniping mode lowers the DPI to `200`. This can be changed at runtime
 
 Calling `charybdis_cycle_pointer_sniping_dpi(bool forward)` will cycle forward or backward the possible values.
 
-Use `charybdis_cycle_pointer_sniping_dpi_noeeprom(bool forward)` to change the sniping mode DPI value without persisting the change to EEPROM (_ie._ resetting the board will revert to the last saved value).
+Use `charybdis_cycle_pointer_sniping_dpi_no_nvram(bool forward)` to change the sniping mode DPI value without persisting the change to EEPROM (_ie._ resetting the board will revert to the last saved value).
 
 `charybdis_get_pointer_sniping_dpi()` returns the current sniping mode DPI value.
 

@@ -70,11 +70,11 @@ alt_config_t alt_config;
 
 // Read from EEPROM on init to load the last saved mode
 void keyboard_post_init_kb(void) {
-    alt_config.raw = eeconfig_read_user();
+    alt_config.raw = nvconfig_read_user();
     switch (alt_config.rgb_mode) {
         case RGB_MODE_ALL:
             rgb_matrix_set_flags(LED_FLAG_ALL);
-            rgb_matrix_enable_noeeprom();
+            rgb_matrix_enable_no_nvram();
             break;
         case RGB_MODE_KEYLIGHT:
             rgb_matrix_set_flags(LED_FLAG_KEYLIGHT);
@@ -86,7 +86,7 @@ void keyboard_post_init_kb(void) {
             break;
         case RGB_MODE_NONE:
             rgb_matrix_set_flags(LED_FLAG_NONE);
-            rgb_matrix_disable_noeeprom();
+            rgb_matrix_disable_no_nvram();
             break;
     }
 }
@@ -201,7 +201,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 key_timer = timer_read32();
             } else {
                 if (timer_elapsed32(key_timer) >= 500) {
-                    eeconfig_init();
+                    nvconfig_init();
                 }
             }
             return false;
@@ -222,18 +222,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                     case LED_FLAG_UNDERGLOW: {
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                         alt_config.rgb_mode = RGB_MODE_NONE;
                         break;
                     }
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                         alt_config.rgb_mode = RGB_MODE_ALL;
                         break;
                     }
                 }
-                eeconfig_update_user(alt_config.raw);
+                nvconfig_update_user(alt_config.raw);
             }
             return false;
         default:

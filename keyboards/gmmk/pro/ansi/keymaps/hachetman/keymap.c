@@ -191,7 +191,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                             /* Change to LED_FLAG_ALL to signal it's really ON */
                             rgb_matrix_set_flags(LED_FLAG_ALL);
                             /* Will be re-enabled by the processing of the toggle */
-                            rgb_matrix_disable_noeeprom();
+                            rgb_matrix_disable_no_nvram();
                             break;
                         case LED_FLAG_ALL:
                             /* Is actually ON */
@@ -200,14 +200,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                                 /* Signal EFFECTS */
                                 rgb_matrix_set_flags(LED_FLAG_EFFECTS);
                                 /* Will be re-enabled by the processing of the toggle */
-                                rgb_matrix_disable_noeeprom();
+                                rgb_matrix_disable_no_nvram();
                             } else
                             #endif
                             if (host_keyboard_led_state().caps_lock) {
                                 /* Signal CAPS */
                                 rgb_matrix_set_flags(LED_FLAG_CAPS);
                                 /* Will be re-enabled by the processing of the toggle */
-                                rgb_matrix_disable_noeeprom();
+                                rgb_matrix_disable_no_nvram();
                             }
                             break;
                     }
@@ -245,7 +245,7 @@ void rgb_matrix_indicators_user() {
                 } else {
                     /* There is nothing else keeping RGB enabled. Reset flags and turn if off. */
                     rgb_matrix_set_flags(LED_FLAG_ALL);
-                    rgb_matrix_disable_noeeprom();
+                    rgb_matrix_disable_no_nvram();
                 }
             }
         }
@@ -265,7 +265,7 @@ static void start_effects() {
     if (!rgb_matrix_is_enabled()) {
         /* Turn it ON, signal the cause (EFFECTS) */
         rgb_matrix_set_flags(LED_FLAG_EFFECTS);
-        rgb_matrix_enable_noeeprom();
+        rgb_matrix_enable_no_nvram();
     } else if (rgb_matrix_get_flags() == LED_FLAG_CAPS) {
         /* It's already ON, promote the cause from CAPS to EFFECTS */
         rgb_matrix_set_flags(LED_FLAG_EFFECTS);

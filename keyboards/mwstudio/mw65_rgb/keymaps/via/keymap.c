@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void keyboard_post_init_user(void) {
   // Read the user config from EEPROM
-  user_config.raw = eeconfig_read_user();
+  user_config.raw = nvconfig_read_user();
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -72,7 +72,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         // Do something when pressed
         user_config.top_rgb_change ^= 1; // Toggles the status
-        eeconfig_update_user(user_config.raw); // Writes the new status to EEPROM
+        nvconfig_update_user(user_config.raw); // Writes the new status to EEPROM
       } else {
         // Do something else when release
       }
@@ -81,7 +81,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         // Do something when pressed
         user_config.bottom_rgb_change ^= 1; // Toggles the status
-        eeconfig_update_user(user_config.raw); // Writes the new status to EEPROM
+        nvconfig_update_user(user_config.raw); // Writes the new status to EEPROM
       } else {
         // Do something else when release
       }

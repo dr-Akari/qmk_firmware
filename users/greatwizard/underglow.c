@@ -17,13 +17,13 @@
 
 void keyboard_post_init_rgb(void) {
     user_config_t user_config;
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     if (!user_config.rgb_layer_change) {
         return;
     }
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom_orange();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram_orange();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
 }
 
 bool process_record_rgb(uint16_t keycode, keyrecord_t *record) {
@@ -31,9 +31,9 @@ bool process_record_rgb(uint16_t keycode, keyrecord_t *record) {
         case RGB_LAYER:
             if (record->event.pressed) {
                 user_config_t user_config;
-                user_config.raw = eeconfig_read_user();
+                user_config.raw = nvconfig_read_user();
                 user_config.rgb_layer_change ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
                 if (user_config.rgb_layer_change) {
                     layer_state_set(layer_state);
                 }
@@ -42,10 +42,10 @@ bool process_record_rgb(uint16_t keycode, keyrecord_t *record) {
         case RGB_MODE_FORWARD ... RGB_MODE_RGBTEST:
             if (record->event.pressed) {
                 user_config_t user_config;
-                user_config.raw = eeconfig_read_user();
+                user_config.raw = nvconfig_read_user();
                 if (user_config.rgb_layer_change) {
                     user_config.rgb_layer_change = false;
-                    eeconfig_update_user(user_config.raw);
+                    nvconfig_update_user(user_config.raw);
                 }
             }
             return true;
@@ -55,7 +55,7 @@ bool process_record_rgb(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_rgb(layer_state_t state) {
     user_config_t user_config;
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     if (!user_config.rgb_layer_change) {
         return state;
     }
@@ -64,31 +64,31 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
 #ifdef LAYERS_PROGRAMMER
         case _PROGRAMMER_SHIFTED:
 #endif
-            rgblight_sethsv_noeeprom_orange();
+            rgblight_sethsv_no_nvram_orange();
             break;
 #ifdef LAYERS_ORTHO
         case _LOWER:
-            rgblight_sethsv_noeeprom_red();
+            rgblight_sethsv_no_nvram_red();
             break;
         case _RAISE:
-            rgblight_sethsv_noeeprom_blue();
+            rgblight_sethsv_no_nvram_blue();
             break;
         case _ADJUST:
-            rgblight_sethsv_noeeprom_purple();
+            rgblight_sethsv_no_nvram_purple();
             break;
 #endif
 #ifdef LAYER_FN
         case _FN:
-            rgblight_sethsv_noeeprom_chartreuse();
+            rgblight_sethsv_no_nvram_chartreuse();
             break;
 #endif
 #ifdef LAYER_GIT
         case _GIT:
-            rgblight_sethsv_noeeprom_teal();
+            rgblight_sethsv_no_nvram_teal();
             break;
 #endif
         default:
-            rgblight_sethsv_noeeprom_white();
+            rgblight_sethsv_no_nvram_white();
             break;
     }
     return state;
@@ -96,14 +96,14 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
 
 bool led_update_rgb(led_t led_state) {
     user_config_t user_config;
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     if (!user_config.rgb_layer_change) {
         return true;
     }
     if (led_state.caps_lock) {
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3);
     } else {
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     }
     return true;
 }

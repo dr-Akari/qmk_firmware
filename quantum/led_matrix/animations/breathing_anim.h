@@ -5,8 +5,8 @@ LED_MATRIX_EFFECT(BREATHING)
 bool BREATHING(effect_params_t* params) {
     LED_MATRIX_USE_LIMITS(led_min, led_max);
 
-    uint8_t  val  = led_matrix_eeconfig.val;
-    uint16_t time = scale16by8(g_led_timer, led_matrix_eeconfig.speed / 8);
+    uint8_t  val  = led_matrix_nvconfig.val;
+    uint16_t time = scale16by8(g_led_timer, led_matrix_nvconfig.speed / 8);
     val           = scale8(abs8(sin8(time) - 128) * 2, val);
     for (uint8_t i = led_min; i < led_max; i++) {
         LED_MATRIX_TEST_LED_FLAGS();

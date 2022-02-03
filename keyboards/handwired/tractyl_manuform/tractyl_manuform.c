@@ -73,7 +73,7 @@ static charybdis_config_t g_charybdis_config = {0};
  * explicitly set them to `false` in this function.
  */
 static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
-    config->raw                   = eeconfig_read_kb() & 0xff;
+    config->raw                   = nvconfig_read_kb() & 0xff;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
 }
@@ -86,7 +86,7 @@ static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
  * resets these 2 values to `false` since it does not make sense to persist
  * these across reboots of the board.
  */
-static void write_charybdis_config_to_eeprom(charybdis_config_t* config) { eeconfig_update_kb(config->raw); }
+static void write_charybdis_config_to_eeprom(charybdis_config_t* config) { nvconfig_update_kb(config->raw); }
 
 /** \brief Return the current value of the pointer's default DPI. */
 static uint16_t get_pointer_default_dpi(charybdis_config_t* config) { return (uint16_t)config->pointer_default_dpi * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI; }
@@ -131,14 +131,14 @@ uint16_t charybdis_get_pointer_default_dpi(void) { return get_pointer_default_dp
 
 uint16_t charybdis_get_pointer_sniping_dpi(void) { return get_pointer_sniping_dpi(&g_charybdis_config); }
 
-void charybdis_cycle_pointer_default_dpi_noeeprom(bool forward) { step_pointer_default_dpi(&g_charybdis_config, forward); }
+void charybdis_cycle_pointer_default_dpi_no_nvram(bool forward) { step_pointer_default_dpi(&g_charybdis_config, forward); }
 
 void charybdis_cycle_pointer_default_dpi(bool forward) {
     step_pointer_default_dpi(&g_charybdis_config, forward);
     write_charybdis_config_to_eeprom(&g_charybdis_config);
 }
 
-void charybdis_cycle_pointer_sniping_dpi_noeeprom(bool forward) { step_pointer_sniping_dpi(&g_charybdis_config, forward); }
+void charybdis_cycle_pointer_sniping_dpi_no_nvram(bool forward) { step_pointer_sniping_dpi(&g_charybdis_config, forward); }
 
 void charybdis_cycle_pointer_sniping_dpi(bool forward) {
     step_pointer_sniping_dpi(&g_charybdis_config, forward);
@@ -325,11 +325,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
     g_charybdis_config.raw = 0;
     write_charybdis_config_to_eeprom(&g_charybdis_config);
     maybe_update_pointing_device_cpi(&g_charybdis_config);
-    eeconfig_init_user();
+    nvconfig_init_user();
 }
 
 void matrix_power_up(void) { pointing_device_task(); }

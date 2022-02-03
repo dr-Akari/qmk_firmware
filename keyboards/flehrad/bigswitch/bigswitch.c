@@ -29,9 +29,9 @@ void matrix_scan_user(void) {
 #if defined(RGBLIGHT_ENABLE)
   if (runonce && timer_elapsed(my_timer) > 1000) {
     runonce = false;
-    rgblight_sethsv_noeeprom(0x0, 0xff, 0x80);
-    rgblight_mode_noeeprom(9);
-    rgblight_enable_noeeprom();
+    rgblight_sethsv_no_nvram(0x0, 0xff, 0x80);
+    rgblight_mode_no_nvram(9);
+    rgblight_enable_no_nvram();
   }
 #endif
 }

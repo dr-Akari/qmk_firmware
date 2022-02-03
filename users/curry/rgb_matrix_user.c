@@ -58,7 +58,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
 
     hypno_timer = timer_read32();
     if (userspace_config.rgb_matrix_idle_anim && rgb_matrix_get_mode() == RGB_MATRIX_REST_MODE) {
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_TYPING_HEATMAP);
     }
 
     switch (temp_keycode) {
@@ -66,7 +66,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 userspace_config.rgb_layer_change ^= 1;
                 dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb_layer_change);
-                eeconfig_update_user(userspace_config.raw);
+                nvconfig_update_user(userspace_config.raw);
                 if (userspace_config.rgb_layer_change) {
                     layer_state_set(layer_state);  // This is needed to immediately set the layer color (looks better)
                 }
@@ -76,9 +76,9 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 userspace_config.rgb_matrix_idle_anim ^= 1;
                 dprintf("RGB Matrix Idle Animation [EEPROM]: %u\n", userspace_config.rgb_matrix_idle_anim);
-                eeconfig_update_user(userspace_config.raw);
+                nvconfig_update_user(userspace_config.raw);
                 if (userspace_config.rgb_matrix_idle_anim) {
-                    rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+                    rgb_matrix_mode_no_nvram(RGB_MATRIX_TYPING_HEATMAP);
                 }
             }
             break;
@@ -91,7 +91,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
                     is_eeprom_updated = true;
                 }
                 if (is_eeprom_updated) {
-                    eeconfig_update_user(userspace_config.raw);
+                    nvconfig_update_user(userspace_config.raw);
                 }
             }
             break;
@@ -101,13 +101,13 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_rgb(void) {
     if (userspace_config.rgb_matrix_idle_anim) {
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_REST_MODE);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_REST_MODE);
     }
 }
 
 void matrix_scan_rgb(void) {
     if (userspace_config.rgb_matrix_idle_anim && rgb_matrix_get_mode() == RGB_MATRIX_TYPING_HEATMAP && timer_elapsed32(hypno_timer) > 15000) {
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_REST_MODE);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_REST_MODE);
     }
 }
 

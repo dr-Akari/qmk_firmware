@@ -22,7 +22,7 @@
 #include "keycodes/custom_keycodes.c"
 #include "dynamic_macro.h"    // Includes dynamic macro definitions, needed *after* the custom keycodes.
 #include "hacker_dvorak.c"
-#include "user/eeconfig_init_user.c"
+#include "user/nvconfig_init_user.c"
 #include "user/process_record_user.c"
 #include "plover/plover_mode.c"
 #include "user/layer_set_state_user.c"

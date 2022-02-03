@@ -55,8 +55,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 break;
             case KC_RESET:
                 #ifdef RGBLIGHT_ENABLE
-                    rgblight_enable_noeeprom();
-                    rgblight_mode_noeeprom(1);
+                    rgblight_enable_no_nvram();
+                    rgblight_mode_no_nvram(1);
                     rgblight_setrgb_red();
                 #endif
                 reset_keyboard();

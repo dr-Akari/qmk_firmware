@@ -135,7 +135,7 @@ void apply_led_state(void) {
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
 
     if (user_config.current_led_state >= THINK65_LED_STATE_OFF && user_config.current_led_state <= THINK65_LED_STATE_CAPS_AND_BADGE) {
         // If the current state read from user EEPROM is valid, apply it
@@ -144,7 +144,7 @@ void keyboard_post_init_user(void) {
         // Setup a new default state of off
         user_config.current_led_state = THINK65_LED_STATE_OFF;
         apply_led_state();
-        eeconfig_update_user(user_config.raw);
+        nvconfig_update_user(user_config.raw);
     }
 }
 
@@ -164,14 +164,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 cycle_led_state();
                 apply_led_state();
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             break;
         case TOG_BDG:
             if (record->event.pressed) {
                 toggle_led_state(THINK65_LED_BADGE_RANGE_BIT);
                 apply_led_state();
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             break;
         case KC_CAPS:
@@ -179,7 +179,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // connect capslock LED control to the badge LEDs
                 host_keyboard_led_state().caps_lock ? set_led_state(THINK65_LED_CAPS_RANGE_BIT) : clear_led_state(THINK65_LED_CAPS_RANGE_BIT);
                 apply_led_state();
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             break;
     }

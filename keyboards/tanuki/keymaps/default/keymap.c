@@ -51,11 +51,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     if(user_config.layer_rgb) {
-        rgblight_enable_noeeprom();
-        rgblight_mode_noeeprom(1);
-        rgblight_sethsv_noeeprom(0,10,255);
+        rgblight_enable_no_nvram();
+        rgblight_mode_no_nvram(1);
+        rgblight_sethsv_no_nvram(0,10,255);
     }
 }
 
@@ -64,20 +64,20 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     if(user_config.layer_rgb) {
         switch (get_highest_layer(state)) {
             case _BL:
-                rgblight_sethsv_noeeprom(0,10,255);
-                rgblight_mode_noeeprom(1);
+                rgblight_sethsv_no_nvram(0,10,255);
+                rgblight_mode_no_nvram(1);
                 break;
             case _DL:
-                rgblight_sethsv_noeeprom(130,200,255);
-                rgblight_mode_noeeprom(1);
+                rgblight_sethsv_no_nvram(130,200,255);
+                rgblight_mode_no_nvram(1);
                 break;
             case _UL:
-                rgblight_sethsv_noeeprom(170,200,255);
-                rgblight_mode_noeeprom(1);
+                rgblight_sethsv_no_nvram(170,200,255);
+                rgblight_mode_no_nvram(1);
                 break;
             case _GL:
-                rgblight_sethsv_noeeprom(0,180,255);
-                rgblight_mode_noeeprom(1);
+                rgblight_sethsv_no_nvram(0,180,255);
+                rgblight_mode_no_nvram(1);
                 break;
         }
     }
@@ -89,7 +89,7 @@ bool process_record_user (uint16_t keycode, keyrecord_t *record) {
         case CUSTRGB: // if the user toggled per-layer RGB, update the config and refresh the RGB color
             if(record->event.pressed) {
                 user_config.layer_rgb ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
                 if (user_config.layer_rgb) {
                     layer_state_set(layer_state);
                 }
@@ -110,10 +110,10 @@ bool process_record_user (uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void eeconfig_init_user(void) { // in case EEPROM is reset, set up our custom config
+void nvconfig_init_user(void) { // in case EEPROM is reset, set up our custom config
     user_config.raw = 0;
     user_config.layer_rgb = true; // enable per-layer RGB by default
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
     rgblight_enable();
     rgblight_sethsv(0,10,255);
     rgblight_mode(1);

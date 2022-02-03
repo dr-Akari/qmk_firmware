@@ -26,7 +26,7 @@
 #define ACCENT_CAP 6
 
 //Unicode keymaps
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   set_unicode_input_mode(UC_LNX);
 }
 #define DE_ADIA     UC(0x00E4)

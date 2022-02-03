@@ -4,7 +4,7 @@
 #ifdef AUDIO_ENABLE
 #include "audio.h"
 #endif
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 extern keymap_config_t keymap_config;
 

@@ -46,7 +46,7 @@ bool process_magic(uint16_t keycode, keyrecord_t *record) {
             case MAGIC_TOGGLE_GUI:
             case MAGIC_TOGGLE_CONTROL_CAPSLOCK:
                 /* keymap config */
-                keymap_config.raw = eeconfig_read_keymap();
+                keymap_config.raw = nvconfig_read_keymap();
                 switch (keycode) {
                     case MAGIC_SWAP_CONTROL_CAPSLOCK:
                         keymap_config.swap_control_capslock = true;
@@ -161,10 +161,10 @@ bool process_magic(uint16_t keycode, keyrecord_t *record) {
                         keymap_config.nkro = !keymap_config.nkro;
                         break;
                     case MAGIC_EE_HANDS_LEFT:
-                        eeconfig_update_handedness(true);
+                        nvconfig_update_handedness(true);
                         break;
                     case MAGIC_EE_HANDS_RIGHT:
-                        eeconfig_update_handedness(false);
+                        nvconfig_update_handedness(false);
                         break;
                     case MAGIC_TOGGLE_GUI:
                         keymap_config.no_gui = !keymap_config.no_gui;
@@ -174,7 +174,7 @@ bool process_magic(uint16_t keycode, keyrecord_t *record) {
                         break;
                 }
 
-                eeconfig_update_keymap(keymap_config.raw);
+                nvconfig_update_keymap(keymap_config.raw);
                 clear_keyboard();  // clear to prevent stuck keys
 
                 return false;

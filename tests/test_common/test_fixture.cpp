@@ -19,7 +19,7 @@ extern "C" {
 #include "action_util.h"
 #include "action_layer.h"
 #include "debug.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "keyboard.h"
 #include "keymap.h"
 
@@ -44,8 +44,8 @@ void TestFixture::SetUpTestCase() {
     test_logger.info() << "TestFixture setup-up start." << std::endl;
 
     // The following is enough to bootstrap the values set in main
-    eeconfig_init_quantum();
-    eeconfig_update_debug(debug_config.raw);
+    nvconfig_init_quantum();
+    nvconfig_update_debug(debug_config.raw);
 
     TestDriver driver;
     keyboard_init();

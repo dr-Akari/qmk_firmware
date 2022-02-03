@@ -55,7 +55,7 @@ Set these variables to `no` to disable them, and `yes` to enable them.
 
 `BOOTMAGIC_ENABLE`
 
-This allows you to hold a key (usually Escape by default) to reset the EEPROM settings that persist over power loss and ready your keyboard to accept new firmware.
+This allows you to hold a key (usually Escape by default) to reset the NVRAM settings that persist over power loss and ready your keyboard to accept new firmware.
 
 `MOUSEKEY_ENABLE`
 

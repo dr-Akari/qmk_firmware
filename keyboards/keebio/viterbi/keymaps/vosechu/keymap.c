@@ -63,27 +63,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void keyboard_post_init_user(void) {
     // Call the post init code.
-    rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-    rgblight_mode_noeeprom(0);
-    rgblight_sethsv_noeeprom(0, 0, 0);
+    rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+    rgblight_mode_no_nvram(0);
+    rgblight_sethsv_no_nvram(0, 0, 0);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   switch (get_highest_layer(state)) {
   case TT1:
-    rgblight_sethsv_noeeprom(HSV_BLUE);
+    rgblight_sethsv_no_nvram(HSV_BLUE);
     break;
   case TT2:
-    rgblight_sethsv_noeeprom(HSV_PURPLE);
+    rgblight_sethsv_no_nvram(HSV_PURPLE);
     break;
   case T23X:
-    rgblight_sethsv_noeeprom(HSV_GOLD);
+    rgblight_sethsv_no_nvram(HSV_GOLD);
     break;
   case TT3:
-    rgblight_sethsv_noeeprom(HSV_GREEN);
+    rgblight_sethsv_no_nvram(HSV_GREEN);
     break;
   default: //  for any other layers, or the default layer
-    rgblight_sethsv_noeeprom(0, 0, 0);
+    rgblight_sethsv_no_nvram(0, 0, 0);
     break;
   }
 

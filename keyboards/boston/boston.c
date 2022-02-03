@@ -18,7 +18,7 @@
 
 void keyboard_post_init_kb(void) {
     /* this is to set an LED color at startup so it's not some random color*/
-    rgblight_enable_noeeprom(); 
-    rgblight_sethsv_noeeprom(0, 0, 128); 
+    rgblight_enable_no_nvram(); 
+    rgblight_sethsv_no_nvram(0, 0, 128); 
     keyboard_post_init_user();
 }

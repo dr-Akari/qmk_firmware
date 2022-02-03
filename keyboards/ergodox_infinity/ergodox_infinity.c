@@ -2,7 +2,7 @@
 #include <ch.h>
 #include <hal.h>
 #include <string.h>
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 #define RED_PIN 1
 #define GREEN_PIN 2
@@ -114,8 +114,8 @@ void matrix_init_kb(void) {
 
 #ifdef LED_MATRIX_ENABLE
     /*
-     * Since K20x is stuck with a 32 byte EEPROM (see tmk_core/common/chibios/eeprom_teensy.c),
-     * and neither led_matrix_eeconfig.speed or .flags fit in this boundary, just force their values to default on boot.
+     * Since K20x is stuck with a 32 byte EEPROM (see tmk_core/common/chibios/kinetis_flexram.c),
+     * and neither led_matrix_nvconfig.speed or .flags fit in this boundary, just force their values to default on boot.
      */
 #    if !defined(LED_MATRIX_STARTUP_SPD)
 #        define LED_MATRIX_STARTUP_SPD UINT8_MAX / 2

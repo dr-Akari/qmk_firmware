@@ -128,7 +128,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef RGBLIGHT_ENABLE
         case RGBRST:
             if (record->event.pressed) {
-                eeconfig_update_rgblight_default();
+                nvconfig_update_rgblight_default();
                 rgblight_enable();
                 RGB_current_mode = rgblight_config.mode;
             }

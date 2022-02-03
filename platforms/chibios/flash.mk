@@ -40,7 +40,7 @@ endef
 dfu-util: $(BUILD_DIR)/$(TARGET).bin cpfirmware sizeafter
 	$(call EXEC_DFU_UTIL)
 
-# TODO: Remove once ARM has a way to configure EECONFIG_HANDEDNESS
+# TODO: Remove once ARM has a way to configure NVCONFIG_HANDEDNESS
 #       within the emulated eeprom via dfu-util or another tool
 ifneq (,$(filter $(MAKECMDGOALS),dfu-util-split-left))
     OPT_DEFS += -DINIT_EE_HANDS_LEFT

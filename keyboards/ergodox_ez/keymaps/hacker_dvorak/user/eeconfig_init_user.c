@@ -1,3 +1,3 @@
-// void eeconfig_init_user(void) {
+// void nvconfig_init_user(void) {
 //
 // };

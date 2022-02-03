@@ -23,30 +23,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void keyboard_post_init_user(void) {
 #ifdef RGBLIGHT_ENABLE
   uint8_t temp_mode = rgblight_config.mode;
-	rgblight_enable_noeeprom();
-	rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+	rgblight_enable_no_nvram();
+	rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     for (uint16_t i = 255; i > 0; i--) {
-        rgblight_sethsv_noeeprom( ( i + 128) % 255, 255, 255);
+        rgblight_sethsv_no_nvram( ( i + 128) % 255, 255, 255);
         matrix_scan();
         wait_ms(10);
 	}
 	led_set_user(host_keyboard_leds());
-  rgblight_mode_noeeprom(temp_mode);
+  rgblight_mode_no_nvram(temp_mode);
 #endif
 }
 
 void led_set_user(uint8_t usb_led) {
   if (IS_LED_ON(usb_led, USB_LED_NUM_LOCK)) {
-    rgblight_sethsv_noeeprom_cyan();
+    rgblight_sethsv_no_nvram_cyan();
   } else {
-    rgblight_sethsv_noeeprom_magenta();
+    rgblight_sethsv_no_nvram_magenta();
   }
 }
 
 void shutdown_user (void) {
   #ifdef RGBLIGHT_ENABLE
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     rgblight_setrgb_red();
   #endif // RGBLIGHT_ENABLE
 }

@@ -185,7 +185,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Set LED according to the default layer
 void default_layer_led_set(void) {
-    switch (biton32(eeconfig_read_default_layer())) {
+    switch (biton32(nvconfig_read_default_layer())) {
       case COLEMAK:
         // LED2 for COLEMAK
         ergodox_right_led_2_on();

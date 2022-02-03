@@ -33,7 +33,7 @@ bool process_autocorrection(uint16_t keycode, keyrecord_t* record) {
         if (record->event.pressed) {
             typo_buffer_size = 0;
             userspace_config.autocorrection ^= 1;
-            eeconfig_update_user(userspace_config.raw);
+            nvconfig_update_user(userspace_config.raw);
         }
         return false;
     }

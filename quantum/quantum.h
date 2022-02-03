@@ -37,7 +37,7 @@
 #endif
 
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "bootloader.h"
 #include "bootmagic.h"
 #include "timer.h"

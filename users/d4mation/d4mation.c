@@ -17,7 +17,7 @@ void matrix_scan_keymap() {
 }
 
 __attribute__((weak))
-void eeconfig_init_keymap( void ) {}
+void nvconfig_init_keymap( void ) {}
 
 /* process_record_user() is called in macros.c */
 
@@ -29,9 +29,9 @@ void matrix_scan_user( void ) {
     matrix_scan_keymap();
 }
 
-void eeconfig_init_user( void ) {
+void nvconfig_init_user( void ) {
 
-    eeconfig_init_keymap();
+    nvconfig_init_keymap();
     keyboard_init();
 
 }

@@ -17,7 +17,7 @@
 #pragma once
 #include QMK_KEYBOARD_H
 
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 enum custom_layers {
     _BASE = 0,

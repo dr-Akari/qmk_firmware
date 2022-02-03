@@ -111,8 +111,8 @@ enum rgb_matrix_effects {
     RGB_MATRIX_EFFECT_MAX
 };
 
-void eeconfig_update_rgb_matrix_default(void);
-void eeconfig_update_rgb_matrix(void);
+void nvconfig_update_rgb_matrix_default(void);
+void nvconfig_update_rgb_matrix(void);
 
 uint8_t rgb_matrix_map_row_column_to_led_kb(uint8_t row, uint8_t column, uint8_t *led_i);
 uint8_t rgb_matrix_map_row_column_to_led(uint8_t row, uint8_t column, uint8_t *led_i);
@@ -139,88 +139,88 @@ void rgb_matrix_init(void);
 void        rgb_matrix_set_suspend_state(bool state);
 bool        rgb_matrix_get_suspend_state(void);
 void        rgb_matrix_toggle(void);
-void        rgb_matrix_toggle_noeeprom(void);
+void        rgb_matrix_toggle_no_nvram(void);
 void        rgb_matrix_enable(void);
-void        rgb_matrix_enable_noeeprom(void);
+void        rgb_matrix_enable_no_nvram(void);
 void        rgb_matrix_disable(void);
-void        rgb_matrix_disable_noeeprom(void);
+void        rgb_matrix_disable_no_nvram(void);
 uint8_t     rgb_matrix_is_enabled(void);
 void        rgb_matrix_mode(uint8_t mode);
-void        rgb_matrix_mode_noeeprom(uint8_t mode);
+void        rgb_matrix_mode_no_nvram(uint8_t mode);
 uint8_t     rgb_matrix_get_mode(void);
 void        rgb_matrix_step(void);
-void        rgb_matrix_step_noeeprom(void);
+void        rgb_matrix_step_no_nvram(void);
 void        rgb_matrix_step_reverse(void);
-void        rgb_matrix_step_reverse_noeeprom(void);
+void        rgb_matrix_step_reverse_no_nvram(void);
 void        rgb_matrix_sethsv(uint16_t hue, uint8_t sat, uint8_t val);
-void        rgb_matrix_sethsv_noeeprom(uint16_t hue, uint8_t sat, uint8_t val);
+void        rgb_matrix_sethsv_no_nvram(uint16_t hue, uint8_t sat, uint8_t val);
 HSV         rgb_matrix_get_hsv(void);
 uint8_t     rgb_matrix_get_hue(void);
 uint8_t     rgb_matrix_get_sat(void);
 uint8_t     rgb_matrix_get_val(void);
 void        rgb_matrix_increase_hue(void);
-void        rgb_matrix_increase_hue_noeeprom(void);
+void        rgb_matrix_increase_hue_no_nvram(void);
 void        rgb_matrix_decrease_hue(void);
-void        rgb_matrix_decrease_hue_noeeprom(void);
+void        rgb_matrix_decrease_hue_no_nvram(void);
 void        rgb_matrix_increase_sat(void);
-void        rgb_matrix_increase_sat_noeeprom(void);
+void        rgb_matrix_increase_sat_no_nvram(void);
 void        rgb_matrix_decrease_sat(void);
-void        rgb_matrix_decrease_sat_noeeprom(void);
+void        rgb_matrix_decrease_sat_no_nvram(void);
 void        rgb_matrix_increase_val(void);
-void        rgb_matrix_increase_val_noeeprom(void);
+void        rgb_matrix_increase_val_no_nvram(void);
 void        rgb_matrix_decrease_val(void);
-void        rgb_matrix_decrease_val_noeeprom(void);
+void        rgb_matrix_decrease_val_no_nvram(void);
 void        rgb_matrix_set_speed(uint8_t speed);
-void        rgb_matrix_set_speed_noeeprom(uint8_t speed);
+void        rgb_matrix_set_speed_no_nvram(uint8_t speed);
 uint8_t     rgb_matrix_get_speed(void);
 void        rgb_matrix_increase_speed(void);
-void        rgb_matrix_increase_speed_noeeprom(void);
+void        rgb_matrix_increase_speed_no_nvram(void);
 void        rgb_matrix_decrease_speed(void);
-void        rgb_matrix_decrease_speed_noeeprom(void);
+void        rgb_matrix_decrease_speed_no_nvram(void);
 led_flags_t rgb_matrix_get_flags(void);
 void        rgb_matrix_set_flags(led_flags_t flags);
 
 #ifndef RGBLIGHT_ENABLE
-#    define eeconfig_update_rgblight_current eeconfig_update_rgb_matrix
+#    define nvconfig_update_rgblight_current nvconfig_update_rgb_matrix
 #    define rgblight_toggle rgb_matrix_toggle
-#    define rgblight_toggle_noeeprom rgb_matrix_toggle_noeeprom
+#    define rgblight_toggle_no_nvram rgb_matrix_toggle_no_nvram
 #    define rgblight_enable rgb_matrix_enable
-#    define rgblight_enable_noeeprom rgb_matrix_enable_noeeprom
+#    define rgblight_enable_no_nvram rgb_matrix_enable_no_nvram
 #    define rgblight_disable rgb_matrix_disable
-#    define rgblight_disable_noeeprom rgb_matrix_disable_noeeprom
+#    define rgblight_disable_no_nvram rgb_matrix_disable_no_nvram
 #    define rgblight_is_enabled rgb_matrix_is_enabled
 #    define rgblight_mode rgb_matrix_mode
-#    define rgblight_mode_noeeprom rgb_matrix_mode_noeeprom
+#    define rgblight_mode_no_nvram rgb_matrix_mode_no_nvram
 #    define rgblight_get_mode rgb_matrix_get_mode
 #    define rgblight_get_hue rgb_matrix_get_hue
 #    define rgblight_get_sat rgb_matrix_get_sat
 #    define rgblight_get_val rgb_matrix_get_val
 #    define rgblight_get_hsv rgb_matrix_get_hsv
 #    define rgblight_step rgb_matrix_step
-#    define rgblight_step_noeeprom rgb_matrix_step_noeeprom
+#    define rgblight_step_no_nvram rgb_matrix_step_no_nvram
 #    define rgblight_step_reverse rgb_matrix_step_reverse
-#    define rgblight_step_reverse_noeeprom rgb_matrix_step_reverse_noeeprom
+#    define rgblight_step_reverse_no_nvram rgb_matrix_step_reverse_no_nvram
 #    define rgblight_sethsv rgb_matrix_sethsv
-#    define rgblight_sethsv_noeeprom rgb_matrix_sethsv_noeeprom
+#    define rgblight_sethsv_no_nvram rgb_matrix_sethsv_no_nvram
 #    define rgblight_increase_hue rgb_matrix_increase_hue
-#    define rgblight_increase_hue_noeeprom rgb_matrix_increase_hue_noeeprom
+#    define rgblight_increase_hue_no_nvram rgb_matrix_increase_hue_no_nvram
 #    define rgblight_decrease_hue rgb_matrix_decrease_hue
-#    define rgblight_decrease_hue_noeeprom rgb_matrix_decrease_hue_noeeprom
+#    define rgblight_decrease_hue_no_nvram rgb_matrix_decrease_hue_no_nvram
 #    define rgblight_increase_sat rgb_matrix_increase_sat
-#    define rgblight_increase_sat_noeeprom rgb_matrix_increase_sat_noeeprom
+#    define rgblight_increase_sat_no_nvram rgb_matrix_increase_sat_no_nvram
 #    define rgblight_decrease_sat rgb_matrix_decrease_sat
-#    define rgblight_decrease_sat_noeeprom rgb_matrix_decrease_sat_noeeprom
+#    define rgblight_decrease_sat_no_nvram rgb_matrix_decrease_sat_no_nvram
 #    define rgblight_increase_val rgb_matrix_increase_val
-#    define rgblight_increase_val_noeeprom rgb_matrix_increase_val_noeeprom
+#    define rgblight_increase_val_no_nvram rgb_matrix_increase_val_no_nvram
 #    define rgblight_decrease_val rgb_matrix_decrease_val
-#    define rgblight_decrease_val_noeeprom rgb_matrix_decrease_val_noeeprom
+#    define rgblight_decrease_val_no_nvram rgb_matrix_decrease_val_no_nvram
 #    define rgblight_set_speed rgb_matrix_set_speed
-#    define rgblight_set_speed_noeeprom rgb_matrix_set_speed_noeeprom
+#    define rgblight_set_speed_no_nvram rgb_matrix_set_speed_no_nvram
 #    define rgblight_get_speed rgb_matrix_get_speed
 #    define rgblight_increase_speed rgb_matrix_increase_speed
-#    define rgblight_increase_speed_noeeprom rgb_matrix_increase_speed_noeeprom
+#    define rgblight_increase_speed_no_nvram rgb_matrix_increase_speed_no_nvram
 #    define rgblight_decrease_speed rgb_matrix_decrease_speed
-#    define rgblight_decrease_speed_noeeprom rgb_matrix_decrease_speed_noeeprom
+#    define rgblight_decrease_speed_no_nvram rgb_matrix_decrease_speed_no_nvram
 #endif
 
 typedef struct {

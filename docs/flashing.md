@@ -57,7 +57,7 @@ To generate this bootloader, use the `bootloader` target, eg. `make planck/rev4:
 ### `make` Targets
 
 * `:dfu`: Checks every 5 seconds until a DFU device is available, and then flashes the firmware.
-* `:dfu-split-left` and `:dfu-split-right`: Flashes the firmware as with `:dfu`, but also sets the handedness setting in EEPROM. This is ideal for Elite-C-based split keyboards.
+* `:dfu-split-left` and `:dfu-split-right`: Flashes the firmware as with `:dfu`, but also sets the handedness setting in NVRAM (requires internal MCU NVRAM to be used). This is ideal for Elite-C-based split keyboards.
 
 ## Caterina
 
@@ -90,7 +90,7 @@ Flashing sequence:
 
 * `:avrdude`: Checks every 5 seconds until a Caterina device is available (by detecting a new COM port), and then flashes the firmware.
 * `:avrdude-loop`: Flashes the firmware as with `:avrdude`, but after each device is flashed, will attempt to flash again. This is useful for bulk flashing. Hit Ctrl+C to escape the loop.
-* `:avrdude-split-left` and `:avrdude-split-right`: Flashes the firmware as with `:avrdude`, but also sets the handedness setting in EEPROM. This is ideal for Pro Micro-based split keyboards.
+* `:avrdude-split-left` and `:avrdude-split-right`: Flashes the firmware as with `:avrdude`, but also sets the handedness setting in NVRAM (requires internal MCU NVRAM to be used). This is ideal for Pro Micro-based split keyboards.
 
 ## HalfKay
 
@@ -246,7 +246,7 @@ Flashing sequence:
 ### `make` Targets
 
 * `:dfu-util`: Waits until an STM32 bootloader device is available, and then flashes the firmware.
-* `:dfu-util-split-left` and `:dfu-util-split-right`: Flashes the firmware as with `:avrdude`, but also sets the handedness setting in EEPROM. This is ideal for Proton-C-based split keyboards.
+* `:dfu-util-split-left` and `:dfu-util-split-right`: Flashes the firmware as with `:avrdude`, but also sets the handedness setting in NVRAM (requires internal MCU NVRAM to be used). This is ideal for Proton-C-based split keyboards.
 * `:st-link-cli`: Allows you to flash the firmware via the ST-Link CLI utility, rather than dfu-util. Requires an ST-Link dongle.
 * `:st-flash`: Allows you to flash the firmware via the `st-flash` utility from [STLink Tools](https://github.com/stlink-org/stlink), rather than dfu-util. Requires an ST-Link dongle.
 

@@ -164,7 +164,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     debug_matrix   = 0;
                 }
                 uprintf("DEBUG: enable=%u, keyboard=%u, matrix=%u\n", debug_enable, debug_keyboard, debug_matrix);
-                eeconfig_update_debug(debug_config.raw);
+                nvconfig_update_debug(debug_config.raw);
                 return false;
 #endif
 

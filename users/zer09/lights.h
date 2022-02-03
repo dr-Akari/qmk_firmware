@@ -6,7 +6,7 @@
 #include "zer09.h"
 
 /* Will hold the RGB brightness level */
-#define EECONFIG_LED_DIM_LVL (uint8_t *)15
+#define NVCONFIG_LED_DIM_LVL (uint8_t *)15
 
 #define SET_LED_RGB(r, g, b, led_dim, pos)                                     \
   setrgb(r >> led_dim, g >> led_dim, b >> led_dim, (LED_TYPE *)&led[pos])

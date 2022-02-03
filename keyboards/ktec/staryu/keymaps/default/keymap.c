@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   // use the non noeeprom versions, to write these values to EEPROM too
   rgblight_enable();
   rgblight_mode(RGBLIGHT_MODE_BREATHING+1);
@@ -78,26 +78,26 @@ void eeconfig_init_user(void) {
 
 void keyboard_post_init_user(void) {
   //layer_state_set_user is not called for inital state - set it here
-  rgblight_sethsv_noeeprom_white();
+  rgblight_sethsv_no_nvram_white();
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   switch (get_highest_layer(state)) {
     case _LAYER1:
-        rgblight_sethsv_noeeprom_cyan();
+        rgblight_sethsv_no_nvram_cyan();
         break;
     case _LAYER2:
-        rgblight_sethsv_noeeprom_magenta();
+        rgblight_sethsv_no_nvram_magenta();
         break;
     case _LAYER3:
-        rgblight_sethsv_noeeprom_red();
+        rgblight_sethsv_no_nvram_red();
         break;
     case _LAYER4:
-        rgblight_sethsv_noeeprom_orange();
+        rgblight_sethsv_no_nvram_orange();
         break;
     case _LAYER0:
     default: //  for any other layers, or the default layer
-        rgblight_sethsv_noeeprom_white();
+        rgblight_sethsv_no_nvram_white();
         break;
     }
   return state;

@@ -67,7 +67,7 @@ void set_mode(uint8_t mode, bool save) {
     }
 
     if (save) {
-        eeconfig_update_user(userspace_config.raw);
+        nvconfig_update_user(userspace_config.raw);
     }
 }
 
@@ -95,7 +95,7 @@ bool is_unicode(uint8_t mode) { return (mode == MAC_UNI) || (mode == WINDOWS_UNI
 __attribute__((weak)) void keyboard_pre_init_keymap(void) {}
 
 void keyboard_pre_init_user(void) {
-    userspace_config.raw = eeconfig_read_user();
+    userspace_config.raw = nvconfig_read_user();
     switch_mode(get_mode());
     keyboard_pre_init_keymap();
 }
@@ -118,15 +118,15 @@ void keyboard_post_init_user(void) {
 }
 
 //**********************
-// eeconfig_init
+// nvconfig_init
 //**********************
 
-__attribute__((weak)) void eeconfig_init_keymap(void) {}
+__attribute__((weak)) void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     userspace_config.raw = 0;
-    eeconfig_update_user(userspace_config.raw);
-    eeconfig_init_keymap();
+    nvconfig_update_user(userspace_config.raw);
+    nvconfig_init_keymap();
     keyboard_init();
 }
 

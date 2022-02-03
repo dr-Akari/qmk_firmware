@@ -155,10 +155,10 @@ void rgblight_snake_restart(uint8_t hue, uint8_t sat, uint8_t val){
 
 
 void keyboard_post_init_kb(void){
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
     if( keyboard_config.encoder_mode_index > ENCODER_MODE_THREE ){
         keyboard_config.encoder_mode_index = ENCODER_MODE_ONE;
-        eeconfig_update_kb(keyboard_config.raw);
+        nvconfig_update_kb(keyboard_config.raw);
     }
 }
 
@@ -179,7 +179,7 @@ void switch_encoder_mode(uint8_t mode){
             dir_sat = 255;
             break;
         }
-        rgblight_sethsv_noeeprom(dir_hue,dir_sat,pre_val); 
+        rgblight_sethsv_no_nvram(dir_hue,dir_sat,pre_val); 
 }
 
 
@@ -190,7 +190,7 @@ void init_encoder_mode(uint8_t mode){
     pre_val = rgblight_get_val();
     encoder_in = true;
 
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);  
 
     switch_encoder_mode(mode);
 }
@@ -202,7 +202,7 @@ void set_encoder_mode(uint8_t mode){
     }else{
         switch_encoder_mode(mode);
     }
-    eeconfig_update_kb(keyboard_config.raw);
+    nvconfig_update_kb(keyboard_config.raw);
     encoder_timer = timer_read32();
 }
 
@@ -302,14 +302,14 @@ void matrix_scan_kb(void) {
     if(encoder_ani_start){
         if(timer_elapsed32(encoder_ani_timer) > VOLUME_ANIMATION_TIMER){
             encoder_ani_start = false;
-            rgblight_sethsv_noeeprom(0,0,0);
+            rgblight_sethsv_no_nvram(0,0,0);
         }
     }
 
     if(encoder_direction_start){
         if(timer_elapsed32(encoder_direction_timer) > (VOLUME_ANIMATION_TIMER+1500)){
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-            rgblight_sethsv_noeeprom(dir_hue, dir_sat, pre_val); 
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_sethsv_no_nvram(dir_hue, dir_sat, pre_val); 
             encoder_direction_start = false;
         }
     }
@@ -323,9 +323,9 @@ void set_volume_animation(bool increase){
     }
 
     if(increase){
-        rgblight_mode_noeeprom(17);  
+        rgblight_mode_no_nvram(17);  
     } else {         
-        rgblight_mode_noeeprom(18);
+        rgblight_mode_no_nvram(18);
     }
 
     encoder_ani_timer = timer_read32();

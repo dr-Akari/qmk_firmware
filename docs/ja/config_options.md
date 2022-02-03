@@ -137,7 +137,7 @@ QMK での全ての利用可能な設定にはデフォルトがあります。�
 これらのオプションを定義すると、関連する機能が有効になり、コードサイズが大きくなるかもしれません。
 
 * `#define FORCE_NKRO`
-  * NKRO をデフォルトでオンにする必要があります。これにより EEPROM の設定に関係なく、キーボードの起動時に NKRO が強制的にオンになります。NKRO は引き続きオフにできますが、キーボードを再起動すると再びオンになります。
+  * NKRO をデフォルトでオンにする必要があります。これにより NVRAM の設定に関係なく、キーボードの起動時に NKRO が強制的にオンになります。NKRO は引き続きオフにできますが、キーボードを再起動すると再びオンになります。
 * `#define STRICT_LAYER_RELEASE`
   * キーリリースがどのレイヤーから来たのかを覚えるのではなく、現在のレイヤースタックを使って強制的に評価されるようにします (高度なケースに使われます)
 
@@ -247,7 +247,7 @@ QMK での全ての利用可能な設定にはデフォルトがあります。�
 
 1. `SPLIT_HAND_PIN` を設定します: 左右を決定するためにピンを読み込みます。ピンが high の場合、それが左側です。low であれば、その半分側が右側であると決定されます。
 2. `EE_HANDS` を設定し、各半分に `eeprom-lefthand.eep`/`eeprom-righthand.eep` を書き込みます
-   * DFU ブートローダを搭載したボードでは、これらの EEPROM ファイルを書き込むために `:dfu-split-left`/`:dfu-split-right` を使うことができます
+   * DFU ブートローダを搭載したボードでは、これらの NVRAM ファイルを書き込むために `:dfu-split-left`/`:dfu-split-right` を使うことができます
    * Caterina ブートローダを搭載したボード (標準的な Pro Micros など)では、`:avrdude-split-left`/`:avrdude-split-right` を使ってください
    * ARM DFU ブートローダを搭載したボード (Proton C など)では、`:dfu-util-split-left`/`:dfu-util-split-right` を使ってください
 3. `MASTER_RIGHT` を設定します: USB ポートに差し込まれた側はマスター側で右側であると決定されます(デフォルトの逆)
@@ -262,7 +262,7 @@ QMK での全ての利用可能な設定にはデフォルトがあります。�
   * 左右はキーマトリックスのキースイッチが存在しない交点を使って決定されます。通常、この交点が短絡している(ローレベル)のときに左側と見なされます。もし `#define SPLIT_HAND_MATRIX_GRID_LOW_IS_RIGHT` が定義されている場合は、ローレベルの時に右側と決定されます。
 
 * `#define EE_HANDS` (`SPLIT_HAND_PIN` と `SPLIT_HAND_MATRIX_GRID` が定義されていない場合のみ動作します)
-  * `eeprom-lefthand.eep`/`eeprom-righthand.eep` がそれぞれの半分に書き込まれた後で、EEPROM 内に格納されている左右の設定の値を読み込みます。
+  * `eeprom-lefthand.eep`/`eeprom-righthand.eep` がそれぞれの半分に書き込まれた後で、NVRAM 内に格納されている左右の設定の値を読み込みます。
 
 * `#define MASTER_RIGHT`
   * マスター側が右側と定義されます。

@@ -105,7 +105,7 @@ static enum { UNKNOWN, LEFT, RIGHT } hand_side = UNKNOWN;
         return (hand_side == LEFT);
 #    endif
 #elif defined(EE_HANDS)
-        hand_side = eeconfig_read_handedness() ? LEFT : RIGHT;
+        hand_side = nvconfig_read_handedness() ? LEFT : RIGHT;
         return (hand_side == LEFT);
 #elif defined(MASTER_RIGHT)
         hand_side = !is_keyboard_master() ? LEFT : RIGHT;

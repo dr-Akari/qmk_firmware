@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define FLUSH_TIMEOUT 5000
-#define EECONFIG_MD_LED ((uint8_t*)(EECONFIG_SIZE + 64))
+#define NVCONFIG_MD_LED ((uint8_t*)(NVCONFIG_SIZE + 64))
 #define MD_LED_CONFIG_VERSION 1
 
 #ifdef RGB_MATRIX_ENABLE
@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // TODO?: wire these up to keymap.c
 md_led_config_t md_led_config = {0};
 
-EECONFIG_DEBOUNCE_HELPER(md_led, EECONFIG_MD_LED, md_led_config);
+NVCONFIG_DEBOUNCE_HELPER(md_led, NVCONFIG_MD_LED, md_led_config);
 
-void eeconfig_update_md_led_default(void) {
+void nvconfig_update_md_led_default(void) {
     md_led_config.ver = MD_LED_CONFIG_VERSION;
 
     gcr_desired               = LED_GCR_MAX;
@@ -50,13 +50,13 @@ void eeconfig_update_md_led_default(void) {
     led_ratio_brightness      = 1.0f;
     led_edge_mode             = LED_EDGE_MODE_ALL;
 
-    eeconfig_flush_md_led(true);
+    nvconfig_flush_md_led(true);
 }
 
-void md_led_changed(void) { eeconfig_flag_md_led(true); }
+void md_led_changed(void) { nvconfig_flag_md_led(true); }
 
 // todo: use real task rather than this bodge
-void housekeeping_task_kb(void) { eeconfig_flush_md_led_task(FLUSH_TIMEOUT); }
+void housekeeping_task_kb(void) { nvconfig_flush_md_led_task(FLUSH_TIMEOUT); }
 
 __attribute__((weak)) led_instruction_t led_instructions[] = {{.end = 1}};
 static void                             md_rgb_matrix_config_override(int i);
@@ -255,9 +255,9 @@ static void init(void) {
     DBGC(DC_LED_MATRIX_INIT_BEGIN);
 
 #    ifdef USE_MASSDROP_CONFIGURATOR
-    eeconfig_init_md_led();
+    nvconfig_init_md_led();
     if (md_led_config.ver != MD_LED_CONFIG_VERSION) {
-        eeconfig_update_md_led_default();
+        nvconfig_update_md_led_default();
     }
 #    endif
 

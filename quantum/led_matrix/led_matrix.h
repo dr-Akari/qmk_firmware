@@ -98,9 +98,9 @@ enum led_matrix_effects {
     LED_MATRIX_EFFECT_MAX
 };
 
-void eeconfig_update_led_matrix_default(void);
-void eeconfig_update_led_matrix(void);
-void eeconfig_debug_led_matrix(void);
+void nvconfig_update_led_matrix_default(void);
+void nvconfig_update_led_matrix(void);
+void nvconfig_debug_led_matrix(void);
 
 uint8_t led_matrix_map_row_column_to_led_kb(uint8_t row, uint8_t column, uint8_t *led_i);
 uint8_t led_matrix_map_row_column_to_led(uint8_t row, uint8_t column, uint8_t *led_i);
@@ -127,33 +127,33 @@ void led_matrix_init(void);
 void        led_matrix_set_suspend_state(bool state);
 bool        led_matrix_get_suspend_state(void);
 void        led_matrix_toggle(void);
-void        led_matrix_toggle_noeeprom(void);
+void        led_matrix_toggle_no_nvram(void);
 void        led_matrix_enable(void);
-void        led_matrix_enable_noeeprom(void);
+void        led_matrix_enable_no_nvram(void);
 void        led_matrix_disable(void);
-void        led_matrix_disable_noeeprom(void);
+void        led_matrix_disable_no_nvram(void);
 uint8_t     led_matrix_is_enabled(void);
 void        led_matrix_mode(uint8_t mode);
-void        led_matrix_mode_noeeprom(uint8_t mode);
+void        led_matrix_mode_no_nvram(uint8_t mode);
 uint8_t     led_matrix_get_mode(void);
 void        led_matrix_step(void);
-void        led_matrix_step_noeeprom(void);
+void        led_matrix_step_no_nvram(void);
 void        led_matrix_step_reverse(void);
-void        led_matrix_step_reverse_noeeprom(void);
+void        led_matrix_step_reverse_no_nvram(void);
 void        led_matrix_set_val(uint8_t val);
-void        led_matrix_set_val_noeeprom(uint8_t val);
+void        led_matrix_set_val_no_nvram(uint8_t val);
 uint8_t     led_matrix_get_val(void);
 void        led_matrix_increase_val(void);
-void        led_matrix_increase_val_noeeprom(void);
+void        led_matrix_increase_val_no_nvram(void);
 void        led_matrix_decrease_val(void);
-void        led_matrix_decrease_val_noeeprom(void);
+void        led_matrix_decrease_val_no_nvram(void);
 void        led_matrix_set_speed(uint8_t speed);
-void        led_matrix_set_speed_noeeprom(uint8_t speed);
+void        led_matrix_set_speed_no_nvram(uint8_t speed);
 uint8_t     led_matrix_get_speed(void);
 void        led_matrix_increase_speed(void);
-void        led_matrix_increase_speed_noeeprom(void);
+void        led_matrix_increase_speed_no_nvram(void);
 void        led_matrix_decrease_speed(void);
-void        led_matrix_decrease_speed_noeeprom(void);
+void        led_matrix_decrease_speed_no_nvram(void);
 led_flags_t led_matrix_get_flags(void);
 void        led_matrix_set_flags(led_flags_t flags);
 
@@ -183,7 +183,7 @@ static inline bool led_matrix_check_finished_leds(uint8_t led_idx) {
 
 extern const led_matrix_driver_t led_matrix_driver;
 
-extern led_eeconfig_t led_matrix_eeconfig;
+extern led_nvconfig_t led_matrix_eeconfig;
 
 extern uint32_t     g_led_timer;
 extern led_config_t g_led_config;

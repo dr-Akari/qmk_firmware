@@ -101,16 +101,16 @@ void matrix_init_user(void) {
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw = 0;
     user_config.caps_lock_light_tab = false;
     user_config.caps_lock_light_alphas = false;
     user_config.fn_layer_transparent_keys_off = true;
     user_config.fn_layer_color_enable = false;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -132,25 +132,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LIGHT_TAB_TOGGLE:
             if (record->event.pressed) {
                 user_config.caps_lock_light_tab ^= 1; // bitwise xor to toggle status bit
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             } 
             return false;  // Skip all further processing of this key
         case KC_LIGHT_ALPHAS_TOGGLE:
             if (record->event.pressed) {
                 user_config.caps_lock_light_alphas ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             return false;  // Skip all further processing of this key
         case KC_FN_LAYER_TRANSPARENT_KEYS_TOGGLE:
             if (record->event.pressed) {
                 user_config.fn_layer_transparent_keys_off ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             return false;  // Skip all further processing of this key
         case KC_FN_LAYER_COLOR_TOGGLE:
             if (record->event.pressed) {
                 user_config.fn_layer_color_enable ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             return false;  // Skip all further processing of this key
         default:

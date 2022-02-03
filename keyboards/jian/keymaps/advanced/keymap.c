@@ -346,7 +346,7 @@ void matrix_init_user(void) {
 }
 
 void keyboard_post_init_user(void) {
-  user_config.raw = eeconfig_read_user();
+  user_config.raw = nvconfig_read_user();
   if (user_config.thumb_alt) {
      layer_on(_THUMB_ALT);
   } else {
@@ -486,12 +486,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         layer_off(_ADJUST);
         layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+            nvconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        keymap_config.raw = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
       }
       return false;
     case EXT_PLV:
@@ -569,14 +569,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         layer_invert(_THUMB_ALT);
         user_config.thumb_alt ^= 1;
-        eeconfig_update_user(user_config.raw);
+        nvconfig_update_user(user_config.raw);
       }
       return false;
     case ISO:
       if (record->event.pressed) {
         layer_invert(_ISO);
         user_config.iso ^= 1;
-        eeconfig_update_user(user_config.raw);
+        nvconfig_update_user(user_config.raw);
       }
       return false;
   }

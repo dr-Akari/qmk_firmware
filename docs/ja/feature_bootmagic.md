@@ -33,7 +33,7 @@ BOOTMAGIC_ENABLE = lite
 
 | ホットキー | 説明 |
 |------------------|---------------------------------------------|
-| エスケープ | EEPROM のブートマジック設定を無視する |
+| エスケープ | NVRAM のブートマジック設定を無視する |
 | `B` | ブートローダに入る |
 | `D` | シリアルを介するデバッグ出力の切り替え |
 | `X` | キーマトリックスのデバッグ出力の切り替え |
@@ -41,7 +41,7 @@ BOOTMAGIC_ENABLE = lite
 | `M` | マウスのデバッグの切り替え |
 | `L` | EE_HANDS 左右設定に、"左手"を設定 |
 | `R` | EE_HANDS 左右設定に、"右手"を設定 |
-| Backspace | EEPROM をクリア |
+| Backspace | NVRAM をクリア |
 | Caps Lock | Caps Lock を左コントロールとして扱うかを切り替え |
 | 左 Control | Caps Lock と左コントロールの入れ替えを切り替え |
 | 左 Alt | 左 Alt と左 GUI の入れ替えを切り替え |
@@ -100,8 +100,8 @@ BOOTMAGIC_ENABLE = lite
 | 定義 | デフォルト | 説明 |
 |----------------------------------------|-------------|---------------------------------------------------|
 | `BOOTMAGIC_KEY_SALT` | `KC_SPACE` | ブートマジックキー |
-| `BOOTMAGIC_KEY_SKIP` | `KC_ESC` | EEPROM のブートマジック設定を無視する |
-| `BOOTMAGIC_KEY_EEPROM_CLEAR` | `KC_BSPACE` | EEPROM 設定をクリアする |
+| `BOOTMAGIC_KEY_SKIP` | `KC_ESC` | NVRAM のブートマジック設定を無視する |
+| `BOOTMAGIC_KEY_NVRAM_CLEAR` | `KC_BSPACE` | NVRAM 設定をクリアする |
 | `BOOTMAGIC_KEY_BOOTLOADER` | `KC_B` | ブートローダに入る |
 | `BOOTMAGIC_KEY_DEBUG_ENABLE` | `KC_D` | シリアルを介するデバッグ出力の切り替え |
 | `BOOTMAGIC_KEY_DEBUG_MATRIX` | `KC_X` | マトリックスのデバッグを切り替え |
@@ -147,7 +147,7 @@ BOOTMAGIC_ENABLE = lite
 
 ブートローダを起動するには、キーボードを接続する時にこのキーを押し続けます。たった1つのキーです。
 
-!> ブートマジックライトを使用すると、EEPROM を**常にリセットします**。つまり保存された全ての設定は失われます。
+!> ブートマジックライトを使用すると、NVRAM を**常にリセットします**。つまり保存された全ての設定は失われます。
 
 ## 分割キーボード
 

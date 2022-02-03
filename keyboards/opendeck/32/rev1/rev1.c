@@ -113,7 +113,7 @@ void keyboard_pre_init_kb(void) {
 
 void keyboard_post_init_user() {
     // RGB enabled by default, no way to turn off. No need to expend EEPROM write cycles here.
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
 }
 #endif
 

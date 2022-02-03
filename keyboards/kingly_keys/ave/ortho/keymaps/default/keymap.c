@@ -214,8 +214,8 @@ void keyboard_post_init_user(void) {
 // Set up RGB effects on _only_ the first LED (index 0):
         rgblight_set_effect_range(0, 1);
 // Set LED effects to breathing mode in a "terminal-green" type color:
-        rgblight_sethsv_noeeprom(50, 255, 100);
-        rgblight_mode_noeeprom(RGBLIGHT_EFFECT_BREATHING + 2);
+        rgblight_sethsv_no_nvram(50, 255, 100);
+        rgblight_mode_no_nvram(RGBLIGHT_EFFECT_BREATHING + 2);
 // Init the second LED to a static color:
         setrgb(225, 185, 0, (LED_TYPE *)&led[1]);
     rgblight_set();

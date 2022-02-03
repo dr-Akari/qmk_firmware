@@ -351,7 +351,7 @@ const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 void keyboard_post_init_kb(void) {
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
     keyboard_post_init_user();
 }
 #endif
@@ -386,7 +386,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case LED_LEVEL:
             if (record->event.pressed) {
                 keyboard_config.led_level ^= 1;
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
                 if (keyboard_config.led_level) {
                     layer_state_set_kb(layer_state);
                 } else {
@@ -405,7 +405,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 keyboard_config.disable_layer_led ^= 1;
                 if (keyboard_config.disable_layer_led) rgb_matrix_set_color_all(0, 0, 0);
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
             }
             break;
         case RGB_TOG:
@@ -421,7 +421,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                         keyboard_config.rgb_matrix_enable = true;
                     } break;
                 }
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
             }
             return false;
 #endif
@@ -430,12 +430,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_init_kb(void) {
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
 
     if (!keyboard_config.led_level && !keyboard_config.led_level_res) {
         keyboard_config.led_level = true;
         keyboard_config.led_level_res = 0b11;
-        eeconfig_update_kb(keyboard_config.raw);
+        nvconfig_update_kb(keyboard_config.raw);
     }
 #ifdef RGB_MATRIX_ENABLE
     if (keyboard_config.rgb_matrix_enable) {
@@ -447,11 +447,11 @@ void matrix_init_kb(void) {
     matrix_init_user();
 }
 
-void eeconfig_init_kb(void) {  // EEPROM is getting reset!
+void nvconfig_init_kb(void) {  // EEPROM is getting reset!
     keyboard_config.raw = 0;
     keyboard_config.rgb_matrix_enable = true;
     keyboard_config.led_level = true;
     keyboard_config.led_level_res = 0b11;
-    eeconfig_update_kb(keyboard_config.raw);
-    eeconfig_init_user();
+    nvconfig_update_kb(keyboard_config.raw);
+    nvconfig_init_user();
 }

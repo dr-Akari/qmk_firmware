@@ -302,12 +302,12 @@ void plover(keyrecord_t *record) {
     if (record->event.pressed) {
         layer_move(0);
         layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+            nvconfig_init();
         }
-        keymap_config.raw  = eeconfig_read_keymap();
+        keymap_config.raw  = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
     }
 }
 
@@ -406,6 +406,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 // Initialize the steno protocol
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     steno_set_mode(STENO_MODE_BOLT);  // or STENO_MODE_BOLT
 }

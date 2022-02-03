@@ -67,19 +67,19 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
     case _PANIC:
         panic_mode = true; // For use in encoder evaluation
-        rgblight_sethsv_noeeprom(HSV_RED);
+        rgblight_sethsv_no_nvram(HSV_RED);
         break;
     case _FLIGHT:
         flight_mode = true; // For use in encoder evaluation
-        rgblight_sethsv_noeeprom(HSV_CYAN);
+        rgblight_sethsv_no_nvram(HSV_CYAN);
         break;
     case _RCS:
         rcs_mode = true; // For use in encoder evaluation
-        rgblight_sethsv_noeeprom(HSV_BLUE);
+        rgblight_sethsv_no_nvram(HSV_BLUE);
         break;
     default: //  for any other layers, or the default layer
         base_mode = true;
-        rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
+        rgblight_sethsv_no_nvram(HSV_SPRINGGREEN);
         break;
     }
     return state;
@@ -87,9 +87,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void keyboard_post_init_user(void) {
     // Call the post init code.
-    rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 1); // sets mode to Slow breathing without saving
-    rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
+    rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 1); // sets mode to Slow breathing without saving
+    rgblight_sethsv_no_nvram(HSV_SPRINGGREEN);
 }
 
 // bool process_record_user(uint16_t keycode, keyrecord_t *record) {

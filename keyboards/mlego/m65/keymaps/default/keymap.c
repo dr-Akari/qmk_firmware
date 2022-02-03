@@ -141,15 +141,15 @@ static inline void my_encoders(const uint8_t index, const bool clockwise) {
     if (index == 0) { /* First encoder */
         if (IS_LAYER_ON(_LWR)) {
             if (clockwise) {
-                rgblight_decrease_val_noeeprom();
+                rgblight_decrease_val_no_nvram();
             } else {
-                rgblight_increase_val_noeeprom();
+                rgblight_increase_val_no_nvram();
             }
         } else if (IS_LAYER_ON(_RSE)) {
             if (clockwise) {
-                rgblight_decrease_hue_noeeprom();
+                rgblight_decrease_hue_no_nvram();
             } else {
-                rgblight_increase_hue_noeeprom();
+                rgblight_increase_hue_no_nvram();
             }
 
         } else {

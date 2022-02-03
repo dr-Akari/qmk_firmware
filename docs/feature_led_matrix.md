@@ -267,55 +267,55 @@ For inspiration and examples, check out the built-in effects under `quantum/led_
                                     // If LED_MATRIX_KEYPRESSES or LED_MATRIX_KEYRELEASES is enabled, you also will want to enable SPLIT_TRANSPORT_MIRROR
 ```
 
-## EEPROM storage :id=eeprom-storage
+## NVRAM storage :id=nvram-storage
 
-The EEPROM for it is currently shared with the RGB Matrix system (it's generally assumed only one feature would be used at a time), but could be configured to use its own 32bit address with:
+The NVRAM for it is currently shared with the RGB Matrix system (it's generally assumed only one feature would be used at a time), but could be configured to use its own 32bit address with:
 
 ```c
-#define EECONFIG_LED_MATRIX (uint32_t *)28
+#define NVCONFIG_LED_MATRIX (uint32_t *)28
 ```
 
-Where `28` is an unused index from `eeconfig.h`.
+Where `28` is an unused index from `nvconfig.h`.
 
 ### Direct Operation :id=direct-operation
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
-|`led_matrix_set_value_all(v)`         |Set all of the LEDs to the given value, where `v` is between 0 and 255 (not written to EEPROM) |
-|`led_matrix_set_value(index, v)`      |Set a single LED to the given value, where `v` is between 0 and 255, and `index` is between 0 and `DRIVER_LED_TOTAL` (not written to EEPROM) |
+|`led_matrix_set_value_all(v)`         |Set all of the LEDs to the given value, where `v` is between 0 and 255 (not written to NVRAM) |
+|`led_matrix_set_value(index, v)`      |Set a single LED to the given value, where `v` is between 0 and 255, and `index` is between 0 and `DRIVER_LED_TOTAL` (not written to NVRAM) |
 
 ### Disable/Enable Effects :id=disable-enable-effects
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`led_matrix_toggle()`                       |Toggle effect range LEDs between on and off |
-|`led_matrix_toggle_noeeprom()`              |Toggle effect range LEDs between on and off (not written to EEPROM) |
+|`led_matrix_toggle_no_nvram()`              |Toggle effect range LEDs between on and off (not written to NVRAM) |
 |`led_matrix_enable()`                       |Turn effect range LEDs on, based on their previous state |
-|`led_matrix_enable_noeeprom()`              |Turn effect range LEDs on, based on their previous state (not written to EEPROM) |
+|`led_matrix_enable_no_nvram()`              |Turn effect range LEDs on, based on their previous state (not written to NVRAM) |
 |`led_matrix_disable()`                      |Turn effect range LEDs off, based on their previous state |
-|`led_matrix_disable_noeeprom()`             |Turn effect range LEDs off, based on their previous state (not written to EEPROM) |
+|`led_matrix_disable_no_nvram()`             |Turn effect range LEDs off, based on their previous state (not written to NVRAM) |
 
 ### Change Effect Mode :id=change-effect-mode
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`led_matrix_mode(mode)`                     |Set the mode, if LED animations are enabled |
-|`led_matrix_mode_noeeprom(mode)`            |Set the mode, if LED animations are enabled (not written to EEPROM) |
+|`led_matrix_mode_no_nvram(mode)`            |Set the mode, if LED animations are enabled (not written to NVRAM) |
 |`led_matrix_step()`                         |Change the mode to the next LED animation in the list of enabled LED animations |
-|`led_matrix_step_noeeprom()`                |Change the mode to the next LED animation in the list of enabled LED animations (not written to EEPROM) |
+|`led_matrix_step_no_nvram()`                |Change the mode to the next LED animation in the list of enabled LED animations (not written to NVRAM) |
 |`led_matrix_step_reverse()`                 |Change the mode to the previous LED animation in the list of enabled LED animations |
-|`led_matrix_step_reverse_noeeprom()`        |Change the mode to the previous LED animation in the list of enabled LED animations (not written to EEPROM) |
+|`led_matrix_step_reverse_no_nvram()`        |Change the mode to the previous LED animation in the list of enabled LED animations (not written to NVRAM) |
 |`led_matrix_increase_speed()`               |Increase the speed of the animations |
-|`led_matrix_increase_speed_noeeprom()`      |Increase the speed of the animations (not written to EEPROM) |
+|`led_matrix_increase_speed_no_nvram()`      |Increase the speed of the animations (not written to NVRAM) |
 |`led_matrix_decrease_speed()`               |Decrease the speed of the animations |
-|`led_matrix_decrease_speed_noeeprom()`      |Decrease the speed of the animations (not written to EEPROM) |
+|`led_matrix_decrease_speed_no_nvram()`      |Decrease the speed of the animations (not written to NVRAM) |
 |`led_matrix_set_speed(speed)`               |Set the speed of the animations to the given value where `speed` is between 0 and 255 |
-|`led_matrix_set_speed_noeeprom(speed)`      |Set the speed of the animations to the given value where `speed` is between 0 and 255 (not written to EEPROM) |
+|`led_matrix_set_speed_no_nvram(speed)`      |Set the speed of the animations to the given value where `speed` is between 0 and 255 (not written to NVRAM) |
 
 ### Change Value :id=change-value
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`led_matrix_increase_val()`                 |Increase the value for effect range LEDs. This wraps around at maximum value |
-|`led_matrix_increase_val_noeeprom()`        |Increase the value for effect range LEDs. This wraps around at maximum value (not written to EEPROM) |
+|`led_matrix_increase_val_no_nvram()`        |Increase the value for effect range LEDs. This wraps around at maximum value (not written to NVRAM) |
 |`led_matrix_decrease_val()`                 |Decrease the value for effect range LEDs. This wraps around at minimum value |
-|`led_matrix_decrease_val_noeeprom()`        |Decrease the value for effect range LEDs. This wraps around at minimum value (not written to EEPROM) |
+|`led_matrix_decrease_val_no_nvram()`        |Decrease the value for effect range LEDs. This wraps around at minimum value (not written to NVRAM) |
 
 ### Query Current Status :id=query-current-status
 |Function                         |Description                |

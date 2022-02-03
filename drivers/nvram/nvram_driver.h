@@ -14,33 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdint.h>
-#include <string.h>
+#pragma once
 
-#include "eeprom_driver.h"
+#include "eeprom.h"
 
-void eeprom_driver_init(void) {
-    /* Any initialisation code */
- }
-
-void eeprom_driver_erase(void) {
-    /* Wipe out the EEPROM, setting values to zero */
-}
-
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
-    /*
-        Read a block of data:
-            buf: target buffer
-            addr: 0-based offset within the EEPROM
-            len: length to read
-     */
-}
-
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
-    /*
-        Write a block of data:
-            buf: target buffer
-            addr: 0-based offset within the EEPROM
-            len: length to write
-     */
-}
+void nvram_driver_init(void);
+void nvram_driver_erase(void);

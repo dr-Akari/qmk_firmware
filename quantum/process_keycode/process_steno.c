@@ -87,16 +87,16 @@ static void send_steno_state(uint8_t size, bool send_empty) {
 }
 
 void steno_init() {
-    if (!eeconfig_is_enabled()) {
-        eeconfig_init();
+    if (!nvconfig_is_enabled()) {
+        nvconfig_init();
     }
-    mode = eeprom_read_byte(EECONFIG_STENOMODE);
+    mode = nvram_read_u8(NVCONFIG_STENOMODE);
 }
 
 void steno_set_mode(steno_mode_t new_mode) {
     steno_clear_state();
     mode = new_mode;
-    eeprom_update_byte(EECONFIG_STENOMODE, mode);
+    nvram_update_u8(NVCONFIG_STENOMODE, mode);
 }
 
 /* override to intercept chords right before they get sent.

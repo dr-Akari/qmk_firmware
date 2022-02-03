@@ -22,7 +22,7 @@ void bootmagic_lite(void) {
 __attribute__((weak)) void keyboard_pre_init_keymap(void) {}
 
 void keyboard_pre_init_user(void) {
-    userspace_config.raw = eeconfig_read_user();
+    userspace_config.raw = nvconfig_read_user();
     keyboard_pre_init_keymap();
 }
 
@@ -54,8 +54,8 @@ void rgb_matrix_update_pwm_buffers(void);
 // On RESET, set all RGB to red, shutdown the keymap.
 void shutdown_user(void) {
 #if defined(RGBLIGHT_ENABLE)
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(1);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(1);
     rgblight_setrgb_red();
 #endif
 
@@ -113,18 +113,18 @@ __attribute__((weak)) void led_set_keymap(uint8_t usb_led) {}
 // Any custom LED code goes here.
 void led_set_user(uint8_t usb_led) { led_set_keymap(usb_led); }
 
-__attribute__((weak)) void eeconfig_init_keymap(void) {}
+__attribute__((weak)) void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     userspace_config.raw              = 0;
     userspace_config.rgb_layer_change = true;
-    eeconfig_update_user(userspace_config.raw);
+    nvconfig_update_user(userspace_config.raw);
 #if (defined(UNICODE_ENABLE) || defined(UNICODEMAP_ENABLE) || defined(UCIS_ENABLE))
     set_unicode_input_mode(CURRY_UNICODE_MODE);
     get_unicode_input_mode();
 #else
-    eeprom_update_byte(EECONFIG_UNICODEMODE, CURRY_UNICODE_MODE);
+    nvram_update_u8(NVCONFIG_UNICODEMODE, CURRY_UNICODE_MODE);
 #endif
-    eeconfig_init_keymap();
+    nvconfig_init_keymap();
     keyboard_init();
 }

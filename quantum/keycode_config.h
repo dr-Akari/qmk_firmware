@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "keycode.h"
 #include "action_code.h"
 

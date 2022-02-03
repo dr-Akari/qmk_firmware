@@ -92,18 +92,18 @@ void keyboard_pre_init_kb(void) {
     keyboard_pre_init_user();
 }
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
     keyboard_config.dpi_config = PLOOPY_DPI_DEFAULT;
-    eeconfig_update_kb(keyboard_config.raw);
-    eeconfig_init_user();
+    nvconfig_update_kb(keyboard_config.raw);
+    nvconfig_init_user();
 }
 
 void matrix_init_kb(void) {
     // is safe to just read DPI setting since matrix init
     // comes before pointing device init.
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
     if (keyboard_config.dpi_config > DPI_OPTION_SIZE) {
-        eeconfig_init_kb();
+        nvconfig_init_kb();
     }
     matrix_init_user();
 }

@@ -26,7 +26,7 @@ void spidey_glow(void) {
 #endif
 }
 
-void eeconfig_init_user_rgb(void) { spidey_glow(); }
+void nvconfig_init_user_rgb(void) { spidey_glow(); }
 
 // clang-format off
 
@@ -178,7 +178,7 @@ void startup_animation_init(void) {
     old_base_mode  = rgblight_status.base_mode;
 
     if (!old_config.enable)
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
 }
 #endif
 
@@ -226,12 +226,12 @@ void matrix_scan_user_rgb(void) {
                     dprintf("sua FADE_OLD counter=%u\n", counter);
 #endif
                     if (counter >= STARTUP_ANIMATION_FADE_STEP) {
-                        rgblight_sethsv_noeeprom(old_config.hue, old_config.sat, counter);
+                        rgblight_sethsv_no_nvram(old_config.hue, old_config.sat, counter);
                         counter -= STARTUP_ANIMATION_FADE_STEP;
                     } else {
                         counter = 0;
                         startup_animation_state = FADE_IN;
-                        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+                        rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
                     }
                     break;
 
@@ -240,7 +240,7 @@ void matrix_scan_user_rgb(void) {
                     dprintf("sua FADE_IN counter=%u\n", counter);
 #endif
                     if (counter < STARTUP_ANIMATION_VALUE) {
-                        rgblight_sethsv_noeeprom(old_config.hue, STARTUP_ANIMATION_SATURATION, counter);
+                        rgblight_sethsv_no_nvram(old_config.hue, STARTUP_ANIMATION_SATURATION, counter);
                         counter += STARTUP_ANIMATION_FADE_STEP;
                     } else {
                         counter = 255;
@@ -253,7 +253,7 @@ void matrix_scan_user_rgb(void) {
                     dprintf("sua CYCLE counter=%u\n", counter);
 #endif
                     if (counter >= STARTUP_ANIMATION_CYCLE_STEP) {
-                        rgblight_sethsv_noeeprom((counter + old_config.hue) % 255, STARTUP_ANIMATION_SATURATION, STARTUP_ANIMATION_VALUE);
+                        rgblight_sethsv_no_nvram((counter + old_config.hue) % 255, STARTUP_ANIMATION_SATURATION, STARTUP_ANIMATION_VALUE);
                         counter -= STARTUP_ANIMATION_CYCLE_STEP;
                     } else {
                         if (
@@ -302,7 +302,7 @@ void matrix_scan_user_rgb(void) {
                     dprintf("sua RAMP_DOWN counter=%u\n", counter);
 #endif
                     if (counter >= STARTUP_ANIMATION_FADE_STEP) {
-                        rgblight_sethsv_noeeprom(old_config.hue, STARTUP_ANIMATION_SATURATION, counter);
+                        rgblight_sethsv_no_nvram(old_config.hue, STARTUP_ANIMATION_SATURATION, counter);
                         counter -= STARTUP_ANIMATION_FADE_STEP;
                     } else {
                         startup_animation_state = CLEAN_UP;
@@ -318,7 +318,7 @@ void matrix_scan_user_rgb(void) {
                         if (counter < steps) {
                             uint8_t s = STARTUP_ANIMATION_SATURATION + counter * (((float)old_config.sat - STARTUP_ANIMATION_SATURATION) / (float)steps);
                             uint8_t v = STARTUP_ANIMATION_VALUE + counter * (((float)old_config.val - STARTUP_ANIMATION_VALUE) / (float)steps);
-                            rgblight_sethsv_noeeprom(old_config.hue, s, v);
+                            rgblight_sethsv_no_nvram(old_config.hue, s, v);
                             counter++;
                         } else {
                             startup_animation_state = CLEAN_UP;
@@ -346,7 +346,7 @@ void matrix_scan_user_rgb(void) {
             hsv.h += change_hue;
             hsv.s = change_sat > 0 ? qadd8(hsv.s, (uint8_t) change_sat) : qsub8(hsv.s, (uint8_t) -change_sat);
             hsv.v = change_val > 0 ? qadd8(hsv.v, (uint8_t) change_val) : qsub8(hsv.v, (uint8_t) -change_val);
-            rgblight_sethsv_noeeprom(hsv.h, hsv.s, hsv.v);
+            rgblight_sethsv_no_nvram(hsv.h, hsv.s, hsv.v);
             change_timer = timer_read();
         }
     }
@@ -354,8 +354,8 @@ void matrix_scan_user_rgb(void) {
 
 void shutdown_user_rgb(void) {
     clear_rgb_layers();
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     for (int i = 0; i < RGBLED_NUM; i++) {
         rgblight_setrgb_at(0xFF, 0x80 * (i % 2), 0, i);
     }

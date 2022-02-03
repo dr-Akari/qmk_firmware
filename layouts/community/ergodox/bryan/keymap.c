@@ -157,7 +157,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         break;
         case 1:
         if (record->event.pressed) { // For resetting EEPROM
-          eeconfig_init();
+          nvconfig_init();
         }
         break;
       }
@@ -169,7 +169,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // dynamically generate these.
     case EPRM:
       if (record->event.pressed) {
-        eeconfig_init();
+        nvconfig_init();
       }
       return false;
       break;

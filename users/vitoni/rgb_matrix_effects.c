@@ -105,16 +105,16 @@ bool fade_out_ranged(const uint8_t time, const uint8_t range_min, const uint8_t 
  * @param[in]   hue Hue
  * @param[in]   sat Saturation
  * @param[in]   hue Value (brightness)
- * @see rgb_matrix_sethsv_noeeprom()
+ * @see rgb_matrix_sethsv_no_nvram()
  */
-void rgb_matrix_sethsv_noeeprom_user(const uint16_t hue, const uint8_t sat, const uint8_t val) {
+void rgb_matrix_sethsv_no_nvram_user(const uint16_t hue, const uint8_t sat, const uint8_t val) {
 #if defined(RGB_FADE_IN) || defined(RGB_IDLE_TIMEOUT)
     rgb_matrix_config.hsv.h = hue;
     rgb_matrix_config.hsv.s = sat;
     // omitting setting the value to avoid interfering with effects
 //    rgb_matrix_config.hsv.v = val;
 #else
-    rgb_matrix_sethsv_noeeprom(hue, sat, val);
+    rgb_matrix_sethsv_no_nvram(hue, sat, val);
 #endif
 }
 

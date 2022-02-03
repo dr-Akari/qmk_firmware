@@ -667,12 +667,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 layer_off(_LOWER);
                 layer_off(_ADJUST);
                 layer_on(_PLOVER);
-                if (!eeconfig_is_enabled()) {
-                    eeconfig_init();
+                if (!nvconfig_is_enabled()) {
+                    nvconfig_init();
                 }
-                keymap_config.raw  = eeconfig_read_keymap();
+                keymap_config.raw  = nvconfig_read_keymap();
                 keymap_config.nkro = 1;
-                eeconfig_update_keymap(keymap_config.raw);
+                nvconfig_update_keymap(keymap_config.raw);
             }
             return false;
             break;
@@ -1000,8 +1000,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case DO_RESET:  // Reset button with LED indication
             if (record->event.pressed) {
                 rgblight_set_effect_range(0, 9);
-                rgblight_sethsv_noeeprom(HSV_RED);
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+                rgblight_sethsv_no_nvram(HSV_RED);
+                rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
                 rgblight_blink_layer(11, 5000);
                 reset_keyboard();
             }
@@ -1009,7 +1009,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case WAKE_ANI_TOG:  // Toggle the Wakeup RGB animation
             if (record->event.pressed) {
                 user_config.do_wakeup_animation ^= 1;   // Toggles the status
-                eeconfig_update_user(user_config.raw);  // Writes the new status to EEPROM
+                nvconfig_update_user(user_config.raw);  // Writes the new status to EEPROM
                 if (user_config.do_wakeup_animation) {
                     print("Wake animation enabled.\n");
                     PLAY_SONG(slctl_on);
@@ -1023,7 +1023,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         case WAKE_AUD_TOG:  // Toggle the wake-up music
             if (record->event.pressed) {
                 user_config.do_wakeup_audio ^= 1;       // Toggles the status
-                eeconfig_update_user(user_config.raw);  // Writes the new status to EEPROM
+                nvconfig_update_user(user_config.raw);  // Writes the new status to EEPROM
                 if (user_config.do_wakeup_audio) {
                     print("Wake music enabled.\n");
                     PLAY_SONG(slctl_on);
@@ -1099,7 +1099,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) {
                 // when keycode RGB-CON is pressed
                 user_config.rgbcon_tracker = rgbcon_tracker + 1;  // Toggles the status
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
                 switch (rgbcon_tracker) {
                     case 0:
                         rgblight_set_effect_range(0, 9);
@@ -1217,96 +1217,96 @@ void rgb_wakeup_sequence(void) {
     if (waking_up) {
         if ((timer_elapsed(wake_rgb_timer) > WAKE_ANIMATION_TIMER_FREQUENCY)) {
             if (wake_rgb_count < 1) {
-                rgblight_sethsv_noeeprom(HSV_OFF);
+                rgblight_sethsv_no_nvram(HSV_OFF);
                 rgblight_set_effect_range(0, 9);
             } else if (wake_rgb_count < 2 && wake_rgb_count > 0) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 2);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(2, 9);
             } else if (wake_rgb_count < 3 && wake_rgb_count > 1) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 2);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(2, 9);
             } else if (wake_rgb_count < 4 && wake_rgb_count > 2) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 3);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(3, 9);
             } else if (wake_rgb_count < 5 && wake_rgb_count > 3) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 4);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(4, 9);
             } else if (wake_rgb_count < 6 && wake_rgb_count > 4) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 5);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(5, 9);
             } else if (wake_rgb_count < 7 && wake_rgb_count > 5) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 6);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(6, 9);
             } else if (wake_rgb_count < 8 && wake_rgb_count > 6) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 7);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(7, 9);
             } else if (wake_rgb_count < 9 && wake_rgb_count > 7) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 8);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(8, 9);
             } else if (wake_rgb_count < 10 && wake_rgb_count > 8) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 0);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(0, 9);
             } else if (wake_rgb_count < 11 && wake_rgb_count > 9) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 8);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(8, 9);
             } else if (wake_rgb_count < 12 && wake_rgb_count > 10) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 7);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(7, 9);
             } else if (wake_rgb_count < 13 && wake_rgb_count > 11) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 6);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(6, 9);
             } else if (wake_rgb_count < 14 && wake_rgb_count > 12) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 5);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(5, 9);
             } else if (wake_rgb_count < 15 && wake_rgb_count > 13) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 4);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(4, 9);
             } else if (wake_rgb_count < 16 && wake_rgb_count > 14) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 3);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(3, 9);
             } else if (wake_rgb_count < 17 && wake_rgb_count > 15) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 2);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(2, 9);
             } else if (wake_rgb_count < 18 && wake_rgb_count > 16) {
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 1);
-                rgblight_sethsv_noeeprom(HSV_WHITE);
+                rgblight_sethsv_no_nvram(HSV_WHITE);
                 rgblight_set_effect_range(1, 9);
             } else if (wake_rgb_count > 17) {
                 // Final frame of wake-up rgb animation
-                rgblight_sethsv_noeeprom(HSV_BLACK);
+                rgblight_sethsv_no_nvram(HSV_BLACK);
                 rgblight_set_effect_range(0, 9);
                 waking_up = false;
                 print("I have awoken!\n");
@@ -1317,7 +1317,7 @@ void rgb_wakeup_sequence(void) {
                 }
 #endif
             }
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             wake_rgb_count++;
             wake_rgb_timer = timer_read();
         }
@@ -1852,7 +1852,7 @@ void keyboard_post_init_user(void) {
     // Print welcome message to console
     printf("Welcome to %s!\n", KEEB_MODEL_NAME);
     // Read the user config from EEPROM
-    user_config.raw   = eeconfig_read_user();
+    user_config.raw   = nvconfig_read_user();
     do_wake_animation = user_config.do_wakeup_animation;
     do_wake_audio     = user_config.do_wakeup_audio;
     rgbcon_tracker    = user_config.rgbcon_tracker;
@@ -1890,7 +1890,7 @@ void keyboard_post_init_user(void) {
     }
 
     // Enable the LED layers
-    rgblight_enable_noeeprom();  // Enables RGB, without saving settings
+    rgblight_enable_no_nvram();  // Enables RGB, without saving settings
     rgblight_layers = my_rgb_layers;
 
     /*
@@ -1910,9 +1910,9 @@ void keyboard_post_init_user(void) {
 }
 
 // EEPROM is getting reset!
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw                 = 0;
-    eeconfig_update_user(user_config.raw);  // Write default value to EEPROM now
+    nvconfig_update_user(user_config.raw);  // Write default value to EEPROM now
 }
 
 // Communicate 2-way with host via HID_RAW

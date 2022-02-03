@@ -998,7 +998,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case EEP_RST:
             if (record->event.pressed) {
-                eeconfig_init();
+                nvconfig_init();
             }
             return false;
             break;

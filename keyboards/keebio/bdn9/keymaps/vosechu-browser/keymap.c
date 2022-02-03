@@ -19,8 +19,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void keyboard_post_init_user(void) {
     // Call the post init code.
-    rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL); // sets mode to Slow breathing without saving
+    rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL); // sets mode to Slow breathing without saving
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

@@ -8,23 +8,23 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
   switch (get_highest_layer(state)) {
     case _QWERTY:
       rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-      rgblight_sethsv_noeeprom(RGB_CLEAR);
+      rgblight_sethsv_no_nvram(RGB_CLEAR);
       break;
     case _SYMB:
-      rgblight_sethsv_noeeprom_red();
+      rgblight_sethsv_no_nvram_red();
       break;
     case _NUMP:
-      rgblight_sethsv_noeeprom_green();
+      rgblight_sethsv_no_nvram_green();
       break;
     case _OVERWATCH:
-      rgblight_sethsv_noeeprom_blue();
+      rgblight_sethsv_no_nvram_blue();
       // TODO set up animated rainbow swirl with overwatch colors.
-      // rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+      // rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL);
       // rgblight_effect_breathing(&animation_status);
-      // rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3);
+      // rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3);
       break;
     case _NAVI:
-      rgblight_sethsv_noeeprom(HSV_AZURE);
+      rgblight_sethsv_no_nvram(HSV_AZURE);
       break;
     default: //  for any other layers, or the default layer
       break;

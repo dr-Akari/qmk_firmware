@@ -37,27 +37,27 @@ bool rgbon = true;
 const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {1,5,5}; //only using the first one
 
 void keyboard_post_init_user(void) {
-  rgblight_enable_noeeprom();
+  rgblight_enable_no_nvram();
   led_set_user(host_keyboard_leds());
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   switch (biton32(state)) {
     case _RAISE:
-      rgblight_sethsv_noeeprom(170,255,255);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_sethsv_no_nvram(170,255,255);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
     case _LOWER:
-      rgblight_sethsv_noeeprom(0,255,255);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_sethsv_no_nvram(0,255,255);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
     case _FN:
-      rgblight_sethsv_noeeprom(0,255,255);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+      rgblight_sethsv_no_nvram(0,255,255);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL);
       break;
     default: //_DEFLT
-      rgblight_sethsv_noeeprom(0,0,255);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_sethsv_no_nvram(0,0,255);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
   }
 
@@ -66,7 +66,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void led_set_user(uint8_t usb_led) {
   if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_ALTERNATING);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_ALTERNATING);
   } else {
     layer_state_set_user(layer_state);
   }
@@ -74,10 +74,10 @@ void led_set_user(uint8_t usb_led) {
 
 void myrgb_toggle(void) {
   if (rgbon) {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
     rgbon = false;
   } else {
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
     layer_state_set_user(layer_state);
     led_set_user(host_keyboard_leds());
     rgbon = true;

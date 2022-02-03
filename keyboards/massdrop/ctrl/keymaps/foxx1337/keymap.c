@@ -72,12 +72,12 @@ void change_led_state(bool is_off) {
         led_state = rgb_matrix_get_flags();
         if (led_state != LED_FLAG_NONE) {
             rgb_matrix_set_flags(LED_FLAG_NONE);
-            rgb_matrix_disable_noeeprom();
+            rgb_matrix_disable_no_nvram();
         }
     } else {
         if (led_state != LED_FLAG_NONE) {
             rgb_matrix_set_flags(led_state);
-            rgb_matrix_enable_noeeprom();
+            rgb_matrix_enable_no_nvram();
         }
     }
 }
@@ -161,12 +161,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     break;
                     case LED_FLAG_UNDERGLOW: {
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                     }
                     break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                     }
                     break;
                 }
@@ -239,7 +239,7 @@ void raw_hid_rgbmatrix_mode(uint8_t *data) {
         raw_hid_buffer[3] = CTRL_HID_EOM;
         return;
     }
-    rgb_matrix_mode_noeeprom(mode);
+    rgb_matrix_mode_no_nvram(mode);
 
     raw_hid_buffer[1] = CTRL_HID_OK;
     raw_hid_buffer[2] = CTRL_HID_EOM;

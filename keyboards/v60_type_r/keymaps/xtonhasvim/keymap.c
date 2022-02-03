@@ -154,7 +154,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         } else {
           rgblight_config.val = rgblight_config.val + RGBLIGHT_VAL_STEP;
         }
-        eeconfig_update_rgblight(rgblight_config.raw);
+        nvconfig_update_rgblight(rgblight_config.raw);
         set_state_leds();
       break;
       case IND_DIM:
@@ -163,7 +163,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         } else {
           rgblight_config.val = rgblight_config.val - RGBLIGHT_VAL_STEP;
         }
-        eeconfig_update_rgblight(rgblight_config.raw);
+        nvconfig_update_rgblight(rgblight_config.raw);
         set_state_leds();
       break;
     }
@@ -186,8 +186,8 @@ void suspend_power_down_user(void)
 
 void suspend_wakeup_init_user(void)
 {
-  rgblight_config.raw = eeconfig_read_rgblight();
-  backlight_config.raw = eeconfig_read_backlight();
+  rgblight_config.raw = nvconfig_read_rgblight();
+  backlight_config.raw = nvconfig_read_backlight();
 
   backlight_set(backlight_config.level);
   rgblight_set();

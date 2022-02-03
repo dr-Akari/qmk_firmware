@@ -80,6 +80,6 @@ bool     is_unicode(uint8_t mode);
 
 void keyboard_pre_init_keymap(void);
 void keyboard_post_init_keymap(void);
-void eeconfig_init_keymap(void);
+void nvconfig_init_keymap(void);
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
 

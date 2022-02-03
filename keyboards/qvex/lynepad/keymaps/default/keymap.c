@@ -91,28 +91,28 @@ void matrix_scan_user(void) {
         if (enc2Up < ENC_TILT_THRESHOLD) {
         }
         else {
-            rgblight_increase_val_noeeprom();
+            rgblight_increase_val_no_nvram();
         }
     }
     if (enc2Down != enc2DownPrev) {
         if (enc2Down < ENC_TILT_THRESHOLD) {
         }
         else {
-            rgblight_decrease_val_noeeprom();
+            rgblight_decrease_val_no_nvram();
         }
     }
     if (enc2Left != enc2LeftPrev) {
         if (enc2Left < ENC_TILT_THRESHOLD) {
         }
         else {
-            rgblight_toggle_noeeprom();
+            rgblight_toggle_no_nvram();
         }
     }
     if (enc2Right != enc2RightPrev) {
         if (enc2Right < ENC_TILT_THRESHOLD) {
         }
         else {
-            rgblight_step_noeeprom();
+            rgblight_step_no_nvram();
         }
     }
 }

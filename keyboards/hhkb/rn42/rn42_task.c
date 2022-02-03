@@ -202,7 +202,7 @@ static void store_link(uint8_t *eeaddr)
     xprintf("%s(%d)\r\n", s, strlen(s));
     if (strlen(s) == 12) {
         for (int i = 0; i < 12; i++) {
-            eeprom_write_byte(eeaddr+i, *(s+i));
+            nvram_write_u8(eeaddr+i, *(s+i));
             dprintf("%c ", *(s+i));
         }
         dprint("\r\n");
@@ -216,7 +216,7 @@ static void restore_link(const uint8_t *eeaddr)
     SEND_COMMAND("SR,Z\r\n");   // remove remote address
     SEND_STR("SR,");            // set remote address from EEPROM
     for (int i = 0; i < 12; i++) {
-        uint8_t c = eeprom_read_byte(eeaddr+i);
+        uint8_t c = nvram_read_u8(eeaddr+i);
         rn42_putc(c);
         dprintf("%c ", c);
     }
@@ -230,7 +230,7 @@ static const char *get_link(uint8_t * eeaddr)
 {
     static char s[13];
     for (int i = 0; i < 12; i++) {
-        uint8_t c = eeprom_read_byte(eeaddr+i);
+        uint8_t c = nvram_read_u8(eeaddr+i);
         s[i] = c;
     }
     s[12] = '\0';

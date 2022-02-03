@@ -90,7 +90,7 @@ const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST(on_b
                                                                             keypad, layers, rgb);
 
 void keyboard_post_init_user(void) {
-  rgblight_sethsv_noeeprom(HSV_PURPLE);
+  rgblight_sethsv_no_nvram(HSV_PURPLE);
   rgblight_layers = rgb_layers;
 }
 

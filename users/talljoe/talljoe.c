@@ -133,14 +133,14 @@ void matrix_scan_user(void) {
 }
 
 void matrix_init_user(void) {
-  if (!eeconfig_is_enabled()) {
-    eeconfig_init();
+  if (!nvconfig_is_enabled()) {
+    nvconfig_init();
   }
 }
 
 uint32_t default_layer_state_set_kb(uint32_t state) {
   // persist changes to default layers
-  eeconfig_update_default_layer(state);
+  nvconfig_update_default_layer(state);
   return state;
 }
 

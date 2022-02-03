@@ -21,13 +21,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     case _FN1_60:
         break;
     case _FN2_60:
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_RAINBOW_MOVING_CHEVRON);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_RAINBOW_MOVING_CHEVRON);
         break;
     case _DEFAULT:
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_MULTISPLASH);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_MULTISPLASH);
         break;
     case _QWERTY:
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_TYPING_HEATMAP);
         break;
     default: //  for any other layers, or the default layer
         break;

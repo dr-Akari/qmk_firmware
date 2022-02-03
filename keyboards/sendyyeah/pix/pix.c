@@ -16,7 +16,7 @@
 
 #include "pix.h"
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable(); // Enable RGB underglow by default
     rgblight_sethsv(0, 255, 255);
@@ -25,6 +25,6 @@ void eeconfig_init_kb(void) {
 #endif
 #endif
 
-    eeconfig_update_kb(0);
-    eeconfig_init_user();
+    nvconfig_update_kb(0);
+    nvconfig_init_user();
 }

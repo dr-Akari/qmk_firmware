@@ -114,9 +114,9 @@ SPLIT_TRANSPORT = custom
 #define SPLIT_HAND_MATRIX_GRID_LOW_IS_RIGHT
 ```
 
-#### EEPROM による左右の設定
+#### NVRAM による左右の設定
 
-このメソッドは永続ストレージ(`EEPROM`)のフラグを設定することで、キーボードの左右を設定します。これはコントローラが最初に起動する時にチェックされ、キーボードのどちら側であるかとキーボードのレイアウトの向きを決定します。
+このメソッドは永続ストレージ(`NVRAM`)のフラグを設定することで、キーボードの左右を設定します。これはコントローラが最初に起動する時にチェックされ、キーボードのどちら側であるかとキーボードのレイアウトの向きを決定します。
 
 
 このメソッドを有効にするには、以下を `config.h` ファイルに追加します:
@@ -125,7 +125,7 @@ SPLIT_TRANSPORT = custom
 #define EE_HANDS
 ```
 
-ただし、各コントローラに正しい側の EEPROM ファイルを書き込む必要があります。これを手動で行うこともできますが、ファームウェアを書き込む時にこれを行う avrdude および dfu のターゲットが存在します。
+ただし、各コントローラに正しい側の NVRAM ファイルを書き込む必要があります。これを手動で行うこともできますが、ファームウェアを書き込む時にこれを行う avrdude および dfu のターゲットが存在します。
 
 * `:avrdude-split-left`
 * `:avrdude-split-right`
@@ -134,9 +134,9 @@ SPLIT_TRANSPORT = custom
 * `:dfu-util-split-left`
 * `:dfu-util-split-right`
 
-この設定は、`EEP_RST` キーや `eeconfig_init()` 関数を使って EEPROM を再初期化する時には変更されません。ただし、ファームウェアの組み込みオプション以外で EEPROM をリセット([QMK Toolbox]() の "Reset EEPROM" ボタンの動作のように、`EEPROM` を上書きするファイルを書きこむなど)した場合、`EEPROM` ファイルを再書き込みする必要があります。
+この設定は、`EEP_RST` キーや `nvconfig_init()` 関数を使って NVRAM を再初期化する時には変更されません。ただし、ファームウェアの組み込みオプション以外で NVRAM をリセット([QMK Toolbox]() の "Reset EEPROM" ボタンの動作のように、`NVRAM` を上書きするファイルを書きこむなど)した場合、`NVRAM` ファイルを再書き込みする必要があります。
 
-`EEPROM` ファイルは、QMK ファームウェアのリポジトリ内の[ここ](https://github.com/qmk/qmk_firmware/tree/master/quantum/split_common)にあります。
+`NVRAM` ファイルは、QMK ファームウェアのリポジトリ内の[ここ](https://github.com/qmk/qmk_firmware/tree/master/quantum/split_common)にあります。
 
 #### `#define` による左右の設定
 

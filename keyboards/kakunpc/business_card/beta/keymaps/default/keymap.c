@@ -26,8 +26,8 @@ LAYOUT(/* Base */
 };
 
 void matrix_init_user(void) {
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_MOOD);
 }
 
 #ifdef OLED_ENABLE

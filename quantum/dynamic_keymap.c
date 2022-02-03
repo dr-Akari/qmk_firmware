@@ -89,16 +89,16 @@ void *dynamic_keymap_key_to_eeprom_address(uint8_t layer, uint8_t row, uint8_t c
 uint16_t dynamic_keymap_get_keycode(uint8_t layer, uint8_t row, uint8_t column) {
     void *address = dynamic_keymap_key_to_eeprom_address(layer, row, column);
     // Big endian, so we can read/write EEPROM directly from host if we want
-    uint16_t keycode = eeprom_read_byte(address) << 8;
-    keycode |= eeprom_read_byte(address + 1);
+    uint16_t keycode = nvram_read_u8(address) << 8;
+    keycode |= nvram_read_u8(address + 1);
     return keycode;
 }
 
 void dynamic_keymap_set_keycode(uint8_t layer, uint8_t row, uint8_t column, uint16_t keycode) {
     void *address = dynamic_keymap_key_to_eeprom_address(layer, row, column);
     // Big endian, so we can read/write EEPROM directly from host if we want
-    eeprom_update_byte(address, (uint8_t)(keycode >> 8));
-    eeprom_update_byte(address + 1, (uint8_t)(keycode & 0xFF));
+    nvram_update_u8(address, (uint8_t)(keycode >> 8));
+    nvram_update_u8(address + 1, (uint8_t)(keycode & 0xFF));
 }
 
 void dynamic_keymap_reset(void) {
@@ -120,7 +120,7 @@ void dynamic_keymap_get_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
     uint8_t *target                     = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < dynamic_keymap_eeprom_size) {
-            *target = eeprom_read_byte(source);
+            *target = nvram_read_u8(source);
         } else {
             *target = 0x00;
         }
@@ -135,7 +135,7 @@ void dynamic_keymap_set_buffer(uint16_t offset, uint16_t size, uint8_t *data) {
     uint8_t *source                     = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < dynamic_keymap_eeprom_size) {
-            eeprom_update_byte(target, *source);
+            nvram_update_u8(target, *source);
         }
         source++;
         target++;
@@ -160,7 +160,7 @@ void dynamic_keymap_macro_get_buffer(uint16_t offset, uint16_t size, uint8_t *da
     uint8_t *target = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE) {
-            *target = eeprom_read_byte(source);
+            *target = nvram_read_u8(source);
         } else {
             *target = 0x00;
         }
@@ -174,7 +174,7 @@ void dynamic_keymap_macro_set_buffer(uint16_t offset, uint16_t size, uint8_t *da
     uint8_t *source = data;
     for (uint16_t i = 0; i < size; i++) {
         if (offset + i < DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE) {
-            eeprom_update_byte(target, *source);
+            nvram_update_u8(target, *source);
         }
         source++;
         target++;
@@ -185,7 +185,7 @@ void dynamic_keymap_macro_reset(void) {
     void *p   = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR);
     void *end = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE);
     while (p != end) {
-        eeprom_update_byte(p, 0);
+        nvram_update_u8(p, 0);
         ++p;
     }
 }
@@ -200,7 +200,7 @@ void dynamic_keymap_macro_send(uint8_t id) {
     // of buffer writing, possibly an aborted buffer
     // write. So do nothing.
     void *p = (void *)(DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR + DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE - 1);
-    if (eeprom_read_byte(p) != 0) {
+    if (nvram_read_u8(p) != 0) {
         return;
     }
 
@@ -215,7 +215,7 @@ void dynamic_keymap_macro_send(uint8_t id) {
         if (p == end) {
             return;
         }
-        if (eeprom_read_byte(p) == 0) {
+        if (nvram_read_u8(p) == 0) {
             --id;
         }
         ++p;
@@ -227,7 +227,7 @@ void dynamic_keymap_macro_send(uint8_t id) {
     // We already checked there was a null at the end of
     // the buffer, so this cannot go past the end
     while (1) {
-        data[0] = eeprom_read_byte(p++);
+        data[0] = nvram_read_u8(p++);
         data[1] = 0;
         // Stop at the null terminator of this macro string
         if (data[0] == 0) {
@@ -238,7 +238,7 @@ void dynamic_keymap_macro_send(uint8_t id) {
         if (data[0] == SS_TAP_CODE || data[0] == SS_DOWN_CODE || data[0] == SS_UP_CODE) {
             data[1] = data[0];
             data[0] = SS_QMK_PREFIX;
-            data[2] = eeprom_read_byte(p++);
+            data[2] = nvram_read_u8(p++);
             if (data[2] == 0) {
                 break;
             }

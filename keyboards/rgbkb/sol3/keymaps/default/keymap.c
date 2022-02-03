@@ -135,7 +135,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case RGB_RST:
             if (record->event.pressed) {
-                eeconfig_update_rgb_matrix_default();
+                nvconfig_update_rgb_matrix_default();
             }
             return false;
         case TCH_TOG:

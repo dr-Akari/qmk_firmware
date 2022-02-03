@@ -24,7 +24,7 @@
 #include "usb_util.h"
 
 #ifdef EE_HANDS
-#    include "eeconfig.h"
+#    include "nvconfig.h"
 #endif
 
 #if defined(RGBLIGHT_ENABLE) && defined(RGBLED_SPLIT)
@@ -104,7 +104,7 @@ __attribute__((weak)) bool is_keyboard_left(void) {
     return !peek_matrix_intersection(SPLIT_HAND_MATRIX_GRID);
 #    endif
 #elif defined(EE_HANDS)
-    return eeconfig_read_handedness();
+    return nvconfig_read_handedness();
 #elif defined(MASTER_RIGHT)
     return !is_keyboard_master();
 #endif

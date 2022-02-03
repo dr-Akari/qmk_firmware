@@ -238,7 +238,7 @@ void matrix_scan_keymap(void) {
     }
     if (rgb_idle_seconds > IDLE_TIMEOUT) {
         rgb_was_enabled = rgblight_is_enabled();
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
         rgb_idle_seconds = 0;
     }
     // if MY_BSPC is held down too long, pretend like it wasn't and start
@@ -301,7 +301,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
     rgb_idle_seconds = 0;
     if (!rgblight_is_enabled() && rgb_was_enabled)
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
 
     switch (keycode) {
         case MY_BSPC:

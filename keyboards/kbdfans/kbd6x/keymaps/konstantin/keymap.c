@@ -15,19 +15,19 @@ static inline void reset_light(void) {
 }
 
 static inline void fn_light(void) {
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv_noeeprom(modern_dolch_red.h, modern_dolch_red.s, rgblight_get_val());
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_no_nvram(modern_dolch_red.h, modern_dolch_red.s, rgblight_get_val());
 }
 
 static inline void caps_light(void) {
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv_noeeprom(modern_dolch_cyan.h, modern_dolch_cyan.s, rgblight_get_val());
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_no_nvram(modern_dolch_cyan.h, modern_dolch_cyan.s, rgblight_get_val());
 }
 
 static inline void restore_light(void) {
-    rgblight_config_t saved = { .raw = eeconfig_read_rgblight() };
-    rgblight_mode_noeeprom(saved.mode);
-    rgblight_sethsv_noeeprom(saved.hue, saved.sat, saved.val);
+    rgblight_config_t saved = { .raw = nvconfig_read_rgblight() };
+    rgblight_mode_no_nvram(saved.mode);
+    rgblight_sethsv_no_nvram(saved.hue, saved.sat, saved.val);
 }
 
 static bool last_checked_layer;
@@ -60,7 +60,7 @@ static void inline check_light(void) {
         : check_light_led(host_keyboard_leds());
 }
 
-void eeconfig_init_keymap(void) {
+void nvconfig_init_keymap(void) {
     reset_light();
 }
 

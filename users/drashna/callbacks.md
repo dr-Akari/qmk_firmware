@@ -63,9 +63,9 @@ void                        shutdown_user (void) {
     shutdown_keymap();
 }
 
-__attribute__ ((weak)) void eeconfig_init_keymap(void) {}
-void                   eeconfig_init_user(void) {
-    eeconfig_update_user(0);
-    eeconfig_init_keymap();
+__attribute__ ((weak)) void nvconfig_init_keymap(void) {}
+void                   nvconfig_init_user(void) {
+    nvconfig_update_user(0);
+    nvconfig_init_keymap();
 }
 ```

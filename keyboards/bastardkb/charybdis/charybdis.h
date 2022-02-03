@@ -78,7 +78,7 @@ void charybdis_cycle_pointer_default_dpi(bool forward);
  * This means that reseting the board will revert the value to the last
  * persisted one.
  */
-void charybdis_cycle_pointer_default_dpi_noeeprom(bool forward);
+void charybdis_cycle_pointer_default_dpi_no_nvram(bool forward);
 
 /** \brief Return the current DPI value for the pointer's sniper-mode. */
 uint16_t charybdis_get_pointer_sniping_dpi(void);
@@ -100,7 +100,7 @@ void charybdis_cycle_pointer_sniping_dpi(bool forward);
  * This means that reseting the board will revert the value to the last
  * persisted one.
  */
-void charybdis_cycle_pointer_sniping_dpi_noeeprom(bool forward);
+void charybdis_cycle_pointer_sniping_dpi_no_nvram(bool forward);
 
 /** \brief Whether sniper-mode is enabled. */
 bool charybdis_get_pointer_sniping_enabled(void);

@@ -216,7 +216,7 @@ led_config_t led_config;
 //Set leds to saved state during powerup
 void keyboard_post_init_user(void) {
   // Call the post init code.
-  led_config.raw = eeconfig_read_user();
+  led_config.raw = nvconfig_read_user();
 
   if(led_config.red_mode == LEDMODE_ON) {
       writePinHigh(LED_RED);
@@ -227,12 +227,12 @@ void keyboard_post_init_user(void) {
   }
 }
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset!
+void nvconfig_init_user(void) {  // EEPROM is getting reset!
   led_config.raw = 0;
   led_config.red_mode = LEDMODE_ON;
   led_config.green_mode = LEDMODE_MODS;
-      eeconfig_update_user(led_config.raw);
-  eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
+  nvconfig_update_user(led_config.raw);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -323,12 +323,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         layer_off(_ADJUST);
         layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+            nvconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        keymap_config.raw = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
       }
       return false;
       break;
@@ -349,7 +349,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             writePinHigh(LED_RED);
         }
       }
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_2:
@@ -363,47 +363,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             writePinHigh(LED_GREEN);
         }
       }
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_3:
       led_config.red_mode=LEDMODE_MODS;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_4:
       led_config.green_mode=LEDMODE_MODS;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_5:
       led_config.red_mode=LEDMODE_BLINKIN;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_6:
       led_config.green_mode=LEDMODE_BLINKIN;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_7:
       led_config.red_mode=LEDMODE_KEY;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_8:
       led_config.green_mode=LEDMODE_KEY;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_9:
       led_config.red_mode=LEDMODE_ENTER;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
     case LED_0:
       led_config.green_mode=LEDMODE_ENTER;
-      eeconfig_update_user(led_config.raw);
+      nvconfig_update_user(led_config.raw);
       return false;
       break;
   }

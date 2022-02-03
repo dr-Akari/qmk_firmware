@@ -18,7 +18,7 @@ volatile bool isLeftHand = true;
 
 static void setup_handedness(void) {
   #ifdef EE_HANDS
-    isLeftHand = eeprom_read_byte(EECONFIG_HANDEDNESS);
+    isLeftHand = nvram_read_u8(NVCONFIG_HANDEDNESS);
   #else
     // I2C_MASTER_RIGHT is deprecated, use MASTER_RIGHT instead, since this works for both serial and i2c
     #if defined(I2C_MASTER_RIGHT) || defined(MASTER_RIGHT)

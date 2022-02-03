@@ -32,4 +32,4 @@ Support for up to a single driver with room for expansion. Each driver can contr
 
 ## 24xx series external I2C EEPROM
 
-Support for an external I2C-based EEPROM instead of using the on-chip EEPROM. For more information on how to setup the driver see the [EEPROM Driver](eeprom_driver.md) page.
+Support for an external I2C-based EEPROM instead of using the on-chip NVRAM. For more information on how to setup the driver see the [NVRAM Driver](nvram_driver.md) page.

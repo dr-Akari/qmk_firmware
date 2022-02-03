@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "eeconfig.h"  // for EECONFIG_SIZE
+#include "nvconfig.h"  // for NVCONFIG_SIZE
 
 // Keyboard level code can change where VIA stores the magic.
 // The magic is the build date YYMMDD encoded as BCD in 3 bytes,
@@ -25,7 +25,7 @@
 // The only reason this is important is in case EEPROM usage changes
 // and the EEPROM was not explicitly reset by bootmagic lite.
 #ifndef VIA_EEPROM_MAGIC_ADDR
-#    define VIA_EEPROM_MAGIC_ADDR (EECONFIG_SIZE)
+#    define VIA_EEPROM_MAGIC_ADDR (NVCONFIG_SIZE)
 #endif
 
 #define VIA_EEPROM_LAYOUT_OPTIONS_ADDR (VIA_EEPROM_MAGIC_ADDR + 3)
@@ -153,7 +153,7 @@ bool via_eeprom_is_valid(void);
 void via_eeprom_set_valid(bool valid);
 
 // Called by QMK core to initialize dynamic keymaps etc.
-void eeconfig_init_via(void);
+void nvconfig_init_via(void);
 void via_init(void);
 
 // Used by VIA to store and retrieve the layout options.

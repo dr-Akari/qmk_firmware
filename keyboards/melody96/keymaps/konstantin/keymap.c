@@ -9,7 +9,7 @@ enum keycodes_keymap {
     RGB_SET = RANGE_KEYMAP,
 };
 
-void eeconfig_init_keymap(void) {
+void nvconfig_init_keymap(void) {
     rgblight_sethsv(colors[cidx]->h, colors[cidx]->s, colors[cidx]->v);
 }
 

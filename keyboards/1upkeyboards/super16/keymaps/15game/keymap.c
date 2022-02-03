@@ -91,7 +91,7 @@ void refresh_leds(void) {
 }
 void keyboard_post_init_user(void) {
     rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
     refresh_leds();
 }
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

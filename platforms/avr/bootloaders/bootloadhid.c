@@ -24,7 +24,7 @@ __attribute__((weak)) void bootloader_jump(void) {
     // for a new firmware to be flashed
     // NOTE: this byte is part of QMK's "magic number" - changing it causes the EEPROM to be re-initialized
     // thus every time the device is flashed the EEPROM will be wiped
-    eeprom_write_byte((uint8_t *)1, 0x00);
+    nvram_write_u8(1, 0x00);
 
     // watchdog reset
     wdt_enable(WDTO_250MS);

@@ -80,9 +80,9 @@ static void spi_eeprom_transmit_address(uintptr_t addr) {
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void eeprom_driver_init(void) { spi_init(); }
+void nvram_driver_init(void) { spi_init(); }
 
-void eeprom_driver_erase(void) {
+void nvram_driver_erase(void) {
 #if defined(CONSOLE_ENABLE) && defined(DEBUG_EEPROM_OUTPUT)
     uint32_t start = timer_read32();
 #endif
@@ -90,7 +90,7 @@ void eeprom_driver_erase(void) {
     uint8_t buf[EXTERNAL_EEPROM_PAGE_SIZE];
     memset(buf, 0x00, EXTERNAL_EEPROM_PAGE_SIZE);
     for (uint32_t addr = 0; addr < EXTERNAL_EEPROM_BYTE_COUNT; addr += EXTERNAL_EEPROM_PAGE_SIZE) {
-        eeprom_write_block(buf, (void *)(uintptr_t)addr, EXTERNAL_EEPROM_PAGE_SIZE);
+        nvram_write_block(addr, buf, EXTERNAL_EEPROM_PAGE_SIZE);
     }
 
 #if defined(CONSOLE_ENABLE) && defined(DEBUG_EEPROM_OUTPUT)
@@ -98,7 +98,7 @@ void eeprom_driver_erase(void) {
 #endif
 }
 
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
     //-------------------------------------------------
     // Wait for the write-in-progress bit to be cleared
     bool res = spi_eeprom_start();
@@ -140,7 +140,7 @@ void eeprom_read_block(void *buf, const void *addr, size_t len) {
     spi_stop();
 }
 
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
     bool      res;
     uint8_t * read_buf    = (uint8_t *)buf;
     uintptr_t target_addr = (uintptr_t)addr;

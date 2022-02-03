@@ -86,15 +86,15 @@ void matrix_scan_user(void) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case GAME: {
-           rgblight_sethsv_noeeprom(HSV_GAME_COLOR);
+           rgblight_sethsv_no_nvram(HSV_GAME_COLOR);
            break;
         }
         case CTRL: {
-            rgblight_sethsv_noeeprom(HSV_CONTROL_COLOR);
+            rgblight_sethsv_no_nvram(HSV_CONTROL_COLOR);
             break;
         }
         default:
-            rgblight_sethsv_noeeprom(HSV_BACKLIGHT_COLOR);
+            rgblight_sethsv_no_nvram(HSV_BACKLIGHT_COLOR);
             break;
     }
     return state;
@@ -158,12 +158,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     break;
                     case LED_FLAG_UNDERGLOW: {
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                     }
                     break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                     }
                     break;
                 }

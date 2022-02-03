@@ -2,7 +2,7 @@
 #define LOSINGGENERATION_KEYMAP_H
 
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "losinggeneration-common.h"
 
 /* Tap dance keycodes */
@@ -317,7 +317,7 @@ float tone_workman;
 
 void persistent_default_layer_set(uint16_t default_layer) {
   layer_state_set(default_layer);
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 

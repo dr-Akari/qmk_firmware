@@ -162,9 +162,9 @@ void keyboard_pre_init_user(void) {
 ```c
 void keyboard_post_init_user(void) {
   // post init コードを呼びます
-  rgblight_enable_noeeprom(); // 設定を保存せずに Rgb を有効にします
-  rgblight_sethsv_noeeprom(180, 255, 255); // 保存せずに色を青緑/シアンに設定します
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // 保存せずにモードを高速なブリージングに設定します
+  rgblight_enable_no_nvram(); // 設定を保存せずに Rgb を有効にします
+  rgblight_sethsv_no_nvram(180, 255, 255); // 保存せずに色を青緑/シアンに設定します
+  rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3); // 保存せずにモードを高速なブリージングに設定します
 }
 ```
 
@@ -268,13 +268,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 [キーマップの概要](ja/keymap.md#keymap-layer-status)で説明されるように、`state` はアクティブなレイヤーのビットマスクです。
 
 
-# 永続的な設定 (EEPROM)
+# 永続的な設定 (NVRAM)
 
-これによりキーボードのための永続的な設定を設定することができます。これらの設定はコントローラの EEPROM に保存され、電源が落ちた後であっても保持されます。設定は `eeconfig_read_kb` および `eeconfig_read_user` を使って読み取ることができ、`eeconfig_update_kb` および `eeconfig_update_user` を使って書きこむことができます。これは切り替え可能な機能 (rgb レイヤーの表示の切り替えなど)に役立ちます。さらに、`eeconfig_init_kb` および `eeconfig_init_user` を使って EEPROM のデフォルト値を設定できます。
+これによりキーボードのための永続的な設定を設定することができます。これらの設定はコントローラの NVRAM に保存され、電源が落ちた後であっても保持されます。設定は `nvconfig_read_kb` および `nvconfig_read_user` を使って読み取ることができ、`nvconfig_update_kb` および `nvconfig_update_user` を使って書きこむことができます。これは切り替え可能な機能 (rgb レイヤーの表示の切り替えなど)に役立ちます。さらに、`nvconfig_init_kb` および `nvconfig_init_user` を使って NVRAM のデフォルト値を設定できます。
 
-ここでの複雑な部分は、EEPROM を介してデータを保存およびアクセスできる方法がたくさんあり、これを行うための"正しい"方法が無いということです。ただし、各関数には DWORD (4 バイト)しかありません。
+ここでの複雑な部分は、NVRAM を介してデータを保存およびアクセスできる方法がたくさんあり、これを行うための"正しい"方法が無いということです。ただし、各関数には DWORD (4 バイト)しかありません。
 
-EEPROM の書き込み回数には制限があることに注意してください。これは非常に高い値ですが、EEPROM に書き込むのはこれだけではなく、もし頻繁に書き込むと、MCU の寿命を大幅に短くする可能性があります。
+NVRAM の書き込み回数には制限があることに注意してください。これは非常に高い値ですが、NVRAM に書き込むのはこれだけではなく、もし頻繁に書き込むと、MCU の寿命を大幅に短くする可能性があります。
 
 * この例を理解していない場合は、この機能はかなり複雑なため、この機能を使うことを避けても構いません。
 
@@ -295,45 +295,45 @@ typedef union {
 user_config_t user_config;
 ```
 
-これは、設定をメモリ内に保存し、EEPROM に書き込むことができる32ビット構造体をセットアップします。これを使うと、この構造体に変数が定義されるため、変数を定義する必要が無くなります。`bool` (boolean) の値は1ビットを使い、`uint8_t` は8ビットを使い、`uint16_t` は16ビットを使うことに注意してください。組み合わせて使うことができますが、順番の変更は読み書きされる値が変更されるため、問題が発生するかもしれません。
+これは、設定をメモリ内に保存し、NVRAM に書き込むことができる32ビット構造体をセットアップします。これを使うと、この構造体に変数が定義されるため、変数を定義する必要が無くなります。`bool` (boolean) の値は1ビットを使い、`uint8_t` は8ビットを使い、`uint16_t` は16ビットを使うことに注意してください。組み合わせて使うことができますが、順番の変更は読み書きされる値が変更されるため、問題が発生するかもしれません。
 
 `layer_state_set_*` 関数のために `rgb_layer_change` を使い、全てを設定するために `keyboard_post_init_user` および `process_record_user` を使います。
 
-ここで、上の `keyboard_post_init_user` コードを使って、作成したばかりの構造体を設定するために `eeconfig_read_user()` を追加します。そして、この構造体をすぐに使ってキーマップの機能を制御することができます。それは以下のようになります:
+ここで、上の `keyboard_post_init_user` コードを使って、作成したばかりの構造体を設定するために `nvconfig_read_user()` を追加します。そして、この構造体をすぐに使ってキーマップの機能を制御することができます。それは以下のようになります:
 ```c
 void keyboard_post_init_user(void) {
   // キーマップレベルのマトリックスの初期化処理を呼びます
 
-  // EEPROM からユーザ設定を読み込みます
-  user_config.raw = eeconfig_read_user();
+  // NVRAM からユーザ設定を読み込みます
+  user_config.raw = nvconfig_read_user();
 
   // 有効な場合はデフォルトレイヤーを設定します
   if (user_config.rgb_layer_change) {
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom_cyan();
-    rgblight_mode_noeeprom(1);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram_cyan();
+    rgblight_mode_no_nvram(1);
   }
 }
 ```
-上記の関数は読み取ったばかりの EEPROM 設定を使い、デフォルトのレイヤーの RGB 色を設定します。その「生の」値は、上で作成した「共用体」に基づいて使用可能な構造に変換されます。
+上記の関数は読み取ったばかりの NVRAM 設定を使い、デフォルトのレイヤーの RGB 色を設定します。その「生の」値は、上で作成した「共用体」に基づいて使用可能な構造に変換されます。
 
 ```c
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case _RAISE:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_magenta(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_magenta(); rgblight_mode_no_nvram(1); }
         break;
     case _LOWER:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_red(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_red(); rgblight_mode_no_nvram(1); }
         break;
     case _PLOVER:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_green(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_green(); rgblight_mode_no_nvram(1); }
         break;
     case _ADJUST:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_white(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_white(); rgblight_mode_no_nvram(1); }
         break;
     default: //  他の全てのレイヤーあるいはデフォルトのレイヤー
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_cyan(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_cyan(); rgblight_mode_no_nvram(1); }
         break;
     }
   return state;
@@ -359,7 +359,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGB_LYR:  // これにより、アンダーグローをレイヤー表示として、あるいは通常通りに使うことができます。
         if (record->event.pressed) {
             user_config.rgb_layer_change ^= 1; // 状態を切り替えます
-            eeconfig_update_user(user_config.raw); // 新しい状態を EEPROM に書き込みます
+            nvconfig_update_user(user_config.raw); // 新しい状態を NVRAM に書き込みます
             if (user_config.rgb_layer_change) { // レイヤーの状態表示が有効な場合
                 layer_state_set(layer_state);   // すぐにレイヤーの色を更新します
             }
@@ -369,7 +369,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) { // これはレイヤー表示を無効にします。これを変更する場合は、無効にしたいだろうため。
             if (user_config.rgb_layer_change) {        // 有効な場合のみ
                 user_config.rgb_layer_change = false;  // 無効にします
-                eeconfig_update_user(user_config.raw); // 設定を EEPROM に書き込みます
+                nvconfig_update_user(user_config.raw); // 設定を NVRAM に書き込みます
             }
         }
         return true; break;
@@ -378,15 +378,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 }
 ```
-最後に、`eeconfig_init_user` 関数を追加して、EEPROM がリセットされた時にデフォルト値、さらにはカスタムアクションを指定できるようにします。EEPROM を強制的にリセットするには、`EEP_RST` キーコードあるいは[ブートマジック](ja/feature_bootmagic.md)機能を使います。例えば、デフォルトで rgb レイヤー表示を設定し、デフォルト値を保存したい場合。
+最後に、`nvconfig_init_user` 関数を追加して、NVRAM がリセットされた時にデフォルト値、さらにはカスタムアクションを指定できるようにします。NVRAM を強制的にリセットするには、`EEP_RST` キーコードあるいは[ブートマジック](ja/feature_bootmagic.md)機能を使います。例えば、デフォルトで rgb レイヤー表示を設定し、デフォルト値を保存したい場合。
 
 ```c
-void eeconfig_init_user(void) {  // EEPROM がリセットされます！
+void nvconfig_init_user(void) {  // NVRAM がリセットされます！
   user_config.raw = 0;
   user_config.rgb_layer_change = true; // デフォルトでこれを有効にします
-  eeconfig_update_user(user_config.raw); // デフォルト値を EEPROM に書き込みます
+  nvconfig_update_user(user_config.raw); // デフォルト値を NVRAM に書き込みます
 
-  // これらの値も EEPROM に書き込むためには、noeeprom 以外のバージョンを使います
+  // これらの値も NVRAM に書き込むためには、noeeprom 以外のバージョンを使います
   rgblight_enable(); // デフォルトで RGB を有効にします
   rgblight_sethsv_cyan();  // デフォルトでシアンに設定します
   rgblight_mode(1); // デフォルトでソリッドに設定します
@@ -397,7 +397,7 @@ void eeconfig_init_user(void) {  // EEPROM がリセットされます！
 
 ### 'EECONFIG' 関数のドキュメント
 
-* キーボード/リビジョン: `void eeconfig_init_kb(void)`、`uint32_t eeconfig_read_kb(void)` および `void eeconfig_update_kb(uint32_t val)`
-* キーマップ: `void eeconfig_init_user(void)`、`uint32_t eeconfig_read_user(void)` および `void eeconfig_update_user(uint32_t val)`
+* キーボード/リビジョン: `void nvconfig_init_kb(void)`、`uint32_t nvconfig_read_kb(void)` および `void nvconfig_update_kb(uint32_t val)`
+* キーマップ: `void nvconfig_init_user(void)`、`uint32_t nvconfig_read_user(void)` および `void nvconfig_update_user(uint32_t val)`
 
-`val` は EEPROM に書き込みたいデータの値です。`eeconfig_read_*` 関数は EEPROM から32ビット(DWORD) 値を返します。
+`val` は NVRAM に書き込みたいデータの値です。`nvconfig_read_*` 関数は NVRAM から32ビット(DWORD) 値を返します。

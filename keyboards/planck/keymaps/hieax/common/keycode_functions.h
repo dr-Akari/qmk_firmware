@@ -592,7 +592,7 @@ void tap_layer(keyrecord_t *record, uint8_t layer)
 
 // void persistant_default_layer_set(uint16_t default_layer)
 // {
-//   eeconfig_update_default_layer(default_layer);
+//   nvconfig_update_default_layer(default_layer);
 //   default_layer_set            (default_layer);
 // }
 
@@ -711,12 +711,12 @@ void steno(keyrecord_t *record)
 #endif
     clear_layers();
     layer_on(_PLOVER);
-    if (!eeconfig_is_enabled()) {
-      eeconfig_init();
+    if (!nvconfig_is_enabled()) {
+      nvconfig_init();
     }
-    keymap_config.raw  = eeconfig_read_keymap();
+    keymap_config.raw  = nvconfig_read_keymap();
     keymap_config.nkro = 1;
-    eeconfig_update_keymap(keymap_config.raw);
+    nvconfig_update_keymap(keymap_config.raw);
     if (!plover) {
       toggle_plover(1);
     }

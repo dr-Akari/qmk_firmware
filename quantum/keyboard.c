@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "command.h"
 #include "util.h"
 #include "sendchar.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "action_layer.h"
 #ifdef BACKLIGHT_ENABLE
 #    include "backlight.h"
@@ -87,8 +87,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef DIP_SWITCH_ENABLE
 #    include "dip_switch.h"
 #endif
-#ifdef EEPROM_DRIVER
-#    include "eeprom_driver.h"
+#ifdef NVRAM_DRIVER
+#    include "nvram_driver.h"
 #endif
 #if defined(CRC_ENABLE)
 #    include "crc.h"
@@ -245,8 +245,8 @@ void keyboard_setup(void) {
     disable_jtag();
 #endif
     print_set_sendchar(sendchar);
-#ifdef EEPROM_DRIVER
-    eeprom_driver_init();
+#ifdef NVRAM_DRIVER
+    nvram_driver_init();
 #endif
     matrix_setup();
     keyboard_pre_init_kb();
@@ -372,7 +372,7 @@ void keyboard_init(void) {
 #endif
 #if defined(NKRO_ENABLE) && defined(FORCE_NKRO)
     keymap_config.nkro = 1;
-    eeconfig_update_keymap(keymap_config.raw);
+    nvconfig_update_keymap(keymap_config.raw);
 #endif
 #ifdef DIP_SWITCH_ENABLE
     dip_switch_init();

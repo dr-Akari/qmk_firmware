@@ -224,7 +224,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 userspace_config.rgb_layer_change ^= 1;
                 dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb_layer_change);
-                eeconfig_update_user(userspace_config.raw);
+                nvconfig_update_user(userspace_config.raw);
                 if (userspace_config.rgb_layer_change) {
                     layer_state_set(layer_state);  // This is needed to immediately set the layer color (looks better)
                 }
@@ -240,7 +240,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
                     is_eeprom_updated = true;
                 }
                 if (is_eeprom_updated) {
-                    eeconfig_update_user(userspace_config.raw);
+                    nvconfig_update_user(userspace_config.raw);
                 }
             }
             break;
@@ -252,20 +252,20 @@ void keyboard_post_init_rgb(void) {
 #if defined(RGBLIGHT_STARTUP_ANIMATION)
     bool is_enabled = rgblight_config.enable;
     if (userspace_config.rgb_layer_change) {
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
     }
     if (rgblight_config.enable) {
         layer_state_set_user(layer_state);
         uint16_t old_hue = rgblight_config.hue;
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
         for (uint16_t i = 255; i > 0; i--) {
-            rgblight_sethsv_noeeprom((i + old_hue) % 255, 255, 255);
+            rgblight_sethsv_no_nvram((i + old_hue) % 255, 255, 255);
             matrix_scan();
             wait_ms(10);
         }
     }
     if (!is_enabled) {
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
     }
 
 #endif
@@ -283,9 +283,9 @@ void matrix_scan_rgb(void) {
 }
 
 void rgblight_set_hsv_and_mode(uint8_t hue, uint8_t sat, uint8_t val, uint8_t mode) {
-    rgblight_sethsv_noeeprom(hue, sat, val);
+    rgblight_sethsv_no_nvram(hue, sat, val);
     wait_us(175);  // Add a slight delay between color and mode to ensure it's processed correctly
-    rgblight_mode_noeeprom(mode);
+    rgblight_mode_no_nvram(mode);
 }
 
 layer_state_t layer_state_set_rgb(layer_state_t state) {

@@ -1,6 +1,6 @@
 #ifndef ZACH_COMMON_FUNCTIONS
 #define ZACH_COMMON_FUNCTIONS
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "action_layer.h"
 #include "keymap_colemak.h"
 extern keymap_config_t keymap_config;
@@ -15,7 +15,7 @@ void tap(uint16_t keycode){
 };
 
 void persistent_default_layer_set(uint16_t default_layer){
-    eeconfig_update_default_layer(default_layer);
+    nvconfig_update_default_layer(default_layer);
     default_layer_set(default_layer);
 };
 

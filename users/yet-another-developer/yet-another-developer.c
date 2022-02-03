@@ -52,7 +52,7 @@ void matrix_init_keymap(void) {}
 // Call user matrix init, set default RGB colors and then
 // call the keymap's init function
 void matrix_init_user(void) {
-  userspace_config.raw = eeconfig_read_user();
+  userspace_config.raw = nvconfig_read_user();
 
   #if (defined(UNICODE_ENABLE) || defined(UNICODEMAP_ENABLE) || defined(UCIS_ENABLE))
     set_unicode_input_mode(YAD_UNICODE_MODE);
@@ -145,16 +145,16 @@ void led_set_user(uint8_t usb_led) {
 }
 
 __attribute__ ((weak))
-void eeconfig_init_keymap(void) {}
+void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   userspace_config.raw = 0;
   userspace_config.rgb_layer_change = true;
-  eeconfig_update_user(userspace_config.raw);
+  nvconfig_update_user(userspace_config.raw);
   #if (defined(UNICODE_ENABLE) || defined(UNICODEMAP_ENABLE) || defined(UCIS_ENABLE))
     set_unicode_input_mode(YAD_UNICODE_MODE);
     get_unicode_input_mode();
   #else
-    eeprom_update_byte(EECONFIG_UNICODEMODE, YAD_UNICODE_MODE);
+    nvram_update_u8(NVCONFIG_UNICODEMODE, YAD_UNICODE_MODE);
   #endif
 }

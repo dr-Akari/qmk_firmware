@@ -61,12 +61,12 @@ int RGB_current_mode;
   #ifdef RGBLIGHT_ENABLE
   rgblight_enable();
   if (true) {
-  eeconfig_read_rgblight();
+  nvconfig_read_rgblight();
   rgblight_get_mode();
-  eeconfig_update_rgblight_default();
+  nvconfig_update_rgblight_default();
 
 
- // eeconfig_debug_rgblight();
+ // nvconfig_debug_rgblight();
   //rgblight_init();
   }
   #endif
@@ -76,8 +76,8 @@ int RGB_current_mode;
 
 /*void matrix_init_user(void) {
   #ifdef RGBLIGHT_ENABLE
-  eeconfig_read_rgblight();
-  eeconfig_update_rgblight_default();
+  nvconfig_read_rgblight();
+  nvconfig_update_rgblight_default();
   //rgblight_init();
   //rgblight_mode(RGB_current_mode);
   //rgblight_mode(RGB_current_mode);
@@ -87,10 +87,10 @@ int RGB_current_mode;
 
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
   default_layer = _QWERTY;
- // eeconfig_update_rgblight(rgblight_config.raw);
+ // nvconfig_update_rgblight(rgblight_config.raw);
 }
 
  //Setting ADJUST layer RGB back to default
@@ -106,7 +106,7 @@ void persistent_default_layer_set(uint16_t default_layer) {
 
 void matrix_init_user(void) {
 
-  uint8_t default_layer = eeconfig_read_default_layer();
+  uint8_t default_layer = nvconfig_read_default_layer();
 
   rgblight_enable();
 
@@ -197,7 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         _delay_ms(50);
         rgblight_set();
         //rgblight_mode(rgblight_config.mode);
-      // eeconfig_update_rgblight(rgblight_config.raw);
+      // nvconfig_update_rgblight(rgblight_config.raw);
       }
 
      return true;
@@ -253,7 +253,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
      rgblight_mode(RGB_current_mode);
      RGB_current_mode = rgblight_config.mode;
 
-     //eeconfig_update_rgblight_default();
+     //nvconfig_update_rgblight_default();
       }
 
       return false;
@@ -298,7 +298,7 @@ case RGB_MODE_GRADIENT:
 
 layer_state_t layer_state_set_user(layer_state_t state) {
 #ifdef RGBLIGHT_ENABLE
-  uint8_t default_layer = eeconfig_read_default_layer();
+  uint8_t default_layer = nvconfig_read_default_layer();
   if (rgb_layer_change) {
     switch (biton32(state)) {
     case _FUNCTION:
@@ -357,7 +357,7 @@ void set_single_persistent_default_layer(uint8_t default_layer) {
   #if defined(AUDIO_ENABLE) && defined(DEFAULT_LAYER_SONGS)
     PLAY_SONG(default_layer_songs[default_layer]);
   #endif
-  eeconfig_update_default_layer(1U<<default_layer);
+  nvconfig_update_default_layer(1U<<default_layer);
   default_layer_set(1U<<default_layer);
 
 void matrix_init_kb(void);

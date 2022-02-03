@@ -88,38 +88,38 @@ void keyboard_post_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_sethsv_noeeprom(HSV_WHITE);
+  rgblight_sethsv_no_nvram(HSV_WHITE);
   switch(get_highest_layer(state)) {
   case 1:
     // Green
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_GREEN);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram(HSV_GREEN);
     break;
   case 2:
     // Red
-    rgblight_enable_noeeprom();	
-    rgblight_sethsv_noeeprom(HSV_RED);
+    rgblight_enable_no_nvram();	
+    rgblight_sethsv_no_nvram(HSV_RED);
     break;
   case 3:
     // Blue
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_BLUE);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram(HSV_BLUE);
     break;
   case 4:
     // Orange
-    rgblight_enable_noeeprom();
-//    rgblight_sethsv_noeeprom(HSV_PURPLE);
-    rgblight_sethsv_noeeprom(HSV_ORANGE);
+    rgblight_enable_no_nvram();
+//    rgblight_sethsv_no_nvram(HSV_PURPLE);
+    rgblight_sethsv_no_nvram(HSV_ORANGE);
     break;
   default:
     // White
     //Read RGB Light State
-    rgblight_config.raw = eeconfig_read_rgblight();
+    rgblight_config.raw = nvconfig_read_rgblight();
     //If enabled, set white
     if (rgblight_config.enable) {
-		rgblight_sethsv_noeeprom(HSV_WHITE);
+		rgblight_sethsv_no_nvram(HSV_WHITE);
 	} else { //Otherwise go back to disabled
-		rgblight_disable_noeeprom();
+		rgblight_disable_no_nvram();
 	}
     break;
 }

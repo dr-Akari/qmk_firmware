@@ -468,26 +468,26 @@ bool handle_layer_key(uint16_t key, keyrecord_t* record) {
 }
 
 void handle_layer_start(void) {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
     switch (layers[layers[0] + 1]) {
         case LAYER_RACE_BASE:
         case LAYER_RACE_EXTENSION:
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_GREEN);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_GREEN);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
         case LAYER_LEGACY_BASE:
         case LAYER_LEGACY_EXTENSION:
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_RED);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_RED);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
         case LAYER_CONTROL:
             layer_control_data.operator   = - 1;
             layer_control_data.multiplier = 0;
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_BLUE);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_BLUE);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
         case LAYER_WINDOW:
             register_code(KC_LGUI);
@@ -501,26 +501,26 @@ void handle_layer_start(void) {
 }
 
 void handle_layer_return(void) {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
     switch (layers[layers[0] + 1]) {
         case LAYER_RACE_BASE:
         case LAYER_RACE_EXTENSION:
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_GREEN);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_GREEN);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
         case LAYER_LEGACY_BASE:
         case LAYER_LEGACY_EXTENSION:
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_RED);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_RED);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
         case LAYER_CONTROL:
             layer_control_data.operator   = - 1;
             layer_control_data.multiplier = 0;
-            rgblight_enable_noeeprom();
-            rgblight_sethsv_noeeprom(HSV_BLUE);
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+            rgblight_enable_no_nvram();
+            rgblight_sethsv_no_nvram(HSV_BLUE);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
             return;
     }
 }
@@ -646,7 +646,7 @@ bool process_record_user(uint16_t key, keyrecord_t* record) {
 }
 
 void keyboard_post_init_user() {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
     rgb_matrix_disable();
     common_layer_data.back = false;
 }

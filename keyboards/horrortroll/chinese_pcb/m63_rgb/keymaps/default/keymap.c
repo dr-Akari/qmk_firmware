@@ -108,11 +108,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     switch (user_config.rgb_mode) {
         case RGB_MODE_ALL:
             rgb_matrix_set_flags(LED_FLAG_ALL);
-            rgb_matrix_enable_noeeprom();
+            rgb_matrix_enable_no_nvram();
             break;
         case RGB_MODE_KEYLIGHT:
             rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR);
@@ -154,12 +154,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                         user_config.rgb_mode = RGB_MODE_ALL;
                     }
                     break;
                 }
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             return false;
 	}

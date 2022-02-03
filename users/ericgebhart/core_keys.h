@@ -18,7 +18,7 @@
 
 #include "quantum.h"
 #include "process_keycode/process_tap_dance.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "keymap_bepo.h"
 #include "altlocal_keys.h"
 

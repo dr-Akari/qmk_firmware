@@ -20,7 +20,7 @@ bool led_update_kb(led_t led_state) {
     bool runDefault = led_update_user(led_state);
     if(runDefault) {
         if (led_state.caps_lock) {
-            backlight_level_noeeprom(get_backlight_level());
+            backlight_level_no_nvram(get_backlight_level());
         } else {
             backlight_set(0);
         }

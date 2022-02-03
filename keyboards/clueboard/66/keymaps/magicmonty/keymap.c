@@ -130,23 +130,23 @@ enum layer_id {
 void clueboard_set_led(uint8_t id, uint8_t val) {
   switch (id) {
     case LAYER_BASE:
-      rgblight_sethsv_noeeprom(135, 255, val);
+      rgblight_sethsv_no_nvram(135, 255, val);
       break;
     case LAYER_FUNCTION:
-      rgblight_sethsv_noeeprom(32, 255, val);
+      rgblight_sethsv_no_nvram(32, 255, val);
       break;
     case LAYER_MEDIA:
-      rgblight_sethsv_noeeprom(60, 255, val);
+      rgblight_sethsv_no_nvram(60, 255, val);
       break;
     case LAYER_CONTROL:
-      rgblight_sethsv_noeeprom(245, 255, val);
+      rgblight_sethsv_no_nvram(245, 255, val);
       break;
     case LAYER_MOUSE:
-      rgblight_sethsv_noeeprom(146, 255, val);
+      rgblight_sethsv_no_nvram(146, 255, val);
       break;
 #if defined(MIDI_ENABLE)
     case LAYER_MIDI:
-      rgblight_sethsv_noeeprom(224, 255, val);
+      rgblight_sethsv_no_nvram(224, 255, val);
       break;
 #endif
   }
@@ -195,7 +195,7 @@ void clueboard_set_midi_led(uint8_t base_oct, uint8_t val)
 
 void matrix_scan_user(void) {
     rgblight_config_t rgblight_config;
-    rgblight_config.raw = eeconfig_read_rgblight();
+    rgblight_config.raw = nvconfig_read_rgblight();
 
     if (!rgblight_config.enable || rgblight_config.mode != 1) { return; }
 

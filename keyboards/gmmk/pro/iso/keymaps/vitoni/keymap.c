@@ -70,9 +70,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #if defined(RGB_MATRIX_ENABLE)
         case _RGB:
             if (clockwise) {
-                rgb_matrix_increase_val_noeeprom();
+                rgb_matrix_increase_val_no_nvram();
             } else {
-                rgb_matrix_decrease_val_noeeprom();
+                rgb_matrix_decrease_val_no_nvram();
             }
             break;
 #endif // RGB_MATRIX_ENABLE
@@ -93,7 +93,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 * Set up default RGB color.
 */
 void rgb_matrix_set_default_color(void) {
-    rgb_matrix_sethsv_noeeprom_user(HSV_CHARTREUSE);
+    rgb_matrix_sethsv_no_nvram_user(HSV_CHARTREUSE);
 }
 
 /*
@@ -104,7 +104,7 @@ void rgb_matrix_configure_default_settings(void) {
 }
 
 void keyboard_post_init_user(void) {
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
     rgb_matrix_configure_default_settings();
 }
 
@@ -114,10 +114,10 @@ void keyboard_post_init_user(void) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _MOV:
-            rgb_matrix_sethsv_noeeprom_user(HSV_SPRINGGREEN);
+            rgb_matrix_sethsv_no_nvram_user(HSV_SPRINGGREEN);
             break;
         case _RGB:
-            rgb_matrix_sethsv_noeeprom_user(HSV_GREEN);
+            rgb_matrix_sethsv_no_nvram_user(HSV_GREEN);
             break;
         default: // for any other layer
             rgb_matrix_set_default_color();

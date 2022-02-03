@@ -31,7 +31,7 @@ static int8_t  selected_index;
 #endif
 
 void unicode_input_mode_init(void) {
-    unicode_config.raw = eeprom_read_byte(EECONFIG_UNICODEMODE);
+    unicode_config.raw = nvram_read_u8(NVCONFIG_UNICODEMODE);
 #if UNICODE_SELECTED_MODES != -1
 #    if UNICODE_CYCLE_PERSIST
     // Find input_mode in selected modes
@@ -76,7 +76,7 @@ void cycle_unicode_input_mode(int8_t offset) {
 #endif
 }
 
-void persist_unicode_input_mode(void) { eeprom_update_byte(EECONFIG_UNICODEMODE, unicode_config.input_mode); }
+void persist_unicode_input_mode(void) { nvram_update_u8(NVCONFIG_UNICODEMODE, unicode_config.input_mode); }
 
 __attribute__((weak)) void unicode_input_start(void) {
     unicode_saved_caps_lock = host_keyboard_led_state().caps_lock;

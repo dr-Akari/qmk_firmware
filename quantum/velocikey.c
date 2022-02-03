@@ -1,6 +1,6 @@
 #include "velocikey.h"
 #include "timer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "eeprom.h"
 
 #ifndef MIN
@@ -13,13 +13,13 @@
 #define TYPING_SPEED_MAX_VALUE 200
 uint8_t typing_speed = 0;
 
-bool velocikey_enabled(void) { return eeprom_read_byte(EECONFIG_VELOCIKEY) == 1; }
+bool velocikey_enabled(void) { return nvram_read_u8(NVCONFIG_VELOCIKEY) == 1; }
 
 void velocikey_toggle(void) {
     if (velocikey_enabled())
-        eeprom_update_byte(EECONFIG_VELOCIKEY, 0);
+        nvram_update_u8(NVCONFIG_VELOCIKEY, 0);
     else
-        eeprom_update_byte(EECONFIG_VELOCIKEY, 1);
+        nvram_update_u8(NVCONFIG_VELOCIKEY, 1);
 }
 
 void velocikey_accelerate(void) {

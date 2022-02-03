@@ -16,7 +16,7 @@ NKRO_ENABLE = yes           # Enable N-Key Rollover
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 AUDIO_ENABLE = no           # Audio output
 
-EEPROM_DRIVER = i2c
+NVRAM_DRIVER = i2c
 
 LTO_ENABLE = yes
 OPT = 2

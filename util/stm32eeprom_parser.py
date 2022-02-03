@@ -41,7 +41,7 @@ STRUCT_FMTS = {
 }
 PRINTABLE='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ '
 
-EECONFIG_V1 = [
+NVCONFIG_V1 = [
     ("MAGIC",                0, 2),
     ("DEBUG",                2, 1),
     ("DEFAULT_LAYER",        3, 1),
@@ -285,11 +285,11 @@ def decodeSTM32Eeprom(input, canonical, size=None, output=None, **kwargs):
 
         if magic == MAGIC_FEEA:
             decoded = decodeEepromFEEA(in_file, size)
-            eeconfig = EECONFIG_V1
+            eeconfig = NVCONFIG_V1
             via_base = VIABASE_V1
         elif magic[:2] == MAGIC_FEE9:
             decoded = decodeEepromFEE9(in_file, size)
-            eeconfig = EECONFIG_V1
+            eeconfig = NVCONFIG_V1
             via_base = VIABASE_V1
         else:
             print("Unknown magic signature: %s" % " ".join(["0x%02x" % ord(x) for x in magic]), file=sys.stderr)

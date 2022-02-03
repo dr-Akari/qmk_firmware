@@ -16,7 +16,7 @@
 
 #pragma once
 
-/***** rgblight_mode(mode)/rgblight_mode_noeeprom(mode) ****
+/***** rgblight_mode(mode)/rgblight_mode_no_nvram(mode) ****
 
  old mode number (before 0.6.117) to new mode name table
 
@@ -170,7 +170,7 @@ enum RGBLIGHT_EFFECT_MODE {
 #include <stdint.h>
 #include <stdbool.h>
 #include "progmem.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "ws2812.h"
 #include "color.h"
 #include "rgblight_list.h"
@@ -298,46 +298,46 @@ void rgblight_sethsv_slave(uint8_t hue, uint8_t sat, uint8_t val);
 
 /*   effect mode change */
 void rgblight_mode(uint8_t mode);
-void rgblight_mode_noeeprom(uint8_t mode);
+void rgblight_mode_no_nvram(uint8_t mode);
 void rgblight_increase(void);
 void rgblight_decrease(void);
 void rgblight_step(void);
-void rgblight_step_noeeprom(void);
+void rgblight_step_no_nvram(void);
 void rgblight_step_reverse(void);
-void rgblight_step_reverse_noeeprom(void);
+void rgblight_step_reverse_no_nvram(void);
 
 /*   effects mode disable/enable */
 void rgblight_toggle(void);
-void rgblight_toggle_noeeprom(void);
+void rgblight_toggle_no_nvram(void);
 void rgblight_enable(void);
-void rgblight_enable_noeeprom(void);
+void rgblight_enable_no_nvram(void);
 void rgblight_disable(void);
-void rgblight_disable_noeeprom(void);
+void rgblight_disable_no_nvram(void);
 
 /*   hue, sat, val change */
 void rgblight_increase_hue(void);
-void rgblight_increase_hue_noeeprom(void);
+void rgblight_increase_hue_no_nvram(void);
 void rgblight_decrease_hue(void);
-void rgblight_decrease_hue_noeeprom(void);
+void rgblight_decrease_hue_no_nvram(void);
 void rgblight_increase_sat(void);
-void rgblight_increase_sat_noeeprom(void);
+void rgblight_increase_sat_no_nvram(void);
 void rgblight_decrease_sat(void);
-void rgblight_decrease_sat_noeeprom(void);
+void rgblight_decrease_sat_no_nvram(void);
 void rgblight_increase_val(void);
-void rgblight_increase_val_noeeprom(void);
+void rgblight_increase_val_no_nvram(void);
 void rgblight_decrease_val(void);
-void rgblight_decrease_val_noeeprom(void);
+void rgblight_decrease_val_no_nvram(void);
 void rgblight_increase_speed(void);
-void rgblight_increase_speed_noeeprom(void);
+void rgblight_increase_speed_no_nvram(void);
 void rgblight_decrease_speed(void);
-void rgblight_decrease_speed_noeeprom(void);
+void rgblight_decrease_speed_no_nvram(void);
 void rgblight_sethsv(uint8_t hue, uint8_t sat, uint8_t val);
-void rgblight_sethsv_noeeprom(uint8_t hue, uint8_t sat, uint8_t val);
+void rgblight_sethsv_no_nvram(uint8_t hue, uint8_t sat, uint8_t val);
 
 /*   effect speed */
 uint8_t rgblight_get_speed(void);
 void    rgblight_set_speed(uint8_t speed);
-void    rgblight_set_speed_noeeprom(uint8_t speed);
+void    rgblight_set_speed_no_nvram(uint8_t speed);
 
 /*   reset */
 void rgblight_reload_from_eeprom(void);
@@ -356,11 +356,11 @@ void     rgblight_suspend(void);
 void     rgblight_wakeup(void);
 uint32_t rgblight_read_dword(void);
 void     rgblight_update_dword(uint32_t dword);
-uint32_t eeconfig_read_rgblight(void);
-void     eeconfig_update_rgblight(uint32_t val);
-void     eeconfig_update_rgblight_current(void);
-void     eeconfig_update_rgblight_default(void);
-void     eeconfig_debug_rgblight(void);
+uint32_t nvconfig_read_rgblight(void);
+void     nvconfig_update_rgblight(uint32_t val);
+void     nvconfig_update_rgblight_current(void);
+void     nvconfig_update_rgblight_default(void);
+void     nvconfig_debug_rgblight(void);
 
 void rgb_matrix_increase(void);
 void rgb_matrix_decrease(void);

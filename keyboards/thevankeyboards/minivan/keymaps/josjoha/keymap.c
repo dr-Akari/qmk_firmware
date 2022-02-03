@@ -187,9 +187,9 @@ void keyboard_post_init_user (void) {
 
     // Set up RGB effects on _only_ the first LED 
     rgblight_set_effect_range (1, 1); // Takes a range: 1st arg is start, 2nd how many
-    rgblight_sethsv_noeeprom (HSV_WHITE); // Startup color of keyboard.
+    rgblight_sethsv_no_nvram (HSV_WHITE); // Startup color of keyboard.
     // Set LED effects to breathing mode
-    rgblight_mode_noeeprom (RGBLIGHT_EFFECT_BREATHING + 2);
+    rgblight_mode_no_nvram (RGBLIGHT_EFFECT_BREATHING + 2);
 
     // Init the first and last LEDs to a static color.
     setrgb (0, 0, 0, (LED_TYPE *)&led[0]); // Led[0] is led 0
@@ -264,7 +264,7 @@ void middle_led_control (short hsv_h, short hsv_s, short hsv_v ) {
        if ( ! ((TRUE == sizecount_measure) && (0 != sizecount_max)) ) { // only touch middle led if no text size
               // counting set to a maximum is going on.
 
-            rgblight_sethsv_noeeprom (hsv_h, hsv_s, hsv_v); // set it
+            rgblight_sethsv_no_nvram (hsv_h, hsv_s, hsv_v); // set it
         }
     }
 
@@ -279,7 +279,7 @@ void speed_led (int speed) {
     speed /= 10; // argument is in 10 times its value
     if ( ! ((TRUE == sizecount_measure) && (0 != sizecount_max)) ) { // only touch middle led if no text size
            // counting set to a maximum is going on.
-        rgblight_sethsv_noeeprom (SPEED_HUE_STEP * speed + SPEED_HUE_START, 255, 128); // full saturation, but half lit
+        rgblight_sethsv_no_nvram (SPEED_HUE_STEP * speed + SPEED_HUE_START, 255, 128); // full saturation, but half lit
         rgblight_set (); // only center led is altered, no need to go through isolate_rgblight_set()
     }
 
@@ -346,7 +346,7 @@ void indicate_base (void) {
         led0r = 255; //  shine white left led
         led0g = 255;
         led0b = 255;
-        rgblight_sethsv_noeeprom (HSV_PURPLE);  // This overrides the speed setting.
+        rgblight_sethsv_no_nvram (HSV_PURPLE);  // This overrides the speed setting.
         led2r = 100; // purple
         led2b = 100;
     }
@@ -355,7 +355,7 @@ void indicate_base (void) {
       else if (_HALF_ == alternate) { // alternate mode, 1 (normal unicode)
         led0r = 100; // purple
         led0b = 100;
-        rgblight_sethsv_noeeprom (HSV_WHITE); //  shine white middle led (still breathes)
+        rgblight_sethsv_no_nvram (HSV_WHITE); //  shine white middle led (still breathes)
         led2r = 100; // purple
         led2b = 100;
     }
@@ -364,7 +364,7 @@ void indicate_base (void) {
       else if (_FULL_ == alternate) { // alternate mode, 1 (recomputed unicode for DVORAK_DESCRAMBLE)
         led0r = 100; // purple
         led0b = 100;
-        rgblight_sethsv_noeeprom (HSV_PURPLE); 
+        rgblight_sethsv_no_nvram (HSV_PURPLE); 
         led2r = 255;//  shine white right led
         led2g = 255; 
         led2b = 255; 
@@ -391,7 +391,7 @@ void set_led_colors_ (layer_state_t state) {
     if (!layer_state_cmp (state, _DEF_BASE)) { // letters
         //if (rgblight_is_enabled())
         if (led_middle_on) { // Follows user setting based on _RAR key.
-            rgblight_enable_noeeprom (); // Would be easier if middle_led_control (…) could set brightness to dark, but seems to not work.
+            rgblight_enable_no_nvram (); // Would be easier if middle_led_control (…) could set brightness to dark, but seems to not work.
         }
     }
 #     endif
@@ -475,7 +475,7 @@ void set_led_colors_ (layer_state_t state) {
 
 #     ifdef LEDS_OFF_BASE_ALT // Alternative Base leds off (always)
 
-        rgblight_disable_noeeprom ();
+        rgblight_disable_no_nvram ();
 
 #     else // do use leds on Alternative Base layer
 
@@ -514,7 +514,7 @@ void set_led_colors_ (layer_state_t state) {
 
 #     ifdef LEDS_OFF_BASE_DEF // Default Base leds off (always)
 
-        rgblight_disable_noeeprom ();
+        rgblight_disable_no_nvram ();
 
 #     else // Do use leds on Default Base
 

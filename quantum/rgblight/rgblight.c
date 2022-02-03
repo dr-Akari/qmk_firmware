@@ -176,24 +176,24 @@ void rgblight_check_config(void) {
     }
 }
 
-uint32_t eeconfig_read_rgblight(void) {
+uint32_t nvconfig_read_rgblight(void) {
 #ifdef EEPROM_ENABLE
-    return eeprom_read_dword(EECONFIG_RGBLIGHT);
+    return nvram_read_u32(NVCONFIG_RGBLIGHT);
 #else
     return 0;
 #endif
 }
 
-void eeconfig_update_rgblight(uint32_t val) {
+void nvconfig_update_rgblight(uint32_t val) {
 #ifdef EEPROM_ENABLE
     rgblight_check_config();
-    eeprom_update_dword(EECONFIG_RGBLIGHT, val);
+    nvram_update_u32(NVCONFIG_RGBLIGHT, val);
 #endif
 }
 
-void eeconfig_update_rgblight_current(void) { eeconfig_update_rgblight(rgblight_config.raw); }
+void nvconfig_update_rgblight_current(void) { nvconfig_update_rgblight(rgblight_config.raw); }
 
-void eeconfig_update_rgblight_default(void) {
+void nvconfig_update_rgblight_default(void) {
     rgblight_config.enable = 1;
     rgblight_config.mode   = RGBLIGHT_DEFAULT_MODE;
     rgblight_config.hue    = RGBLIGHT_DEFAULT_HUE;
@@ -201,10 +201,10 @@ void eeconfig_update_rgblight_default(void) {
     rgblight_config.val    = RGBLIGHT_DEFAULT_VAL;
     rgblight_config.speed  = RGBLIGHT_DEFAULT_SPD;
     RGBLIGHT_SPLIT_SET_CHANGE_MODEHSVS;
-    eeconfig_update_rgblight(rgblight_config.raw);
+    nvconfig_update_rgblight(rgblight_config.raw);
 }
 
-void eeconfig_debug_rgblight(void) {
+void nvconfig_debug_rgblight(void) {
     dprintf("rgblight_config EEPROM:\n");
     dprintf("rgblight_config.enable = %d\n", rgblight_config.enable);
     dprintf("rghlight_config.mode = %d\n", rgblight_config.mode);
@@ -224,26 +224,26 @@ void rgblight_init(void) {
 
     dprintf("rgblight_init called.\n");
     dprintf("rgblight_init start!\n");
-    if (!eeconfig_is_enabled()) {
+    if (!nvconfig_is_enabled()) {
         dprintf("rgblight_init eeconfig is not enabled.\n");
-        eeconfig_init();
-        eeconfig_update_rgblight_default();
+        nvconfig_init();
+        nvconfig_update_rgblight_default();
     }
-    rgblight_config.raw = eeconfig_read_rgblight();
+    rgblight_config.raw = nvconfig_read_rgblight();
     RGBLIGHT_SPLIT_SET_CHANGE_MODEHSVS;
     if (!rgblight_config.mode) {
         dprintf("rgblight_init rgblight_config.mode = 0. Write default values to EEPROM.\n");
-        eeconfig_update_rgblight_default();
-        rgblight_config.raw = eeconfig_read_rgblight();
+        nvconfig_update_rgblight_default();
+        rgblight_config.raw = nvconfig_read_rgblight();
     }
     rgblight_check_config();
 
-    eeconfig_debug_rgblight();  // display current eeprom values
+    nvconfig_debug_rgblight();  // display current eeprom values
 
     rgblight_timer_init();  // setup the timer
 
     if (rgblight_config.enable) {
-        rgblight_mode_noeeprom(rgblight_config.mode);
+        rgblight_mode_no_nvram(rgblight_config.mode);
     }
 
     is_rgblight_initialized = true;
@@ -251,12 +251,12 @@ void rgblight_init(void) {
 
 void rgblight_reload_from_eeprom(void) {
     /* Reset back to what we have in eeprom */
-    rgblight_config.raw = eeconfig_read_rgblight();
+    rgblight_config.raw = nvconfig_read_rgblight();
     RGBLIGHT_SPLIT_SET_CHANGE_MODEHSVS;
     rgblight_check_config();
-    eeconfig_debug_rgblight();  // display current eeprom values
+    nvconfig_debug_rgblight();  // display current eeprom values
     if (rgblight_config.enable) {
-        rgblight_mode_noeeprom(rgblight_config.mode);
+        rgblight_mode_no_nvram(rgblight_config.mode);
     }
 }
 
@@ -266,7 +266,7 @@ void rgblight_update_dword(uint32_t dword) {
     RGBLIGHT_SPLIT_SET_CHANGE_MODEHSVS;
     rgblight_config.raw = dword;
     if (rgblight_config.enable)
-        rgblight_mode_noeeprom(rgblight_config.mode);
+        rgblight_mode_no_nvram(rgblight_config.mode);
     else {
         rgblight_timer_disable();
         rgblight_set();
@@ -296,7 +296,7 @@ void rgblight_step_helper(bool write_to_eeprom) {
     }
     rgblight_mode_eeprom_helper(mode, write_to_eeprom);
 }
-void rgblight_step_noeeprom(void) { rgblight_step_helper(false); }
+void rgblight_step_no_nvram(void) { rgblight_step_helper(false); }
 void rgblight_step(void) { rgblight_step_helper(true); }
 void rgblight_step_reverse_helper(bool write_to_eeprom) {
     uint8_t mode = 0;
@@ -306,7 +306,7 @@ void rgblight_step_reverse_helper(bool write_to_eeprom) {
     }
     rgblight_mode_eeprom_helper(mode, write_to_eeprom);
 }
-void rgblight_step_reverse_noeeprom(void) { rgblight_step_reverse_helper(false); }
+void rgblight_step_reverse_no_nvram(void) { rgblight_step_reverse_helper(false); }
 void rgblight_step_reverse(void) { rgblight_step_reverse_helper(true); }
 
 uint8_t rgblight_get_mode(void) {
@@ -330,7 +330,7 @@ void rgblight_mode_eeprom_helper(uint8_t mode, bool write_to_eeprom) {
     }
     RGBLIGHT_SPLIT_SET_CHANGE_MODE;
     if (write_to_eeprom) {
-        eeconfig_update_rgblight(rgblight_config.raw);
+        nvconfig_update_rgblight(rgblight_config.raw);
         dprintf("rgblight mode [EEPROM]: %u\n", rgblight_config.mode);
     } else {
         dprintf("rgblight mode [NOEEPROM]: %u\n", rgblight_config.mode);
@@ -343,12 +343,12 @@ void rgblight_mode_eeprom_helper(uint8_t mode, bool write_to_eeprom) {
 #ifdef RGBLIGHT_USE_TIMER
     animation_status.restart = true;
 #endif
-    rgblight_sethsv_noeeprom(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
+    rgblight_sethsv_no_nvram(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
 }
 
 void rgblight_mode(uint8_t mode) { rgblight_mode_eeprom_helper(mode, true); }
 
-void rgblight_mode_noeeprom(uint8_t mode) { rgblight_mode_eeprom_helper(mode, false); }
+void rgblight_mode_no_nvram(uint8_t mode) { rgblight_mode_eeprom_helper(mode, false); }
 
 void rgblight_toggle(void) {
     dprintf("rgblight toggle [EEPROM]: rgblight_config.enable = %u\n", !rgblight_config.enable);
@@ -359,32 +359,32 @@ void rgblight_toggle(void) {
     }
 }
 
-void rgblight_toggle_noeeprom(void) {
+void rgblight_toggle_no_nvram(void) {
     dprintf("rgblight toggle [NOEEPROM]: rgblight_config.enable = %u\n", !rgblight_config.enable);
     if (rgblight_config.enable) {
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
     } else {
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
     }
 }
 
 void rgblight_enable(void) {
     rgblight_config.enable = 1;
     // No need to update EEPROM here. rgblight_mode() will do that, actually
-    // eeconfig_update_rgblight(rgblight_config.raw);
+    // nvconfig_update_rgblight(rgblight_config.raw);
     dprintf("rgblight enable [EEPROM]: rgblight_config.enable = %u\n", rgblight_config.enable);
     rgblight_mode(rgblight_config.mode);
 }
 
-void rgblight_enable_noeeprom(void) {
+void rgblight_enable_no_nvram(void) {
     rgblight_config.enable = 1;
     dprintf("rgblight enable [NOEEPROM]: rgblight_config.enable = %u\n", rgblight_config.enable);
-    rgblight_mode_noeeprom(rgblight_config.mode);
+    rgblight_mode_no_nvram(rgblight_config.mode);
 }
 
 void rgblight_disable(void) {
     rgblight_config.enable = 0;
-    eeconfig_update_rgblight(rgblight_config.raw);
+    nvconfig_update_rgblight(rgblight_config.raw);
     dprintf("rgblight disable [EEPROM]: rgblight_config.enable = %u\n", rgblight_config.enable);
     rgblight_timer_disable();
     RGBLIGHT_SPLIT_SET_CHANGE_MODE;
@@ -392,7 +392,7 @@ void rgblight_disable(void) {
     rgblight_set();
 }
 
-void rgblight_disable_noeeprom(void) {
+void rgblight_disable_no_nvram(void) {
     rgblight_config.enable = 0;
     dprintf("rgblight disable [NOEEPROM]: rgblight_config.enable = %u\n", rgblight_config.enable);
     rgblight_timer_disable();
@@ -407,60 +407,60 @@ void rgblight_increase_hue_helper(bool write_to_eeprom) {
     uint8_t hue = rgblight_config.hue + RGBLIGHT_HUE_STEP;
     rgblight_sethsv_eeprom_helper(hue, rgblight_config.sat, rgblight_config.val, write_to_eeprom);
 }
-void rgblight_increase_hue_noeeprom(void) { rgblight_increase_hue_helper(false); }
+void rgblight_increase_hue_no_nvram(void) { rgblight_increase_hue_helper(false); }
 void rgblight_increase_hue(void) { rgblight_increase_hue_helper(true); }
 void rgblight_decrease_hue_helper(bool write_to_eeprom) {
     uint8_t hue = rgblight_config.hue - RGBLIGHT_HUE_STEP;
     rgblight_sethsv_eeprom_helper(hue, rgblight_config.sat, rgblight_config.val, write_to_eeprom);
 }
-void rgblight_decrease_hue_noeeprom(void) { rgblight_decrease_hue_helper(false); }
+void rgblight_decrease_hue_no_nvram(void) { rgblight_decrease_hue_helper(false); }
 void rgblight_decrease_hue(void) { rgblight_decrease_hue_helper(true); }
 void rgblight_increase_sat_helper(bool write_to_eeprom) {
     uint8_t sat = qadd8(rgblight_config.sat, RGBLIGHT_SAT_STEP);
     rgblight_sethsv_eeprom_helper(rgblight_config.hue, sat, rgblight_config.val, write_to_eeprom);
 }
-void rgblight_increase_sat_noeeprom(void) { rgblight_increase_sat_helper(false); }
+void rgblight_increase_sat_no_nvram(void) { rgblight_increase_sat_helper(false); }
 void rgblight_increase_sat(void) { rgblight_increase_sat_helper(true); }
 void rgblight_decrease_sat_helper(bool write_to_eeprom) {
     uint8_t sat = qsub8(rgblight_config.sat, RGBLIGHT_SAT_STEP);
     rgblight_sethsv_eeprom_helper(rgblight_config.hue, sat, rgblight_config.val, write_to_eeprom);
 }
-void rgblight_decrease_sat_noeeprom(void) { rgblight_decrease_sat_helper(false); }
+void rgblight_decrease_sat_no_nvram(void) { rgblight_decrease_sat_helper(false); }
 void rgblight_decrease_sat(void) { rgblight_decrease_sat_helper(true); }
 void rgblight_increase_val_helper(bool write_to_eeprom) {
     uint8_t val = qadd8(rgblight_config.val, RGBLIGHT_VAL_STEP);
     rgblight_sethsv_eeprom_helper(rgblight_config.hue, rgblight_config.sat, val, write_to_eeprom);
 }
-void rgblight_increase_val_noeeprom(void) { rgblight_increase_val_helper(false); }
+void rgblight_increase_val_no_nvram(void) { rgblight_increase_val_helper(false); }
 void rgblight_increase_val(void) { rgblight_increase_val_helper(true); }
 void rgblight_decrease_val_helper(bool write_to_eeprom) {
     uint8_t val = qsub8(rgblight_config.val, RGBLIGHT_VAL_STEP);
     rgblight_sethsv_eeprom_helper(rgblight_config.hue, rgblight_config.sat, val, write_to_eeprom);
 }
-void rgblight_decrease_val_noeeprom(void) { rgblight_decrease_val_helper(false); }
+void rgblight_decrease_val_no_nvram(void) { rgblight_decrease_val_helper(false); }
 void rgblight_decrease_val(void) { rgblight_decrease_val_helper(true); }
 
 void rgblight_increase_speed_helper(bool write_to_eeprom) {
     if (rgblight_config.speed < 3) rgblight_config.speed++;
     // RGBLIGHT_SPLIT_SET_CHANGE_HSVS; // NEED?
     if (write_to_eeprom) {
-        eeconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
+        nvconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
     }
 }
 void rgblight_increase_speed(void) { rgblight_increase_speed_helper(true); }
-void rgblight_increase_speed_noeeprom(void) { rgblight_increase_speed_helper(false); }
+void rgblight_increase_speed_no_nvram(void) { rgblight_increase_speed_helper(false); }
 
 void rgblight_decrease_speed_helper(bool write_to_eeprom) {
     if (rgblight_config.speed > 0) rgblight_config.speed--;
     // RGBLIGHT_SPLIT_SET_CHANGE_HSVS; // NEED??
     if (write_to_eeprom) {
-        eeconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
+        nvconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
     }
 }
 void rgblight_decrease_speed(void) { rgblight_decrease_speed_helper(true); }
-void rgblight_decrease_speed_noeeprom(void) { rgblight_decrease_speed_helper(false); }
+void rgblight_decrease_speed_no_nvram(void) { rgblight_decrease_speed_helper(false); }
 
-void rgblight_sethsv_noeeprom_old(uint8_t hue, uint8_t sat, uint8_t val) {
+void rgblight_sethsv_no_nvram_old(uint8_t hue, uint8_t sat, uint8_t val) {
     if (rgblight_config.enable) {
         LED_TYPE tmp_led;
         sethsv(hue, sat, val, &tmp_led);
@@ -532,7 +532,7 @@ void rgblight_sethsv_eeprom_helper(uint8_t hue, uint8_t sat, uint8_t val, bool w
         rgblight_config.sat = sat;
         rgblight_config.val = val;
         if (write_to_eeprom) {
-            eeconfig_update_rgblight(rgblight_config.raw);
+            nvconfig_update_rgblight(rgblight_config.raw);
             dprintf("rgblight set hsv [EEPROM]: %u,%u,%u\n", rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
         } else {
             dprintf("rgblight set hsv [NOEEPROM]: %u,%u,%u\n", rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
@@ -542,14 +542,14 @@ void rgblight_sethsv_eeprom_helper(uint8_t hue, uint8_t sat, uint8_t val, bool w
 
 void rgblight_sethsv(uint8_t hue, uint8_t sat, uint8_t val) { rgblight_sethsv_eeprom_helper(hue, sat, val, true); }
 
-void rgblight_sethsv_noeeprom(uint8_t hue, uint8_t sat, uint8_t val) { rgblight_sethsv_eeprom_helper(hue, sat, val, false); }
+void rgblight_sethsv_no_nvram(uint8_t hue, uint8_t sat, uint8_t val) { rgblight_sethsv_eeprom_helper(hue, sat, val, false); }
 
 uint8_t rgblight_get_speed(void) { return rgblight_config.speed; }
 
 void rgblight_set_speed_eeprom_helper(uint8_t speed, bool write_to_eeprom) {
     rgblight_config.speed = speed;
     if (write_to_eeprom) {
-        eeconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
+        nvconfig_update_rgblight(rgblight_config.raw);  // EECONFIG needs to be increased to support this
         dprintf("rgblight set speed [EEPROM]: %u\n", rgblight_config.speed);
     } else {
         dprintf("rgblight set speed [NOEEPROM]: %u\n", rgblight_config.speed);
@@ -558,7 +558,7 @@ void rgblight_set_speed_eeprom_helper(uint8_t speed, bool write_to_eeprom) {
 
 void rgblight_set_speed(uint8_t speed) { rgblight_set_speed_eeprom_helper(speed, true); }
 
-void rgblight_set_speed_noeeprom(uint8_t speed) { rgblight_set_speed_eeprom_helper(speed, false); }
+void rgblight_set_speed_no_nvram(uint8_t speed) { rgblight_set_speed_eeprom_helper(speed, false); }
 
 uint8_t rgblight_get_hue(void) { return rgblight_config.hue; }
 
@@ -668,7 +668,7 @@ void rgblight_set_layer_state(uint8_t layer, bool enabled) {
     RGBLIGHT_SPLIT_SET_CHANGE_LAYERS;
     // Static modes don't have a ticker running to update the LEDs
     if (rgblight_status.timer_enabled == false) {
-        rgblight_mode_noeeprom(rgblight_config.mode);
+        rgblight_mode_no_nvram(rgblight_config.mode);
     }
 
 #    ifdef RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
@@ -774,7 +774,7 @@ void rgblight_suspend(void) {
         _blinking_layer_mask = 0;
 #    endif
 
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
     }
 }
 
@@ -782,7 +782,7 @@ void rgblight_wakeup(void) {
     is_suspended = false;
 
     if (pre_suspend_enabled) {
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
     }
 #    ifdef RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
     // Need this or else the LEDs won't be set
@@ -866,10 +866,10 @@ void rgblight_update_sync(rgblight_syncinfo_t *syncinfo, bool write_to_eeprom) {
 #    endif
     if (syncinfo->status.change_flags & RGBLIGHT_STATUS_CHANGE_MODE) {
         if (syncinfo->config.enable) {
-            rgblight_config.enable = 1;  // == rgblight_enable_noeeprom();
+            rgblight_config.enable = 1;  // == rgblight_enable_no_nvram();
             rgblight_mode_eeprom_helper(syncinfo->config.mode, write_to_eeprom);
         } else {
-            rgblight_disable_noeeprom();
+            rgblight_disable_no_nvram();
         }
     }
     if (syncinfo->status.change_flags & RGBLIGHT_STATUS_CHANGE_HSVS) {
@@ -1078,7 +1078,7 @@ __attribute__((weak)) const uint8_t RGBLED_BREATHING_INTERVALS[] PROGMEM = {30, 
 
 void rgblight_effect_breathing(animation_status_t *anim) {
     uint8_t val = breathe_calc(anim->pos);
-    rgblight_sethsv_noeeprom_old(rgblight_config.hue, rgblight_config.sat, val);
+    rgblight_sethsv_no_nvram_old(rgblight_config.hue, rgblight_config.sat, val);
     anim->pos = (anim->pos + 1);
 }
 #endif
@@ -1087,7 +1087,7 @@ void rgblight_effect_breathing(animation_status_t *anim) {
 __attribute__((weak)) const uint8_t RGBLED_RAINBOW_MOOD_INTERVALS[] PROGMEM = {120, 60, 30};
 
 void rgblight_effect_rainbow_mood(animation_status_t *anim) {
-    rgblight_sethsv_noeeprom_old(anim->current_hue, rgblight_config.sat, rgblight_config.val);
+    rgblight_sethsv_no_nvram_old(anim->current_hue, rgblight_config.sat, rgblight_config.val);
     anim->current_hue++;
 }
 #endif

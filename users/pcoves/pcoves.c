@@ -12,13 +12,13 @@
 #include "secret.h"
 #endif
 
-__attribute__((weak)) void eeconfig_init_keymap(void) {}
+__attribute__((weak)) void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
 #ifdef UNICODE_ENABLE
     set_unicode_input_mode(UC_LNX);
 #endif
-    eeconfig_init_keymap();
+    nvconfig_init_keymap();
 }
 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) { return true; }

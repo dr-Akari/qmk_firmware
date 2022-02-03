@@ -441,14 +441,14 @@ void virtser_recv(uint8_t serIn) {
                 break;
             
             case 'P': // pulse led
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
+                rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING);
                 break; 
             case 'S':  // Static
                 rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
                 break;
            
             case 'U':  // Rainbow
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+                rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_MOOD);
                 break;
                    
             default: 

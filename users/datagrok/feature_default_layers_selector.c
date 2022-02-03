@@ -19,7 +19,7 @@ bool process_record_save_default_layer(uint16_t keycode, keyrecord_t *record) {
         return true;
     }
 
-    eeconfig_update_default_layer(default_layer_state);
+    nvconfig_update_default_layer(default_layer_state);
 #if defined(AUDIO_ENABLE)
     PLAY_SONG(saved_song);
 #endif

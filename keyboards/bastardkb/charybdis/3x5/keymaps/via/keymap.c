@@ -215,8 +215,8 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         if (auto_pointer_layer_timer == 0) {
             layer_on(LAYER_POINTER);
 #        ifdef RGB_MATRIX_ENABLE
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+            rgb_matrix_mode_no_nvram(RGB_MATRIX_NONE);
+            rgb_matrix_sethsv_no_nvram(HSV_GREEN);
 #        endif  // RGB_MATRIX_ENABLE
         }
         auto_pointer_layer_timer = timer_read();
@@ -229,7 +229,7 @@ void matrix_scan_kb(void) {
         auto_pointer_layer_timer = 0;
         layer_off(LAYER_POINTER);
 #        ifdef RGB_MATRIX_ENABLE
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_STARTUP_MODE);
 #        endif  // RGB_MATRIX_ENABLE
     }
     matrix_scan_user();
@@ -252,8 +252,8 @@ void rgb_matrix_update_pwm_buffers(void);
 
 void shutdown_user(void) {
 #ifdef RGBLIGHT_ENABLE
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     rgblight_setrgb_red();
 #endif  // RGBLIGHT_ENABLE
 #ifdef RGB_MATRIX_ENABLE

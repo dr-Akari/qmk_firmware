@@ -16,12 +16,12 @@
 
 #include "ninjin.h"
 
-void eeconfig_init_kb(void) {  // EEPROM is getting reset!
+void nvconfig_init_kb(void) {  // EEPROM is getting reset!
     rgblight_enable(); // Enable RGB by default
     rgblight_mode(RGBLIGHT_MODE_RGB_TEST); // set to RGBLIGHT_MODE_RGB_TEST by default
 
-    eeconfig_update_kb(0);
-    eeconfig_init_user();
+    nvconfig_update_kb(0);
+    nvconfig_init_user();
 }
 
 // Tested and verified working on Ninjin

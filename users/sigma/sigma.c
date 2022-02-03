@@ -80,14 +80,14 @@ void set_os(uint8_t os) {
 }
 
 void matrix_init_user(void) {
-  stored_userspace_config.raw = eeconfig_read_user();
+  stored_userspace_config.raw = nvconfig_read_user();
   runtime_userspace_config.raw = stored_userspace_config.raw;
 
   set_os(runtime_userspace_config.os_target);
 }
 
 void store_userspace_config(void) {
-  eeconfig_update_user(stored_userspace_config.raw);
+  nvconfig_update_user(stored_userspace_config.raw);
 }
 
 LEADER_EXTERNS();
@@ -144,8 +144,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   case EPRM: // Resets EEPROM
     if (pressed) {
-      eeconfig_init();
-      default_layer_set(1UL<<eeconfig_read_default_layer());
+      nvconfig_init();
+      default_layer_set(1UL<<nvconfig_read_default_layer());
       layer_state_set(layer_state);
       set_os(_OS_MACOS);
       store_userspace_config();

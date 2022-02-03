@@ -81,10 +81,10 @@ layer_state_t layer_state_set_user(layer_state_t state)
 	switch(layer)
 	{
 		case DF:
-			rgblight_sethsv_noeeprom(180,255,255);
+			rgblight_sethsv_no_nvram(180,255,255);
 			break;
 		case FN:
-			rgblight_sethsv_noeeprom(0,255,255);
+			rgblight_sethsv_no_nvram(0,255,255);
 			break;
 		default:
 			break;

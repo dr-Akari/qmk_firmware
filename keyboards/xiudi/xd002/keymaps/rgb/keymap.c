@@ -40,7 +40,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void keyboard_post_init_user(void) {
-  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-  rgblight_sethsv_noeeprom(180, 255, 255); // sets the color to teal/cyan without saving
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode to Fast breathing without saving
+  rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+  rgblight_sethsv_no_nvram(180, 255, 255); // sets the color to teal/cyan without saving
+  rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode to Fast breathing without saving
 }

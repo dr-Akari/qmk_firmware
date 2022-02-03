@@ -114,7 +114,7 @@ void raw_hid_receive_kb( uint8_t *data, uint8_t length )
             {
                 case id_oled_default_mode:
                 {
-                    uint8_t default_oled = eeprom_read_byte((uint8_t*)EEPROM_DEFAULT_OLED);
+                    uint8_t default_oled = nvram_read_u8(EEPROM_DEFAULT_OLED);
                     command_data[1] = default_oled;
                     break;
                 }
@@ -155,7 +155,7 @@ void raw_hid_receive_kb( uint8_t *data, uint8_t length )
       switch(command_data[0]){
         case id_oled_default_mode:
         {
-          eeprom_update_byte((uint8_t*)EEPROM_DEFAULT_OLED, command_data[1]);
+          nvram_update_u8(EEPROM_DEFAULT_OLED, command_data[1]);
           break;
         }
         case id_oled_mode:
@@ -167,7 +167,7 @@ void raw_hid_receive_kb( uint8_t *data, uint8_t length )
         case id_encoder_modes:
         {
           enabled_encoder_modes = command_data[1];
-          eeprom_update_byte((uint8_t*)EEPROM_ENABLED_ENCODER_MODES, enabled_encoder_modes);
+          nvram_update_u8(EEPROM_ENABLED_ENCODER_MODES, enabled_encoder_modes);
           break;
         }
         case id_encoder_custom:
@@ -326,21 +326,21 @@ void custom_config_reset(void){
   void *p = (void*)(VIA_EEPROM_CUSTOM_CONFIG_ADDR);
   void *end = (void*)(VIA_EEPROM_CUSTOM_CONFIG_ADDR+VIA_EEPROM_CUSTOM_CONFIG_SIZE);
   while ( p != end ) {
-    eeprom_update_byte(p, 0);
+    nvram_update_u8(p, 0);
     ++p;
   }
-  eeprom_update_byte((uint8_t*)EEPROM_ENABLED_ENCODER_MODES, 0x1F);
+  nvram_update_u8(EEPROM_ENABLED_ENCODER_MODES, 0x1F);
 }
 
 void backlight_config_save(){
-  eeprom_update_byte((uint8_t*)EEPROM_CUSTOM_BACKLIGHT, kb_backlight_config.raw);
+  nvram_update_u8(EEPROM_CUSTOM_BACKLIGHT, kb_backlight_config.raw);
 }
 
 void custom_config_load(){
-  kb_backlight_config.raw = eeprom_read_byte((uint8_t*)EEPROM_CUSTOM_BACKLIGHT);
+  kb_backlight_config.raw = nvram_read_u8(EEPROM_CUSTOM_BACKLIGHT);
 #ifdef DYNAMIC_KEYMAP_ENABLE
-  oled_mode = eeprom_read_byte((uint8_t*)EEPROM_DEFAULT_OLED);
-  enabled_encoder_modes = eeprom_read_byte((uint8_t*)EEPROM_ENABLED_ENCODER_MODES);
+  oled_mode = nvram_read_u8(EEPROM_DEFAULT_OLED);
+  enabled_encoder_modes = nvram_read_u8(EEPROM_ENABLED_ENCODER_MODES);
 #endif
 }
 
@@ -405,9 +405,9 @@ bool via_eeprom_is_valid(void)
     uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
     uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
 
-    return (eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0 ) == magic0 &&
-            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1 ) == magic1 &&
-            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2 ) == magic2 );
+    return (nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+0 ) == magic0 &&
+            nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+1 ) == magic1 &&
+            nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+2 ) == magic2 );
 }
 
 // Sets VIA/keyboard level usage of EEPROM to valid/invalid
@@ -419,9 +419,9 @@ void via_eeprom_set_valid(bool valid)
     uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
     uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
 
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0, valid ? magic0 : 0xFF);
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1, valid ? magic1 : 0xFF);
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2, valid ? magic2 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+0, valid ? magic0 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+1, valid ? magic1 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+2, valid ? magic2 : 0xFF);
 }
 
 void via_eeprom_reset(void)
@@ -429,7 +429,7 @@ void via_eeprom_reset(void)
     // Set the VIA specific EEPROM state as invalid.
     via_eeprom_set_valid(false);
     // Set the TMK/QMK EEPROM state as invalid.
-    eeconfig_disable();
+    nvconfig_disable();
 }
 
 #endif // VIA_ENABLE

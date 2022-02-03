@@ -2729,12 +2729,12 @@ void backlight_config_set_alphas_mods( uint16_t *alphas_mods )
 
 void backlight_config_load(void)
 {
-    eeprom_read_block( &g_config, ((void*)RGB_BACKLIGHT_CONFIG_EEPROM_ADDR), sizeof(backlight_config) );
+    nvram_read_block(((void*)RGB_BACKLIGHT_CONFIG_EEPROM_ADDR), &g_config, sizeof(backlight_config) );
 }
 
 void backlight_config_save(void)
 {
-    eeprom_update_block( &g_config, ((void*)RGB_BACKLIGHT_CONFIG_EEPROM_ADDR), sizeof(backlight_config) );
+    nvram_update_block(((void*)RGB_BACKLIGHT_CONFIG_EEPROM_ADDR), &g_config, sizeof(backlight_config) );
 }
 
 void backlight_init_drivers(void)

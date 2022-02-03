@@ -149,48 +149,48 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
     case RGB_VAI:
       if(record->event.pressed) {
-        rgblight_increase_val_noeeprom();
+        rgblight_increase_val_no_nvram();
       }
       break;
     case RGB_VAD:
       if(record->event.pressed) {
-        rgblight_decrease_val_noeeprom();
+        rgblight_decrease_val_no_nvram();
       }
       break;
     case RGB_SAI:
       if(record->event.pressed) {
-        rgblight_increase_sat_noeeprom();
+        rgblight_increase_sat_no_nvram();
       }
       break;
     case RGB_SAD:
       if(record->event.pressed) {
-        rgblight_decrease_sat_noeeprom();
+        rgblight_decrease_sat_no_nvram();
       }
       break;
     case RGB_HUI:
       if(record->event.pressed) {
-        rgblight_increase_hue_noeeprom();
+        rgblight_increase_hue_no_nvram();
       }
       break;
     case RGB_HUD:
       if(record->event.pressed) {
-        rgblight_decrease_hue_noeeprom();
+        rgblight_decrease_hue_no_nvram();
       }
       break;
     case RGB_TOG:
       if(record->event.pressed) {
-	rgblight_toggle_noeeprom();
+	rgblight_toggle_no_nvram();
       }
       break;
     case RGB_MOD:
       if(record->event.pressed) {
-        rgblight_step_noeeprom();
+        rgblight_step_no_nvram();
 	rgb_mode = rgblight_get_mode();
       }
       break;
     case RGB_RMOD:
       if(record->event.pressed) {
-        rgblight_step_reverse_noeeprom();
+        rgblight_step_reverse_no_nvram();
 	rgb_mode = rgblight_get_mode();
       }
       break;
@@ -258,27 +258,27 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   switch(biton32(state)) {
     case _RAISE:
       rgblight_setrgb_at(255, 255, 255, RGBLED_NUM / 2);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
     case _LOWER:
       rgblight_setrgb_at(255, 255, 255, RGBLED_NUM / 2 - 1);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
     case _NUMPAD:
       rgblight_setrgb_at(0,255,0, 0);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
    default:
       rgb_mode = RGBLIGHT_MODE_BREATHING + 1;
-      rgblight_mode_noeeprom(rgb_mode);
+      rgblight_mode_no_nvram(rgb_mode);
       break;
   }
   return state;
 }
 
 void led_set_user(uint8_t usb_led) {
-  rgblight_sethsv_noeeprom(0, 255, 255);
-  rgblight_mode_noeeprom(rgb_mode);
+  rgblight_sethsv_no_nvram(0, 255, 255);
+  rgblight_mode_no_nvram(rgb_mode);
 }
 
 int cur_dance (qk_tap_dance_state_t *state) {

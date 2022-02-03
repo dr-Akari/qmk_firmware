@@ -374,8 +374,8 @@ void rgb_matrix_indicators_user(void) {
 
 void rgb_matrix_update_current_mode(uint8_t mode, uint8_t speed) {
     rgb_matrix_config.speed = speed;
-    rgb_matrix_mode_noeeprom(mode);
-    eeconfig_update_user(user_config.raw);
+    rgb_matrix_mode_no_nvram(mode);
+    nvconfig_update_user(user_config.raw);
 }
 
 void rgb_matrix_update_dynamic_mode(uint8_t mode, uint8_t speed, bool active) {
@@ -399,7 +399,7 @@ void rgb_matrix_update_mode(uint8_t mode, uint8_t speed, bool active) {
 
 void rgb_matrix_set_defaults(void) {
     rgb_matrix_config.enable = 1;
-    rgb_matrix_sethsv_noeeprom(THEME_HSV);
+    rgb_matrix_sethsv_no_nvram(THEME_HSV);
 
     user_config.rgb_layer_change        = false;
     user_config.rgb_matrix_idle_anim    = true;
@@ -408,7 +408,7 @@ void rgb_matrix_set_defaults(void) {
     rgb_matrix_update_dynamic_mode(RGB_MATRIX_CYCLE_ALL, RGB_MATRIX_ANIMATION_SPEED_SLOWER, false);
     rgb_matrix_update_dynamic_mode(RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS, RGB_MATRIX_ANIMATION_SPEED_DEFAULT, true);
 
-    eeprom_update_block(&rgb_matrix_config, EECONFIG_RGB_MATRIX, sizeof(rgb_matrix_config));
+    nvram_update_block(NVCONFIG_RGB_MATRIX, &rgb_matrix_config, sizeof(rgb_matrix_config));
 }
 
 void matrix_scan_rgb(void) {
@@ -429,16 +429,16 @@ void matrix_scan_user(void) {
     matrix_scan_rgb();
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw = 0;
-    rgb_matrix_mode_noeeprom(user_config.rgb_matrix_active_mode);
+    rgb_matrix_mode_no_nvram(user_config.rgb_matrix_active_mode);
     keyboard_init();
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     rgb_matrix_set_defaults();
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
 }
 #endif
 
@@ -519,7 +519,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_UND:  // Toggle separate underglow status
             if (record->event.pressed) {
                 user_config.rgb_layer_change ^= 1;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
                 if (user_config.rgb_layer_change) {
                     layer_state_set(layer_state);  // This is needed to immediately set the layer color (looks better)
                 } else {

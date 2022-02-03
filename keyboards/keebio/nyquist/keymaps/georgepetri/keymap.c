@@ -69,7 +69,7 @@ const rgblight_segment_t PROGMEM capslock[] = RGBLIGHT_LAYER_SEGMENTS(
 const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST(left, right, capslock);
 
 void keyboard_post_init_user(void) {
-    rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
+    rgblight_sethsv_no_nvram(HSV_SPRINGGREEN);
     rgblight_layers = rgb_layers;
 }
 

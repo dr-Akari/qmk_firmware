@@ -1,24 +1,24 @@
 #include QMK_KEYBOARD_H
 #include "debug.h"
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "eeprom.h"
 
 #define LAYER_ON(pos) ((layer_state) & (1<<(pos)))
 
-#define EECONFIG_BELAK_MAGIC (uint16_t)0xBE42
+#define NVCONFIG_BELAK_MAGIC (uint16_t)0xBE42
 
 // NOTE: This is just a number that's a bit beyond the end of what's already
 // defined. As there is no other define we can base this on, it may need to be
 // changed in the future. The initial value here is used as a placeholder with a
-// magic word, similar to the normal eeconfig. Note that all the storage being
+// magic word, similar to the normal nvconfig. Note that all the storage being
 // used needs to fit inside the 32 bytes of the Ergodox Infinity.
-#define EECONFIG_BELAK (uint16_t *)16
+#define NVCONFIG_BELAK (uint16_t *)16
 
 // The correct way to do this would be how the normal eeconfig handles it and
 // use a bitfield. However, the eeprom has a ton of space which isn't being
 // used so I don't really care and have a separate byte for every setting.
-#define EECONFIG_BELAK_SWAP_GUI_CTRL (uint8_t *)18
+#define NVCONFIG_BELAK_SWAP_GUI_CTRL (uint8_t *)18
 
 static uint8_t swap_gui_ctrl = 0;
 static uint8_t td_led_override = 0;
@@ -203,12 +203,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
     // If our magic word wasn't set properly, we need to zero out the settings.
-    if (eeprom_read_word(EECONFIG_BELAK) != EECONFIG_BELAK_MAGIC) {
-        eeprom_update_word(EECONFIG_BELAK, EECONFIG_BELAK_MAGIC);
-        eeprom_update_byte(EECONFIG_BELAK_SWAP_GUI_CTRL, 0);
+    if (nvram_read_u16(NVCONFIG_BELAK) != NVCONFIG_BELAK_MAGIC) {
+        nvram_update_u16(NVCONFIG_BELAK, NVCONFIG_BELAK_MAGIC);
+        nvram_update_u8(NVCONFIG_BELAK_SWAP_GUI_CTRL, 0);
     }
 
-    if (eeprom_read_byte(EECONFIG_BELAK_SWAP_GUI_CTRL)) {
+    if (nvram_read_u8(NVCONFIG_BELAK_SWAP_GUI_CTRL)) {
         layer_on(SWPH);
         swap_gui_ctrl = 1;
     }
@@ -246,7 +246,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case BEL_F0:
         if(record->event.pressed){
             swap_gui_ctrl = !swap_gui_ctrl;
-            eeprom_update_byte(EECONFIG_BELAK_SWAP_GUI_CTRL, swap_gui_ctrl);
+            nvram_update_u8(NVCONFIG_BELAK_SWAP_GUI_CTRL, swap_gui_ctrl);
 
             if (swap_gui_ctrl) {
                 layer_on(SWPH);

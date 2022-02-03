@@ -117,31 +117,31 @@ void update_led_mode(void) {
     switch (user_config.led_mode) {
         case LED_MODE_ALL:
             rgblight_set_effect_range(0, RGBLED_NUM);
-            rgblight_enable_noeeprom();
+            rgblight_enable_no_nvram();
             break;
         case LED_MODE_LOGO: 
             rgblight_set_effect_range(16, 4);
-            rgblight_enable_noeeprom();
+            rgblight_enable_no_nvram();
             break;
         case LED_MODE_UNDERGLOW:
             rgblight_set_effect_range(0, 16);
-            rgblight_enable_noeeprom();
+            rgblight_enable_no_nvram();
             break;
         case LED_MODE_OFF:
-            rgblight_disable_noeeprom();
+            rgblight_disable_no_nvram();
             break;
     }
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     update_led_mode();
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw      = 0;
     user_config.led_mode = LED_MODE_ALL;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
     rgblight_enable();
 }
 
@@ -188,7 +188,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 user_config.led_mode = (user_config.led_mode + 1) % LED_MODE_TOTAL;
                 update_led_mode();
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
             }
             return false;
         case RESET:
@@ -205,7 +205,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 key_timer = timer_read32();
             } else {
                 if (timer_elapsed32(key_timer) >= 500) {
-                    eeconfig_init();
+                    nvconfig_init();
                 }
             }
             return false;

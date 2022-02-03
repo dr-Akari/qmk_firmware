@@ -174,7 +174,7 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
   uint8_t layer = biton32(layer_state);
-  uint8_t default_layer = biton32(eeconfig_read_default_layer());
+  uint8_t default_layer = biton32(nvconfig_read_default_layer());
   switch (layer) {
     case _LOWER:
       set_led_red;

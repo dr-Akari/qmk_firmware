@@ -302,7 +302,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     // dynamically generate these.
     case EPRM:
-      if (record->event.pressed) { eeconfig_init(); }
+      if (record->event.pressed) { nvconfig_init(); }
       return false;
     case VRSN:
       if (record->event.pressed) { SEND_STRING(VERSION_STRING); }

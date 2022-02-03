@@ -16,12 +16,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "1337.h"
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
 #ifdef BACKLIGHT_ENABLE
     backlight_enable();
     backlight_level(5);
 #endif
 
-    eeconfig_update_kb(0);
-    eeconfig_init_user();
+    nvconfig_update_kb(0);
+    nvconfig_init_user();
 }

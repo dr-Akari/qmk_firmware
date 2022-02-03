@@ -122,7 +122,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef RGBLIGHT_ENABLE
     case RGBRST:
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
         }
     break;
@@ -139,9 +139,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (IS_LAYER_ON(_ADJUST)) {
           if (clockwise) {
-              rgblight_increase_hue_noeeprom();
+              rgblight_increase_hue_no_nvram();
           } else {
-              rgblight_decrease_hue_noeeprom();
+              rgblight_decrease_hue_no_nvram();
           }
         } else if (IS_LAYER_ON(_LOWER)) {
           tap_code16((clockwise == true) ? LCTL(KC_Y) : LCTL(KC_Z));

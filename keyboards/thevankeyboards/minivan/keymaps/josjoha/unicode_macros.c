@@ -442,7 +442,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     speed_measure = FALSE;
 
 # ifdef RGBLIGHT_ENABLE
-                    rgblight_sethsv_noeeprom (HSV_PURPLE); // indicates stop (_RAR color)
+                    rgblight_sethsv_no_nvram (HSV_PURPLE); // indicates stop (_RAR color)
 # endif
 
                 }else{
@@ -456,7 +456,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 # ifdef RGBLIGHT_ENABLE
                     // set middle led
-                    rgblight_sethsv_noeeprom (HSV_WHITE); // indicates start
+                    rgblight_sethsv_no_nvram (HSV_WHITE); // indicates start
 # endif
 
                 }
@@ -554,7 +554,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         sizecount_measure = FALSE;
 
 # ifdef RGBLIGHT_ENABLE
-                        rgblight_sethsv_noeeprom (HSV_PURPLE); // indicates stop (color of _RAR)
+                        rgblight_sethsv_no_nvram (HSV_PURPLE); // indicates stop (color of _RAR)
                         isolate_rgblight_set ();
 # endif
 
@@ -565,10 +565,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 # ifdef RGBLIGHT_ENABLE
                         if (0 == sizecount_max) {
-                            rgblight_sethsv_noeeprom (HSV_BLUE); // indicates start/activated, but only without maximum set
+                            rgblight_sethsv_no_nvram (HSV_BLUE); // indicates start/activated, but only without maximum set
                             isolate_rgblight_set (); // .. if maximum set, led goes green to red.
                         }else{
-                            rgblight_sethsv_noeeprom (HSV_GREEN); // indicates start/activated, but only without maximum set
+                            rgblight_sethsv_no_nvram (HSV_GREEN); // indicates start/activated, but only without maximum set
                             isolate_rgblight_set (); // .. if maximum set, led goes green to red.
                         }
 # endif
@@ -588,7 +588,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 sizecount_chars = 0;
 
 # ifdef RGBLIGHT_ENABLE
-                rgblight_sethsv_noeeprom (HSV_CYAN); // indicates reset
+                rgblight_sethsv_no_nvram (HSV_CYAN); // indicates reset
                 isolate_rgblight_set ();
 # endif
 
@@ -1304,10 +1304,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) { // key down
                 if (led_middle_on == FALSE) { 
                     led_middle_on = TRUE;
-                    rgblight_enable_noeeprom (); 
+                    rgblight_enable_no_nvram (); 
                 }else{
                     led_middle_on = FALSE;
-                    rgblight_disable_noeeprom (); 
+                    rgblight_disable_no_nvram (); 
                 }
             }
             break;
@@ -1462,7 +1462,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         size_fraction = (90 * sizecount_chars) / sizecount_max;
                     } 
 
-                    rgblight_sethsv_noeeprom (90 - size_fraction , 255, 255); // green to red, full saturation, full lit
+                    rgblight_sethsv_no_nvram (90 - size_fraction , 255, 255); // green to red, full saturation, full lit
 # endif
                 
                 }else{ // when at or over the limit: blink led red/white
@@ -1476,9 +1476,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 # ifdef RGBLIGHT_ENABLE
                     if (sizecount_chars & 0x1) { // flip by every keypress
-                        rgblight_sethsv_noeeprom (HSV_RED);
+                        rgblight_sethsv_no_nvram (HSV_RED);
                     }else{
-                        rgblight_sethsv_noeeprom (HSV_WHITE); 
+                        rgblight_sethsv_no_nvram (HSV_WHITE); 
                     }
 # endif
 

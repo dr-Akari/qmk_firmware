@@ -75,13 +75,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #ifdef RGB_MATRIX_ENABLE
             rgb_matrix_step();
 #else
-            rgblight_increase_hue_noeeprom();
+            rgblight_increase_hue_no_nvram();
 #endif
         } else {
 #ifdef RGB_MATRIX_ENABLE
             rgb_matrix_step_reverse();
 #else
-            rgblight_decrease_hue_noeeprom();
+            rgblight_decrease_hue_no_nvram();
 #endif
         }
     }
@@ -89,4 +89,4 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 // Set underglow color to blue.
-void keyboard_post_init_user(void) { rgblight_sethsv_noeeprom(RGBLIGHT_DEFAULT_COLOR); }
+void keyboard_post_init_user(void) { rgblight_sethsv_no_nvram(RGBLIGHT_DEFAULT_COLOR); }

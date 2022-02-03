@@ -6,8 +6,8 @@ LED_MATRIX_EFFECT(ALPHAS_MODS)
 bool ALPHAS_MODS(effect_params_t* params) {
     LED_MATRIX_USE_LIMITS(led_min, led_max);
 
-    uint8_t val1 = led_matrix_eeconfig.val;
-    uint8_t val2 = val1 + led_matrix_eeconfig.speed;
+    uint8_t val1 = led_matrix_nvconfig.val;
+    uint8_t val2 = val1 + led_matrix_nvconfig.speed;
 
     for (uint8_t i = led_min; i < led_max; i++) {
         LED_MATRIX_TEST_LED_FLAGS();

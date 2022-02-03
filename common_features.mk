@@ -22,7 +22,7 @@ QUANTUM_SRC += \
     $(QUANTUM_DIR)/action_layer.c \
     $(QUANTUM_DIR)/action_tapping.c \
     $(QUANTUM_DIR)/action_util.c \
-    $(QUANTUM_DIR)/eeconfig.c \
+    $(QUANTUM_DIR)/nvconfig.c \
     $(QUANTUM_DIR)/keyboard.c \
     $(QUANTUM_DIR)/keymap_common.c \
     $(QUANTUM_DIR)/keycode_config.c \
@@ -150,35 +150,35 @@ ifeq ($(strip $(POINTING_DEVICE_ENABLE)), yes)
     endif
 endif
 
-VALID_EEPROM_DRIVER_TYPES := vendor custom transient i2c spi
-EEPROM_DRIVER ?= vendor
-ifeq ($(filter $(EEPROM_DRIVER),$(VALID_EEPROM_DRIVER_TYPES)),)
-  $(error EEPROM_DRIVER="$(EEPROM_DRIVER)" is not a valid EEPROM driver)
+VALID_NVRAM_DRIVER_TYPES := vendor custom transient i2c spi
+NVRAM_DRIVER ?= vendor
+ifeq ($(filter $(NVRAM_DRIVER),$(VALID_NVRAM_DRIVER_TYPES)),)
+  $(error NVRAM_DRIVER="$(NVRAM_DRIVER)" is not a valid NVRAM driver)
 else
   OPT_DEFS += -DEEPROM_ENABLE
-  ifeq ($(strip $(EEPROM_DRIVER)), custom)
+  ifeq ($(strip $(NVRAM_DRIVER)), custom)
     # Custom EEPROM implementation -- only needs to implement init/erase/read_block/write_block
-    OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_CUSTOM
+    OPT_DEFS += -DNVRAM_DRIVER -DEEPROM_CUSTOM
     COMMON_VPATH += $(DRIVER_PATH)/eeprom
-    SRC += eeprom_driver.c
-  else ifeq ($(strip $(EEPROM_DRIVER)), i2c)
+    SRC += nvram_driver.c
+  else ifeq ($(strip $(NVRAM_DRIVER)), i2c)
     # External I2C EEPROM implementation
-    OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_I2C
+    OPT_DEFS += -DNVRAM_DRIVER -DEEPROM_I2C
     COMMON_VPATH += $(DRIVER_PATH)/eeprom
     QUANTUM_LIB_SRC += i2c_master.c
-    SRC += eeprom_driver.c eeprom_i2c.c
-  else ifeq ($(strip $(EEPROM_DRIVER)), spi)
+    SRC += nvram_driver.c eeprom_i2c.c
+  else ifeq ($(strip $(NVRAM_DRIVER)), spi)
     # External SPI EEPROM implementation
-    OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_SPI
+    OPT_DEFS += -DNVRAM_DRIVER -DEEPROM_SPI
     COMMON_VPATH += $(DRIVER_PATH)/eeprom
     QUANTUM_LIB_SRC += spi_master.c
-    SRC += eeprom_driver.c eeprom_spi.c
-  else ifeq ($(strip $(EEPROM_DRIVER)), transient)
+    SRC += nvram_driver.c eeprom_spi.c
+  else ifeq ($(strip $(NVRAM_DRIVER)), transient)
     # Transient EEPROM implementation -- no data storage but provides runtime area for it
-    OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_TRANSIENT
+    OPT_DEFS += -DNVRAM_DRIVER -DNVRAM_TRANSIENT
     COMMON_VPATH += $(DRIVER_PATH)/eeprom
-    SRC += eeprom_driver.c eeprom_transient.c
-  else ifeq ($(strip $(EEPROM_DRIVER)), vendor)
+    SRC += nvram_driver.c nvram_transient.c
+  else ifeq ($(strip $(NVRAM_DRIVER)), vendor)
     # Vendor-implemented EEPROM
     OPT_DEFS += -DEEPROM_VENDOR
     ifeq ($(PLATFORM),AVR)
@@ -186,27 +186,28 @@ else
     else ifeq ($(PLATFORM),CHIBIOS)
       ifneq ($(filter STM32F3xx_% STM32F1xx_% %_STM32F401xC %_STM32F401xE %_STM32F405xG %_STM32F411xE %_STM32F072xB %_STM32F042x6 %_GD32VF103xB %_GD32VF103x8, $(MCU_SERIES)_$(MCU_LDSCRIPT)),)
         # Emulated EEPROM
-        OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_STM32_FLASH_EMULATED
-        COMMON_VPATH += $(DRIVER_PATH)/eeprom
-        SRC += eeprom_driver.c
-        SRC += $(PLATFORM_COMMON_DIR)/eeprom_stm32.c
-        SRC += $(PLATFORM_COMMON_DIR)/flash_stm32.c
-      else ifneq ($(filter $(MCU_SERIES),STM32L0xx STM32L1xx),)
-        # True EEPROM on STM32L0xx, L1xx
-        OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_STM32_L0_L1
+        OPT_DEFS += -DNVRAM_DRIVER -DNVRAM_EMULATED_FLASH
         COMMON_VPATH += $(DRIVER_PATH)/eeprom
         COMMON_VPATH += $(PLATFORM_PATH)/$(PLATFORM_KEY)/$(DRIVER_DIR)/eeprom
-        SRC += eeprom_driver.c
+        SRC += nvram_driver.c
+        SRC += emulated_flash.c
+        SRC += flash_stm32.c
+      else ifneq ($(filter $(MCU_SERIES),STM32L0xx STM32L1xx),)
+        # True EEPROM on STM32L0xx, L1xx
+        OPT_DEFS += -DNVRAM_DRIVER -DEEPROM_STM32_L0_L1
+        COMMON_VPATH += $(DRIVER_PATH)/eeprom
+        COMMON_VPATH += $(PLATFORM_PATH)/$(PLATFORM_KEY)/$(DRIVER_DIR)/eeprom
+        SRC += nvram_driver.c
         SRC += eeprom_stm32_L0_L1.c
       else ifneq ($(filter $(MCU_SERIES),KL2x K20x),)
         # Teensy EEPROM implementations
-        OPT_DEFS += -DEEPROM_TEENSY
-        SRC += eeprom_teensy.c
+        OPT_DEFS += -DNVRAM_KINETIS_FLEXRAM
+        SRC += kinetis_flexram.c
       else
         # Fall back to transient, i.e. non-persistent
-        OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_TRANSIENT
+        OPT_DEFS += -DNVRAM_DRIVER -DNVRAM_TRANSIENT
         COMMON_VPATH += $(DRIVER_PATH)/eeprom
-        SRC += eeprom_driver.c eeprom_transient.c
+        SRC += nvram_driver.c nvram_transient.c
       endif
     else ifeq ($(PLATFORM),ARM_ATSAM)
       # arm_atsam EEPROM

@@ -370,7 +370,7 @@ uint32_t default_layer_state_set_user(uint32_t state) {
 void update_base_layer(int base)
 {
     if( current_default_layer != base ) {
-        eeconfig_update_default_layer(1UL<<base);
+        nvconfig_update_default_layer(1UL<<base);
         default_layer_set(1UL<<base);
         layer_off(_AUX);
         layer_off(_KAUX);
@@ -447,7 +447,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGBRST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
         }
       #endif

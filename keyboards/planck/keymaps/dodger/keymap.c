@@ -207,15 +207,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 layer_state_t default_layer_state_set_user(layer_state_t state) {
   switch (get_highest_layer(state)) {
     case _GAME:
-      rgblight_sethsv_noeeprom(0, UINT8_MAX, RGBLIGHT_LIMIT_VAL);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL+5);
+      rgblight_sethsv_no_nvram(0, UINT8_MAX, RGBLIGHT_LIMIT_VAL);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL+5);
       break;
     case _QWERTGAME:
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD+2);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_MOOD+2);
       break;
     case _COLEMAK:
-      rgblight_sethsv_noeeprom(0, 0, 0);
-      rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+      rgblight_sethsv_no_nvram(0, 0, 0);
+      rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
       break;
     default:
       break;
@@ -233,6 +233,6 @@ void matrix_init_user(void) {
 }
 
 void keyboard_post_init_user(void) {
-  rgblight_sethsv_noeeprom(0, 0, 0);
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+  rgblight_sethsv_no_nvram(0, 0, 0);
+  rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
 }

@@ -61,13 +61,13 @@ void dance_ecap_finished (qk_tap_dance_state_t *state, void *user_data){
 #ifdef RGBLIGHT_ENABLE
                 // Save mode we can from
                 caps_status.normal_mode = rgblight_get_mode();
-                rgblight_mode_noeeprom(CAPS_LOCK_MODE);
+                rgblight_mode_no_nvram(CAPS_LOCK_MODE);
 #endif
             } else {
                 // Turning off so return to normal mode
                 caps_status.toggled = false;
 #ifdef RGBLIGHT_ENABLE
-                rgblight_mode_noeeprom(caps_status.normal_mode);
+                rgblight_mode_no_nvram(caps_status.normal_mode);
 #endif
             }
             break;

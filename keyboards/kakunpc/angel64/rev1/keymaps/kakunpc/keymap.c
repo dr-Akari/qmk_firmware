@@ -76,7 +76,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_user(void) {
 #ifdef USE_LED_RIPPLE_EFFECT
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
     rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
 #endif
 }
@@ -93,7 +93,7 @@ int ToIndex(char _col, char _row) {
 
 void led_ripple_effect(void){
     if (scan_count == -1) {
-      rgblight_enable_noeeprom();
+      rgblight_enable_no_nvram();
       rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
     } else if (scan_count >= 0 && scan_count < 5) {
       for (unsigned char c=keybuf_begin; c!=keybuf_end; c++) {

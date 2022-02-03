@@ -30,11 +30,11 @@ void pointing_device_init_kb(void){
     // read config from EEPROM and update if needed
 
     config_oddball_t kb_config;
-    kb_config.raw = eeconfig_read_kb();
+    kb_config.raw = nvconfig_read_kb();
 
     if(!kb_config.cpi) {
         kb_config.cpi = CPI_2;
-        eeconfig_update_kb(kb_config.raw);
+        nvconfig_update_kb(kb_config.raw);
     }
 
     pointing_device_set_cpi(kb_config.cpi);
@@ -83,7 +83,7 @@ static void on_cpi_button(uint16_t cpi, keyrecord_t *record) {
 
     config_oddball_t kb_config;
     kb_config.cpi = cpi;
-    eeconfig_update_kb(kb_config.raw);
+    nvconfig_update_kb(kb_config.raw);
 }
 
 static void on_mouse_button(uint8_t mouse_button, keyrecord_t *record) {

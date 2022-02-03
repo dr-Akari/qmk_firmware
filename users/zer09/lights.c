@@ -160,7 +160,7 @@ bool led_brightness(uint16_t keycode, keyrecord_t *record) {
   case RGUP:
     if (record->event.pressed && led_dim > 0) {
       led_dim--;
-      eeprom_write_byte(EECONFIG_LED_DIM_LVL, led_dim);
+      nvram_write_u8(NVCONFIG_LED_DIM_LVL, led_dim);
     }
 
     return true;
@@ -168,7 +168,7 @@ bool led_brightness(uint16_t keycode, keyrecord_t *record) {
   case RGDWN:
     if (record->event.pressed && led_dim < 8) {
       led_dim++;
-      eeprom_write_byte(EECONFIG_LED_DIM_LVL, led_dim);
+      nvram_write_u8(NVCONFIG_LED_DIM_LVL, led_dim);
     }
 
     return true;
@@ -180,10 +180,10 @@ bool led_brightness(uint16_t keycode, keyrecord_t *record) {
 }
 
 void eeprom_read_led_dim_lvl(void) {
-  led_dim = eeprom_read_byte(EECONFIG_LED_DIM_LVL);
+  led_dim = nvram_read_u8(NVCONFIG_LED_DIM_LVL);
 
   if (led_dim > 8 || led_dim < 0) {
     led_dim = 0;
-    eeprom_write_byte(EECONFIG_LED_DIM_LVL, led_dim);
+    nvram_write_u8(NVCONFIG_LED_DIM_LVL, led_dim);
   }
 }

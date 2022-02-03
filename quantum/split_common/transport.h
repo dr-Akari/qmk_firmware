@@ -82,7 +82,7 @@ typedef struct _split_layers_sync_t {
 #    include "led_matrix.h"
 
 typedef struct _led_matrix_sync_t {
-    led_eeconfig_t led_matrix;
+    led_nvconfig_t led_matrix;
     bool           led_suspend_state;
 } led_matrix_sync_t;
 #endif  // defined(LED_MATRIX_ENABLE) && defined(LED_MATRIX_SPLIT)

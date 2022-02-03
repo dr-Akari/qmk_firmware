@@ -61,9 +61,9 @@ uint16_t scale_2_rgb_time(const uint8_t scaled_time);
  * @param[in]   hue Hue
  * @param[in]   sat Saturation
  * @param[in]   hue Value (brightness)
- * @see rgb_matrix_sethsv_noeeprom()
+ * @see rgb_matrix_sethsv_no_nvram()
  */
-void rgb_matrix_sethsv_noeeprom_user(const uint16_t hue, const uint8_t sat, const uint8_t val);
+void rgb_matrix_sethsv_no_nvram_user(const uint16_t hue, const uint8_t sat, const uint8_t val);
 
 #if defined(RGB_FADE_IN) || defined(RGB_DISABLE_WITH_FADE_OUT) || defined(RGB_IDLE_TIMEOUT)
 #   if defined(RGB_MATRIX_MAXIMUM_BRIGHTNESS)

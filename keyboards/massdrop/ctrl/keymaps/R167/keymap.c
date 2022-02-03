@@ -60,7 +60,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (asleep && record->event.pressed) {
         asleep = false;
         rgb_matrix_set_flags(LED_FLAG_ALL);
-        rgb_matrix_enable_noeeprom();
+        rgb_matrix_enable_no_nvram();
     }
 
     switch (keycode) {
@@ -116,11 +116,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     } break;
                     case LED_FLAG_UNDERGLOW: {
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                     } break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                     } break;
                 }
             }
@@ -132,7 +132,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(LCTL(LGUI(KC_Q)));
                 asleep = true;
                 rgb_matrix_set_flags(LED_FLAG_NONE);
-                rgb_matrix_disable_noeeprom();
+                rgb_matrix_disable_no_nvram();
             } else if (IS_RELEASED(record->event)) {
                 tap_code(KC_ESCAPE);
             }

@@ -19,7 +19,7 @@ By default, these are set to 0 and 0, which is usually the "ESC" key on a majori
 
 And to trigger the bootloader, you hold this key down when plugging the keyboard in. Just the single key.
 
-!> Using Bootmagic Lite will **always reset** the EEPROM, so you will lose any settings that have been saved.
+!> Using Bootmagic Lite will **always reset** the NVRAM, so you will lose any settings that have been saved.
 
 ## Split Keyboards
 
@@ -51,7 +51,7 @@ void bootmagic_lite(void) {
 }
 ```
 
-You can additional feature here. For instance, resetting the EEPROM or requiring additional keys to be pressed to trigger Bootmagic Lite. Keep in mind that `bootmagic_lite` is called before a majority of features are initialized in the firmware.
+You can additional feature here. For instance, resetting the NVRAM or requiring additional keys to be pressed to trigger Bootmagic Lite. Keep in mind that `bootmagic_lite` is called before a majority of features are initialized in the firmware.
 
 ## Addenda
 

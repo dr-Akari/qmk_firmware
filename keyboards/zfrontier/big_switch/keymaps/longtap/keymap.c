@@ -31,38 +31,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void keyboard_post_init_user(void) {
     print("zFrontier S01.6 boot...\n");
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
-    rgblight_sethsv_noeeprom(0,0,128);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING);
+    rgblight_sethsv_no_nvram(0,0,128);
 }
 
 
 void zf_switch_rgb_mode(void) {
     switch (rgblight_get_mode() ) {
         case RGBLIGHT_MODE_BREATHING:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_MOOD);
             break;
         case RGBLIGHT_MODE_RAINBOW_MOOD:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL);
             break;
         case RGBLIGHT_MODE_RAINBOW_SWIRL:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_SNAKE);
             break;
         case RGBLIGHT_MODE_SNAKE:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_KNIGHT);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_KNIGHT);
             break;
         case RGBLIGHT_MODE_KNIGHT:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_CHRISTMAS);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_CHRISTMAS);
             break;
         case RGBLIGHT_MODE_CHRISTMAS:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_GRADIENT);
             break;
         case RGBLIGHT_MODE_STATIC_GRADIENT:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_RGB_TEST);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_RGB_TEST);
             break;
         case RGBLIGHT_MODE_RGB_TEST:
         default:
-            rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
+            rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING);
             break;
     }
 }

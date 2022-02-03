@@ -52,7 +52,7 @@ define modifiers here, since MOD_* doesn't seem to work for these
 #endif
 
 enum userspace_custom_keycodes {
-    EPRM = BABBLE_END_RANGE,  // Resets EEPROM do defaults (as in eeconfig_init)
+    EPRM = BABBLE_END_RANGE,  // Resets EEPROM do defaults (as in nvconfig_init)
     VRSN,                     // Prints QMK Firmware and board info
     KC_QWERTY,                // Sets default layer to QWERTY
     KC_CDH,                   // Sets default layer to COLEMAK DH

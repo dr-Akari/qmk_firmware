@@ -143,7 +143,7 @@
       * [I2C驱动](zh-cn/i2c_driver.md)
       * [SPI驱动](zh-cn/spi_driver.md)
       * [WS2812驱动](zh-cn/ws2812_driver.md)
-      * [EEPROM驱动](zh-cn/eeprom_driver.md)
+      * [NVRAM驱动](zh-cn/nvram_driver.md)
       * [串口驱动](zh-cn/serial_driver.md)
       * [UART驱动](zh-cn/uart_driver.md)
     * [操控GPIO](zh-cn/internals_gpio_control.md)

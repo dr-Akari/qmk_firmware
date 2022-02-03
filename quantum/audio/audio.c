@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "audio.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "timer.h"
 #include "wait.h"
 
@@ -119,10 +119,10 @@ void audio_init() {
 
     // Check EEPROM
 #ifdef EEPROM_ENABLE
-    if (!eeconfig_is_enabled()) {
-        eeconfig_init();
+    if (!nvconfig_is_enabled()) {
+        nvconfig_init();
     }
-    audio_config.raw = eeconfig_read_audio();
+    audio_config.raw = nvconfig_read_audio();
 #else  // EEPROM settings
     audio_config.enable        = true;
 #    ifdef AUDIO_CLICKY_ON
@@ -157,7 +157,7 @@ void audio_toggle(void) {
         stop_all_notes();
     }
     audio_config.enable ^= 1;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
     if (audio_config.enable) {
         audio_on_user();
     } else {
@@ -167,7 +167,7 @@ void audio_toggle(void) {
 
 void audio_on(void) {
     audio_config.enable = 1;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
     audio_on_user();
     PLAY_SONG(audio_on_song);
 }
@@ -178,7 +178,7 @@ void audio_off(void) {
     wait_ms(100);
     audio_stop_all();
     audio_config.enable = 0;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
 }
 
 bool audio_is_on(void) { return (audio_config.enable != 0); }

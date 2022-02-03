@@ -176,8 +176,8 @@ void keyboard_post_init_user(void) {
     rgblight_set_effect_range(2, 1);
 
     // set led effects to breathing mode in warm white
-    rgblight_sethsv_noeeprom(38, 191, 198);
-    rgblight_mode_noeeprom(RGBLIGHT_EFFECT_BREATHING + 2);
+    rgblight_sethsv_no_nvram(38, 191, 198);
+    rgblight_mode_no_nvram(RGBLIGHT_EFFECT_BREATHING + 2);
 
     // set other led's to off
     setrgb(0, 0, 0, (LED_TYPE *)&led[0]);

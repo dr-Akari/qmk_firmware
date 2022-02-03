@@ -19,7 +19,7 @@ const uint32_t PROGMEM unicode_map[] = {
     [SURPRISE] = 0x1F62E,  // 😮
 };
 
-void eeconfig_init_user_unicode(void) {
+void nvconfig_init_user_unicode(void) {
     // Default to Linux style
     set_unicode_input_mode(UC_LNX);
 }

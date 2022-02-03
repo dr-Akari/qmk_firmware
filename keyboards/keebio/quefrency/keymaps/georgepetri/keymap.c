@@ -60,19 +60,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void) {
-  rgblight_sethsv_noeeprom(HSV_BLUE);
+  rgblight_sethsv_no_nvram(HSV_BLUE);
 }
 
 void update_led(void) {
     switch (biton32(layer_state)) {
       case _BASE:
-      rgblight_sethsv_noeeprom(HSV_BLUE);
+      rgblight_sethsv_no_nvram(HSV_BLUE);
       break;
     case _L:
-      rgblight_sethsv_noeeprom(HSV_CORAL);
+      rgblight_sethsv_no_nvram(HSV_CORAL);
       break;
     case _R:
-      rgblight_sethsv_noeeprom(HSV_MAGENTA);
+      rgblight_sethsv_no_nvram(HSV_MAGENTA);
       break;
     }
   if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {

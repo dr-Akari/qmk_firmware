@@ -2,7 +2,7 @@
 
 #include QMK_KEYBOARD_H
 
-#define EECONFIG_USERSPACE (uint8_t *)20
+#define NVCONFIG_USERSPACE (uint8_t *)20
 
 #define SYMBOL      MO(1)
 #define MEDIA       MO(2)

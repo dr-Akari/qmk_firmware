@@ -53,7 +53,7 @@ static inline void fill_target_address(uint8_t *buffer, const void *addr) {
     }
 }
 
-void eeprom_driver_init(void) {
+void nvram_driver_init(void) {
     i2c_init();
 #if defined(EXTERNAL_EEPROM_WP_PIN)
     /* We are setting the WP pin to high in a way that requires at least two bit-flips to change back to 0 */
@@ -62,7 +62,7 @@ void eeprom_driver_init(void) {
 #endif
 }
 
-void eeprom_driver_erase(void) {
+void nvram_driver_erase(void) {
 #if defined(CONSOLE_ENABLE) && defined(DEBUG_EEPROM_OUTPUT)
     uint32_t start = timer_read32();
 #endif
@@ -70,7 +70,7 @@ void eeprom_driver_erase(void) {
     uint8_t buf[EXTERNAL_EEPROM_PAGE_SIZE];
     memset(buf, 0x00, EXTERNAL_EEPROM_PAGE_SIZE);
     for (uint32_t addr = 0; addr < EXTERNAL_EEPROM_BYTE_COUNT; addr += EXTERNAL_EEPROM_PAGE_SIZE) {
-        eeprom_write_block(buf, (void *)(uintptr_t)addr, EXTERNAL_EEPROM_PAGE_SIZE);
+        nvram_write_block(addr, buf, EXTERNAL_EEPROM_PAGE_SIZE);
     }
 
 #if defined(CONSOLE_ENABLE) && defined(DEBUG_EEPROM_OUTPUT)
@@ -78,7 +78,7 @@ void eeprom_driver_erase(void) {
 #endif
 }
 
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
     uint8_t complete_packet[EXTERNAL_EEPROM_ADDRESS_SIZE];
     fill_target_address(complete_packet, addr);
 
@@ -94,7 +94,7 @@ void eeprom_read_block(void *buf, const void *addr, size_t len) {
 #endif  // DEBUG_EEPROM_OUTPUT
 }
 
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
     uint8_t   complete_packet[EXTERNAL_EEPROM_ADDRESS_SIZE + EXTERNAL_EEPROM_PAGE_SIZE];
     uint8_t * read_buf    = (uint8_t *)buf;
     uintptr_t target_addr = (uintptr_t)addr;

@@ -149,7 +149,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 
     if (keycode == DPI_CONFIG && record->event.pressed) {
         keyboard_config.dpi_config = (keyboard_config.dpi_config + 1) % DPI_OPTION_SIZE;
-        eeconfig_update_kb(keyboard_config.raw);
+        nvconfig_update_kb(keyboard_config.raw);
         pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
     }
 
@@ -223,18 +223,18 @@ void pointing_device_init_kb(void) {
     opt_encoder_init();
 }
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
     keyboard_config.dpi_config = PLOOPY_DPI_DEFAULT;
-    eeconfig_update_kb(keyboard_config.raw);
-    eeconfig_init_user();
+    nvconfig_update_kb(keyboard_config.raw);
+    nvconfig_init_user();
 }
 
 void matrix_init_kb(void) {
     // is safe to just read DPI setting since matrix init
     // comes before pointing device init.
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
     if (keyboard_config.dpi_config > DPI_OPTION_SIZE) {
-        eeconfig_init_kb();
+        nvconfig_init_kb();
     }
     matrix_init_user();
 }

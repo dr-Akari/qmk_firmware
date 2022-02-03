@@ -29,7 +29,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         userspace_config.rgb_layer_change ^= 1;
         xprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb_layer_change);
-        eeconfig_update_user(userspace_config.raw);
+        nvconfig_update_user(userspace_config.raw);
         if (userspace_config.rgb_layer_change) {
           layer_state_set(layer_state);  // Immediately set the layer color (looks better)
         }
@@ -43,7 +43,7 @@ bool process_record_user_rgb(uint16_t keycode, keyrecord_t *record) {
         if (userspace_config.rgb_layer_change) {
           userspace_config.rgb_layer_change = false;
           xprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb_layer_change);
-          eeconfig_update_user(userspace_config.raw);
+          nvconfig_update_user(userspace_config.raw);
         }
       }
       return true;
@@ -57,19 +57,19 @@ void keyboard_post_init_rgb(void) {
 # if defined(RGBLIGHT_ENABLE) || defined(RGBLIGHT_STARTUP_ANIMATION)
   bool is_enabled = rgblight_config.enable;
   if (userspace_config.rgb_layer_change) {
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
   }
   if (rgblight_config.enable) {
     layer_state_set_user(layer_state);
     uint16_t old_hue = rgblight_config.hue;
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     for (uint16_t i = 255; i > 0; i--) {
-      rgblight_sethsv_noeeprom((i + old_hue) % 255, 255, 255);
+      rgblight_sethsv_no_nvram((i + old_hue) % 255, 255, 255);
       wait_ms(5);
     }
   }
   if (!is_enabled) {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
   }
 # endif // !RGBLIGHT_ENABLE || RGBLIGHT_STARTUP_ANIMATION
   layer_state_set_user(layer_state);
@@ -86,39 +86,39 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
   if (userspace_config.rgb_layer_change) {
     switch (biton32(state)) {  // _RAISE, _LOWER and _ADJUST use a custom color and the breathing effect
       case _RAISE:
-        rgblight_sethsv_noeeprom_green();
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3);
+        rgblight_sethsv_no_nvram_green();
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3);
         break;
       case _LOWER:
-        rgblight_sethsv_noeeprom_red();
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3);
+        rgblight_sethsv_no_nvram_red();
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3);
         break;
       case _ADJUST:
-        rgblight_sethsv_noeeprom_white();
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 2);
+        rgblight_sethsv_no_nvram_white();
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 2);
         break;
       default:  // Use a solid color for normal layers
         switch (biton32(default_layer_state)) {
           case _QWERTY:
-            rgblight_sethsv_noeeprom_magenta();
+            rgblight_sethsv_no_nvram_magenta();
             break;
           case _COLEMAK:
-            rgblight_sethsv_noeeprom_green();
+            rgblight_sethsv_no_nvram_green();
             break;
           case _DVORAK:
-            rgblight_sethsv_noeeprom_blue();
+            rgblight_sethsv_no_nvram_blue();
             break;
           case _WORKMAN:
-            rgblight_sethsv_noeeprom_goldenrod();
+            rgblight_sethsv_no_nvram_goldenrod();
             break;
           case _PLOVER:
-            rgblight_sethsv_noeeprom_pink();
+            rgblight_sethsv_no_nvram_pink();
             break;
           default:
-            rgblight_sethsv_noeeprom_white();
+            rgblight_sethsv_no_nvram_white();
             break;
         }
-        biton32(state) == _MODS ? rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING) : rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  // if _MODS layer is on, then breath to denote it
+        biton32(state) == _MODS ? rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING) : rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);  // if _MODS layer is on, then breath to denote it
         break;
     }
   }
@@ -148,9 +148,9 @@ void fadeflash_leds(uint8_t hue, uint8_t sat, uint8_t val){
   // this is used in leader.c
   // TODO: come up with a better name maybe
   rgblight_fade_helper(false); 
-  rgblight_sethsv_noeeprom(hue, sat, 0); 
+  rgblight_sethsv_no_nvram(hue, sat, 0); 
   rgblight_fade_helper(true); 
   rgblight_fade_helper(false); 
-  rgblight_sethsv_noeeprom(base_hue, base_sat, 0); 
+  rgblight_sethsv_no_nvram(base_hue, base_sat, 0); 
   rgblight_fade_helper(true); 
 }

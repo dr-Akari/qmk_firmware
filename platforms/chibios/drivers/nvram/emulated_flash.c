@@ -22,8 +22,9 @@
 #include <stdbool.h>
 #include "util.h"
 #include "debug.h"
-#include "eeprom_stm32.h"
 #include "flash_stm32.h"
+#include "emulated_flash.h"
+#include "eeprom_flash_emulated_defs.h"
 
 /*
  * We emulate eeprom by writing a snapshot compacted view of eeprom contents,
@@ -132,7 +133,6 @@
  *
  */
 
-#include "eeprom_stm32_defs.h"
 /* These bits are used for optimizing encoding of bytes, 0 and 1 */
 #define FEE_WORD_ENCODING 0x8000
 #define FEE_VALUE_NEXT 0x6000
@@ -558,13 +558,13 @@ uint16_t EEPROM_ReadDataWord(uint16_t Address) {
 }
 
 /*****************************************************************************
- *  Bind to eeprom_driver.c
+ *  Bind to nvram_driver.c
  *******************************************************************************/
-void eeprom_driver_init(void) { EEPROM_Init(); }
+void nvram_driver_init(void) { EEPROM_Init(); }
 
-void eeprom_driver_erase(void) { EEPROM_Erase(); }
+void nvram_driver_erase(void) { EEPROM_Erase(); }
 
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
     const uint8_t *src  = (const uint8_t *)addr;
     uint8_t *      dest = (uint8_t *)buf;
 
@@ -594,7 +594,7 @@ void eeprom_read_block(void *buf, const void *addr, size_t len) {
     }
 }
 
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
     uint8_t *      dest = (uint8_t *)addr;
     const uint8_t *src  = (const uint8_t *)buf;
 

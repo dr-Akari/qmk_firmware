@@ -83,8 +83,8 @@ void matrix_scan_user(void) {
 
 void led_set_user(uint8_t usb_led) {
     if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-      rgblight_enable_noeeprom();
+      rgblight_enable_no_nvram();
     } else {
-      rgblight_disable_noeeprom();
+      rgblight_disable_no_nvram();
     }
 }

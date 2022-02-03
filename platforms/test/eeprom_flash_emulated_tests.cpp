@@ -96,9 +96,9 @@ TEST_F(EepromStm32Test, TestReadBadAddress) {
     EXPECT_EQ(EEPROM_ReadDataByte(EEPROM_SIZE), 0xFF);
     EXPECT_EQ(EEPROM_ReadDataWord(EEPROM_SIZE - 1), 0xFFFF);
     EXPECT_EQ(EEPROM_ReadDataWord(EEPROM_SIZE), 0xFFFF);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 4)), 0);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 3)), 0xFF000000);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)EEPROM_SIZE), 0xFFFFFFFF);
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 4)), 0);
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 3)), 0xFF000000);
+    EXPECT_EQ(nvram_read_u32(EEPROM_SIZE), 0xFFFFFFFF);
 }
 
 TEST_F(EepromStm32Test, TestReadByte) {
@@ -324,49 +324,49 @@ TEST_F(EepromStm32Test, TestByteWordBoundary) {
 
 TEST_F(EepromStm32Test, TestDWordRoundTrip) {
     /* Direct compacted-area: Address < 0x80 */
-    eeprom_write_dword((uint32_t*)0, 0xdeadbeef);  // Aligned
-    eeprom_write_dword((uint32_t*)9, 0x12345678);  // Unaligned
+    nvram_write_u32(0, 0xdeadbeef);  // Aligned
+    nvram_write_u32(9, 0x12345678);  // Unaligned
     /* Direct compacted-area: Address >= 0x80 */
-    eeprom_write_dword((uint32_t*)200, 0xfacef00d);
-    eeprom_write_dword((uint32_t*)(EEPROM_SIZE - 4), 0xba5eba11);  // Aligned
-    eeprom_write_dword((uint32_t*)(EEPROM_SIZE - 9), 0xcafed00d);  // Unaligned
+    nvram_write_u32(200, 0xfacef00d);
+    nvram_write_u32((EEPROM_SIZE - 4), 0xba5eba11);  // Aligned
+    nvram_write_u32((EEPROM_SIZE - 9), 0xcafed00d);  // Unaligned
     /* Check direct values */
     EEPROM_Init();
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)0), 0xdeadbeef);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)9), 0x12345678);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)200), 0xfacef00d);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 4)), 0xba5eba11);  // Aligned
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 9)), 0xcafed00d);  // Unaligned
+    EXPECT_EQ(nvram_read_u32(0), 0xdeadbeef);
+    EXPECT_EQ(nvram_read_u32(9), 0x12345678);
+    EXPECT_EQ(nvram_read_u32(200), 0xfacef00d);
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 4)), 0xba5eba11);  // Aligned
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 9)), 0xcafed00d);  // Unaligned
     /* Write Log byte encoded */
-    eeprom_write_dword((uint32_t*)0, 0xdecafbad);
-    eeprom_write_dword((uint32_t*)9, 0x87654321);
+    nvram_write_u32(0, 0xdecafbad);
+    nvram_write_u32(9, 0x87654321);
     /* Write Log word encoded */
-    eeprom_write_dword((uint32_t*)200, 1);
+    nvram_write_u32(200, 1);
     /* Write Log word value aligned */
-    eeprom_write_dword((uint32_t*)(EEPROM_SIZE - 4), 0xdeadc0de);  // Aligned
-    eeprom_write_dword((uint32_t*)(EEPROM_SIZE - 9), 0x6789abcd);  // Unaligned
+    nvram_write_u32((EEPROM_SIZE - 4), 0xdeadc0de);  // Aligned
+    nvram_write_u32((EEPROM_SIZE - 9), 0x6789abcd);  // Unaligned
     /* Check log values */
     EEPROM_Init();
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)0), 0xdecafbad);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)9), 0x87654321);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)200), 1);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 4)), 0xdeadc0de);  // Aligned
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)(EEPROM_SIZE - 9)), 0x6789abcd);  // Unaligned
+    EXPECT_EQ(nvram_read_u32(0), 0xdecafbad);
+    EXPECT_EQ(nvram_read_u32(9), 0x87654321);
+    EXPECT_EQ(nvram_read_u32(200), 1);
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 4)), 0xdeadc0de);  // Aligned
+    EXPECT_EQ(nvram_read_u32((EEPROM_SIZE - 9)), 0x6789abcd);  // Unaligned
 }
 
 TEST_F(EepromStm32Test, TestBlockRoundTrip) {
     char  src0[] = "0123456789abcdef";
     void* src1   = (void*)&src0[1];
     /* Various alignments of src & dst, Address < 0x80 */
-    eeprom_write_block(src0, (void*)0, sizeof(src0));
-    eeprom_write_block(src0, (void*)21, sizeof(src0));
-    eeprom_write_block(src1, (void*)40, sizeof(src0) - 1);
-    eeprom_write_block(src1, (void*)61, sizeof(src0) - 1);
+    nvram_write_block(0, src0, sizeof(src0));
+    nvram_write_block(21, src0, sizeof(src0));
+    nvram_write_block(40, src1, sizeof(src0) - 1);
+    nvram_write_block(61, src1, sizeof(src0) - 1);
     /* Various alignments of src & dst, Address >= 0x80 */
-    eeprom_write_block(src0, (void*)140, sizeof(src0));
-    eeprom_write_block(src0, (void*)161, sizeof(src0));
-    eeprom_write_block(src1, (void*)180, sizeof(src0) - 1);
-    eeprom_write_block(src1, (void*)201, sizeof(src0) - 1);
+    nvram_write_block(140, src0, sizeof(src0));
+    nvram_write_block(161, src0, sizeof(src0));
+    nvram_write_block(180, src1, sizeof(src0) - 1);
+    nvram_write_block(201, src1, sizeof(src0) - 1);
 
     /* Check values */
     EEPROM_Init();
@@ -380,14 +380,14 @@ TEST_F(EepromStm32Test, TestBlockRoundTrip) {
     char* dst0d       = (char*)&dstBuf[100];
     char* dst1c       = (char*)&dstBuf[121];
     char* dst1d       = (char*)&dstBuf[141];
-    eeprom_read_block((void*)dst0a, (void*)0, sizeof(src0));
-    eeprom_read_block((void*)dst0b, (void*)21, sizeof(src0));
-    eeprom_read_block((void*)dst1a, (void*)40, sizeof(src0) - 1);
-    eeprom_read_block((void*)dst1b, (void*)61, sizeof(src0) - 1);
-    eeprom_read_block((void*)dst0c, (void*)140, sizeof(src0));
-    eeprom_read_block((void*)dst0d, (void*)161, sizeof(src0));
-    eeprom_read_block((void*)dst1c, (void*)180, sizeof(src0) - 1);
-    eeprom_read_block((void*)dst1d, (void*)201, sizeof(src0) - 1);
+    nvram_read_block(0, dst0a, sizeof(src0));
+    nvram_read_block(21, dst0b, sizeof(src0));
+    nvram_read_block(40, dst1a, sizeof(src0) - 1);
+    nvram_read_block(61, dst1b, sizeof(src0) - 1);
+    nvram_read_block(140, dst0c, sizeof(src0));
+    nvram_read_block(161, dst0d, sizeof(src0));
+    nvram_read_block(180, dst1c, sizeof(src0) - 1);
+    nvram_read_block(201, dst1d, sizeof(src0) - 1);
     EXPECT_EQ(strcmp((char*)src0, dst0a), 0);
     EXPECT_EQ(strcmp((char*)src0, dst0b), 0);
     EXPECT_EQ(strcmp((char*)src0, dst0c), 0);
@@ -400,36 +400,36 @@ TEST_F(EepromStm32Test, TestBlockRoundTrip) {
 
 TEST_F(EepromStm32Test, TestCompaction) {
     /* Direct writes */
-    eeprom_write_dword((uint32_t*)0, 0xdeadbeef);
-    eeprom_write_byte((uint8_t*)4, 0x3c);
-    eeprom_write_word((uint16_t*)6, 0xd00d);
-    eeprom_write_dword((uint32_t*)150, 0xcafef00d);
-    eeprom_write_dword((uint32_t*)200, 0x12345678);
+    nvram_write_u32(0, 0xdeadbeef);
+    nvram_write_u8(4, 0x3c);
+    nvram_write_u16(6, 0xd00d);
+    nvram_write_u32(150, 0xcafef00d);
+    nvram_write_u32(200, 0x12345678);
     /* Fill write log entries */
     uint32_t i;
     uint32_t val = 0xd8453c6b;
     for (i = 0; i < (LOG_SIZE / (sizeof(uint32_t) * 2)); i++) {
         val ^= 0x593ca5b3;
         val += i;
-        eeprom_write_dword((uint32_t*)200, val);
+        nvram_write_u32(200, val);
     }
     /* Check values pre-compaction */
     EEPROM_Init();
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)0), 0xdeadbeef);
-    EXPECT_EQ(eeprom_read_byte((uint8_t*)4), 0x3c);
-    EXPECT_EQ(eeprom_read_word((uint16_t*)6), 0xd00d);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)150), 0xcafef00d);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)200), val);
+    EXPECT_EQ(nvram_read_u32(0), 0xdeadbeef);
+    EXPECT_EQ(nvram_read_u8(4), 0x3c);
+    EXPECT_EQ(nvram_read_u16(6), 0xd00d);
+    EXPECT_EQ(nvram_read_u32(150), 0xcafef00d);
+    EXPECT_EQ(nvram_read_u32(200), val);
     EXPECT_NE(*(uint16_t*)&FlashBuf[LOG_BASE], 0xFFFF);
     EXPECT_NE(*(uint16_t*)&FlashBuf[LOG_BASE + LOG_SIZE - 2], 0xFFFF);
     /* Run compaction */
-    eeprom_write_byte((uint8_t*)4, 0x1f);
+    nvram_write_u8(4, 0x1f);
     EEPROM_Init();
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)0), 0xdeadbeef);
-    EXPECT_EQ(eeprom_read_byte((uint8_t*)4), 0x1f);
-    EXPECT_EQ(eeprom_read_word((uint16_t*)6), 0xd00d);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)150), 0xcafef00d);
-    EXPECT_EQ(eeprom_read_dword((uint32_t*)200), val);
+    EXPECT_EQ(nvram_read_u32(0), 0xdeadbeef);
+    EXPECT_EQ(nvram_read_u8(4), 0x1f);
+    EXPECT_EQ(nvram_read_u16(6), 0xd00d);
+    EXPECT_EQ(nvram_read_u32(150), 0xcafef00d);
+    EXPECT_EQ(nvram_read_u32(200), val);
     EXPECT_EQ(*(uint16_t*)&FlashBuf[LOG_BASE], 0xFFFF);
     EXPECT_EQ(*(uint16_t*)&FlashBuf[LOG_BASE + LOG_SIZE - 2], 0xFFFF);
 }

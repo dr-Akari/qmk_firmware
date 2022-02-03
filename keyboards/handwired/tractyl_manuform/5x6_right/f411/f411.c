@@ -45,7 +45,7 @@ void bootmagic_lite(void) {
 #endif
 
     if (matrix_get_row(row) & (1 << col) || !readPin(A0)) {
-        eeconfig_disable();
+        nvconfig_disable();
         bootloader_jump();
     }
 }

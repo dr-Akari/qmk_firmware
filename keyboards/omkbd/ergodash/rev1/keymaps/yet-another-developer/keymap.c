@@ -141,7 +141,7 @@ float tone_qwerty[][2]     = SONG(QWERTY_SOUND);
 #endif
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
@@ -150,7 +150,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 }
 void matrix_init_keymap(void) {
 #ifdef STARTUP_RESET_EEPROM
-    eeconfig_init();
+    nvconfig_init();
 #endif
 }
 

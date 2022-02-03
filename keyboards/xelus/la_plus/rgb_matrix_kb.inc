@@ -9,7 +9,7 @@ RGB_MATRIX_EFFECT(startup_animation_solid)
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
 #include "eeprom.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 static void startup_animation_setleds(effect_params_t* params, bool dots) {
     uint8_t factor = 5;
@@ -31,8 +31,8 @@ static void startup_animation_setleds(effect_params_t* params, bool dots) {
     } else if (num == 0 || num == 1 || num == 2) {
         return;
     } else if (num >= 22) {
-        eeprom_read_block(&rgb_matrix_config, EECONFIG_RGB_MATRIX, sizeof(rgb_matrix_config));
-        rgb_matrix_mode_noeeprom(rgb_matrix_config.mode);
+        nvram_read_block(NVCONFIG_RGB_MATRIX, &rgb_matrix_config, sizeof(rgb_matrix_config));
+        rgb_matrix_mode_no_nvram(rgb_matrix_config.mode);
         return;
     }
 

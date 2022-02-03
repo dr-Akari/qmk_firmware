@@ -110,10 +110,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case AJ_MSWP:
         case AJ_MLCK:
             if (record->event.pressed) {
-                if (!eeconfig_is_enabled()) {
-                    eeconfig_init();
+                if (!nvconfig_is_enabled()) {
+                    nvconfig_init();
                 }
-                keymap_config.raw = eeconfig_read_keymap();
+                keymap_config.raw = nvconfig_read_keymap();
                 switch (keycode) {
                     case AJ_MSWP:
                         keymap_config.swap_lalt_lgui = !keymap_config.swap_lalt_lgui;
@@ -124,7 +124,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         keymap_config.no_gui = !keymap_config.no_gui;
                         break;
                 }
-                eeconfig_update_keymap(keymap_config.raw);
+                nvconfig_update_keymap(keymap_config.raw);
                 clear_keyboard();  // clear to prevent stuck keys
             }
             return false;
@@ -134,11 +134,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void keyboard_post_init_user(void) {
-    if (!eeconfig_is_enabled()) {
-        eeconfig_init();
+    if (!nvconfig_is_enabled()) {
+        nvconfig_init();
     }
-    keymap_config.raw   = eeconfig_read_keymap();
+    keymap_config.raw   = nvconfig_read_keymap();
     keycode_for_aj_rctl = keymap_config.swap_lalt_lgui ? KC_RALT : KC_RCTL;
-    eeconfig_update_keymap(keymap_config.raw);
+    nvconfig_update_keymap(keymap_config.raw);
     clear_keyboard();  // clear to prevent stuck keys
 }

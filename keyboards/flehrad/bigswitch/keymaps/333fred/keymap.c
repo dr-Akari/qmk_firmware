@@ -43,19 +43,19 @@ void dance_cycle(bool override_timer) {
       {
         case SINGLE_HOLD:
         {
-          rgblight_increase_hue_noeeprom();
+          rgblight_increase_hue_no_nvram();
           break;
         }
 
         case DOUBLE:
         {
-          rgblight_step_noeeprom();
+          rgblight_step_no_nvram();
           break;
         }
 
         case TRIPLE:
         {
-          rgblight_toggle_noeeprom();
+          rgblight_toggle_no_nvram();
           break;
         }
 

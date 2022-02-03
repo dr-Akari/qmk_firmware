@@ -28,52 +28,52 @@ void save_rgb_config(void) {
 
 void restore_rgb_config(void) {
 #ifdef RGBLIGHT_ENABLE
-    rgblight_set_speed_noeeprom(RGB_current_config.speed);
+    rgblight_set_speed_no_nvram(RGB_current_config.speed);
     if (rgblight_config.mode != RGB_current_config.mode) {
-        rgblight_mode_noeeprom(RGB_current_config.mode);
+        rgblight_mode_no_nvram(RGB_current_config.mode);
     }
     if ((RGB_current_config.hue != rgblight_config.hue) || (RGB_current_config.sat != rgblight_config.sat) || (RGB_current_config.val != rgblight_config.val)) {
-        rgblight_sethsv_noeeprom(RGB_current_config.hue, RGB_current_config.sat, RGB_current_config.val);
+        rgblight_sethsv_no_nvram(RGB_current_config.hue, RGB_current_config.sat, RGB_current_config.val);
     }
     if (rgblight_config.enable) {
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
     } else {
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
     }
 #elif RGB_MATRIX_ENABLE
     rgb_matrix_config.speed   = RGB_current_config.speed;
     if (rgb_matrix_config.mode != RGB_current_config.mode) {
-        rgb_matrix_mode_noeeprom(RGB_current_config.mode);
+        rgb_matrix_mode_no_nvram(RGB_current_config.mode);
     }
     if ((RGB_current_config.hsv.h != rgb_matrix_config.hsv.h) || (RGB_current_config.hsv.s != rgb_matrix_config.hsv.s) || (RGB_current_config.hsv.v != rgb_matrix_config.hsv.v)) {
-        rgb_matrix_sethsv_noeeprom(RGB_current_config.hsv.h, RGB_current_config.hsv.s, RGB_current_config.hsv.v);
+        rgb_matrix_sethsv_no_nvram(RGB_current_config.hsv.h, RGB_current_config.hsv.s, RGB_current_config.hsv.v);
     }
     if (rgb_matrix_config.enable) {
-        rgb_matrix_enable_noeeprom();
+        rgb_matrix_enable_no_nvram();
     } else {
-        rgb_matrix_disable_noeeprom();
+        rgb_matrix_disable_no_nvram();
     }
 #endif
 }
 
 void rgb_by_layer(int layer) {
 #ifdef RGBLIGHT_ENABLE
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
 #elif RGB_MATRIX_ENABLE
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_mode_no_nvram(RGB_MATRIX_SOLID_COLOR);
 #endif
 
     switch (layer) {
         case _ADJUST:
-            rgblight_sethsv_noeeprom(9, 255, 255);
+            rgblight_sethsv_no_nvram(9, 255, 255);
             break;
         case _RAISE:
-            rgblight_sethsv_noeeprom(HSV_CYAN);
+            rgblight_sethsv_no_nvram(HSV_CYAN);
             break;
         case _LOWER:
-            rgblight_sethsv_noeeprom(HSV_MAGENTA);
+            rgblight_sethsv_no_nvram(HSV_MAGENTA);
             break;
         default:
-            rgblight_sethsv_noeeprom(HSV_RED);
+            rgblight_sethsv_no_nvram(HSV_RED);
     }
 }

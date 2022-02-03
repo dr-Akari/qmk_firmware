@@ -107,12 +107,12 @@ idle_timer = timer_read();
                   break;
                 case LED_FLAG_UNDERGLOW: {
                     rgb_matrix_set_flags(LED_FLAG_NONE);
-                    rgb_matrix_disable_noeeprom();
+                    rgb_matrix_disable_no_nvram();
                   }
                   break;
                 default: {
                     rgb_matrix_set_flags(LED_FLAG_ALL);
-                    rgb_matrix_enable_noeeprom();
+                    rgb_matrix_enable_no_nvram();
                   }
                   break;
               }
@@ -123,7 +123,7 @@ idle_timer = timer_read();
                 Jelocikey_toggle =! Jelocikey_toggle;
             }
             else {
-                rgb_matrix_set_speed_noeeprom(127);
+                rgb_matrix_set_speed_no_nvram(127);
             }
             return false; */
         default:
@@ -131,13 +131,13 @@ idle_timer = timer_read();
             if (rgbkeyIdle) {       //check if the keyboards already idle and if it is, turn it back on as key is pressed.
                 rgbkeyIdle = false;
                 rgb_matrix_set_suspend_state(false);
-                rgb_matrix_enable_noeeprom();
+                rgb_matrix_enable_no_nvram();
             }
 
             if (Jelocikey_toggle) {
-                rgb_matrix_set_speed_noeeprom(3);
+                rgb_matrix_set_speed_no_nvram(3);
                 currentWPM = get_current_wpm();
-                rgb_matrix_set_speed_noeeprom(currentWPM);
+                rgb_matrix_set_speed_no_nvram(currentWPM);
                 rgb_matrix_set_color(13, 100, 255, 255);
             }
             return true; //Process all other keycodes normally
@@ -151,7 +151,7 @@ void matrix_scan_user(void) {
         timer_clear();
         rgbkeyIdle = true;
         rgb_matrix_set_suspend_state(true);
-        rgb_matrix_disable_noeeprom();
+        rgb_matrix_disable_no_nvram();
     }
 }
 

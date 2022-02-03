@@ -18,7 +18,7 @@
 #include <string.h>
 
 #include <hal.h>
-#include "eeprom_driver.h"
+#include "nvram_driver.h"
 #include "eeprom_stm32_L0_L1.h"
 
 #define EEPROM_BASE_ADDR 0x08080000
@@ -50,9 +50,9 @@ static inline void STM32_L0_L1_EEPROM_Lock(void) {
     FLASH->PECR |= FLASH_PECR_PELOCK;
 }
 
-void eeprom_driver_init(void) {}
+void nvram_driver_init(void) {}
 
-void eeprom_driver_erase(void) {
+void nvram_driver_erase(void) {
     STM32_L0_L1_EEPROM_Unlock();
 
     for (size_t offset = 0; offset < STM32_ONBOARD_EEPROM_SIZE; offset += sizeof(uint32_t)) {
@@ -67,7 +67,7 @@ void eeprom_driver_erase(void) {
     STM32_L0_L1_EEPROM_Lock();
 }
 
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
     for (size_t offset = 0; offset < len; ++offset) {
         // Drop out if we've hit the limit of the EEPROM
         if ((((uint32_t)addr) + offset) >= STM32_ONBOARD_EEPROM_SIZE) {
@@ -79,7 +79,7 @@ void eeprom_read_block(void *buf, const void *addr, size_t len) {
     }
 }
 
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
     STM32_L0_L1_EEPROM_Unlock();
 
     for (size_t offset = 0; offset < len; ++offset) {

@@ -211,7 +211,7 @@ inline void* dynamic_macro_eeprom_macro_addr(uint8_t macro_id) {
 }
 
 bool dynamic_macro_header_correct(void) { 
-    return eeprom_read_word(DYNAMIC_MACRO_EEPROM_MAGIC_ADDR) == DYNAMIC_MACRO_EEPROM_MAGIC;
+    return nvram_read_u16(DYNAMIC_MACRO_EEPROM_MAGIC_ADDR) == DYNAMIC_MACRO_EEPROM_MAGIC;
 }
 
 void dynamic_macro_load_eeprom_all(void) {
@@ -228,7 +228,7 @@ void dynamic_macro_load_eeprom_all(void) {
 void dynamic_macro_load_eeprom(uint8_t macro_id) {
   dynamic_macro_t* dst = &dynamic_macros[macro_id];
 
-  eeprom_read_block(dst, dynamic_macro_eeprom_macro_addr(macro_id), sizeof(dynamic_macro_t));
+  nvram_read_block(dynamic_macro_eeprom_macro_addr(macro_id), dst, sizeof(dynamic_macro_t));
 
   /* Validate checksum, ifchecksum is NOT valid for macro, set its length to 0 to prevent its use. */
   if (dynamic_macro_calc_crc(dst) != dst->checksum) {
@@ -243,12 +243,12 @@ void dynamic_macro_load_eeprom(uint8_t macro_id) {
 
 void dynamic_macro_save_eeprom(uint8_t macro_id) {
   if (!dynamic_macro_header_correct()) {
-    eeprom_write_word(DYNAMIC_MACRO_EEPROM_MAGIC_ADDR, DYNAMIC_MACRO_EEPROM_MAGIC);
+    nvram_write_u16(DYNAMIC_MACRO_EEPROM_MAGIC_ADDR, DYNAMIC_MACRO_EEPROM_MAGIC);
     dprintf("dynamic macro: writing magic eeprom header\n");
   }
 
   dynamic_macro_t* src = &dynamic_macros[macro_id];
 
-  eeprom_update_block(src, dynamic_macro_eeprom_macro_addr(macro_id), sizeof(dynamic_macro_t));
+  nvram_update_block(dynamic_macro_eeprom_macro_addr(macro_id), src, sizeof(dynamic_macro_t));
   dprintf("dynamic macro: slot %d saved to eeprom\n", macro_id);
 }

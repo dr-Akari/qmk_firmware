@@ -175,26 +175,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* ====== LED Underglow ====== */
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
-    rgblight_mode_noeeprom(1);
-    rgblight_sethsv_noeeprom(HSV_WHITE);
+    rgblight_mode_no_nvram(1);
+    rgblight_sethsv_no_nvram(HSV_WHITE);
 }
 
 bool led_update_user(led_t led_state) {
     if (led_state.caps_lock) {
-        rgblight_mode_noeeprom(1);
-        rgblight_sethsv_noeeprom(HSV_RED);
+        rgblight_mode_no_nvram(1);
+        rgblight_sethsv_no_nvram(HSV_RED);
     }
     return true;
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_mode_noeeprom(1);
+    rgblight_mode_no_nvram(1);
     if (layer_state_cmp(state, GAMING)) {
-        rgblight_sethsv_noeeprom(HSV_BLUE);
+        rgblight_sethsv_no_nvram(HSV_BLUE);
     } else if (layer_state_cmp(state, SPECIALS)) {
-        rgblight_sethsv_noeeprom(HSV_PURPLE);
+        rgblight_sethsv_no_nvram(HSV_PURPLE);
     } else {
-        rgblight_sethsv_noeeprom(HSV_WHITE);
+        rgblight_sethsv_no_nvram(HSV_WHITE);
     }
     return state;
 }

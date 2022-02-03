@@ -135,8 +135,8 @@ void keyboard_post_init_user(void) {
 void shutdown_user() {
     clear_rgb_layers();
     rgblight_enable();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv_noeeprom(HSV_RED);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_no_nvram(HSV_RED);
 }
 
 void spidey_glow(void) {
@@ -145,7 +145,7 @@ void spidey_glow(void) {
     rgblight_sethsv(255, 230, 128);
 }
 
-void eeconfig_init_user(void) { spidey_glow(); }
+void nvconfig_init_user(void) { spidey_glow(); }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -165,7 +165,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 uprintf("DEBUG: enable=%u, keyboard=%u, matrix=%u\n", debug_enable, debug_keyboard, debug_matrix);
                 uprintln(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION ", Built on: " QMK_BUILDDATE);
-                eeconfig_update_debug(debug_config.raw);
+                nvconfig_update_debug(debug_config.raw);
                 return false;
 
                 // clang-format off

@@ -151,7 +151,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
                 }
                 planck_ez_right_led_level((uint8_t)keyboard_config.led_level * 255 / 4);
                 planck_ez_left_led_level((uint8_t)keyboard_config.led_level * 255 / 4);
-                eeconfig_update_kb(keyboard_config.raw);
+                nvconfig_update_kb(keyboard_config.raw);
                 layer_state_set_kb(layer_state);
             }
             break;

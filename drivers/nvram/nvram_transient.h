@@ -1,4 +1,4 @@
-/* Copyright 2020 Nick Brassel (tzarc)
+/* Copyright 2019 Nick Brassel (tzarc)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +17,9 @@
 #pragma once
 
 /*
-    The size used by the STM32 L0/L1 EEPROM driver.
+    The size of the transient EEPROM buffer size.
 */
-#ifndef STM32_ONBOARD_EEPROM_SIZE
-#    ifdef VIA_ENABLE
-#        define STM32_ONBOARD_EEPROM_SIZE 1024
-#    else
-#        include "eeconfig.h"
-#        define STM32_ONBOARD_EEPROM_SIZE (((EECONFIG_SIZE + 3) / 4) * 4)  // based off eeconfig's current usage, aligned to 4-byte sizes, to deal with LTO and EEPROM page sizing
-#    endif
-#endif
-
-#if STM32_ONBOARD_EEPROM_SIZE > 128
-#    pragma message("Please note: resetting EEPROM using an STM32L0/L1 device takes up to 1 second for every 1kB of internal EEPROM used.")
+#ifndef TRANSIENT_EEPROM_SIZE
+#    include "nvconfig.h"
+#    define TRANSIENT_EEPROM_SIZE (((NVCONFIG_SIZE + 3) / 4) * 4)  // based off eeconfig's current usage, aligned to 4-byte sizes, to deal with LTO
 #endif

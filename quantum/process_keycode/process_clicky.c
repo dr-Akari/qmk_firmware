@@ -62,17 +62,17 @@ void clicky_freq_reset(void) { clicky_freq = AUDIO_CLICKY_FREQ_DEFAULT; }
 
 void clicky_toggle(void) {
     audio_config.clicky_enable ^= 1;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
 }
 
 void clicky_on(void) {
     audio_config.clicky_enable = 1;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
 }
 
 void clicky_off(void) {
     audio_config.clicky_enable = 0;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
 }
 
 bool is_clicky_on(void) { return (audio_config.clicky_enable != 0); }

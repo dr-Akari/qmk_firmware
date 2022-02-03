@@ -15,7 +15,7 @@
 #define DIVIDE  UC(0x00F7)
 #define MINUS   UC(0x2212)
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   set_unicode_input_mode(UC_LNX);
 }
 

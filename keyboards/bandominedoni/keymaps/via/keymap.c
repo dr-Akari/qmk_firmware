@@ -98,7 +98,7 @@ void my_init(void){
     midi_config.velocity = MIDI_INITIAL_VELOCITY;
 }
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset!
+void nvconfig_init_user(void) {  // EEPROM is getting reset!
     midi_init();
     my_init();
 #ifdef RGB_MATRIX_ENABLE

@@ -188,7 +188,7 @@ bool is_oneshot_layer_active(void) { return get_oneshot_layer_state(); }
 void oneshot_set(bool active) {
     if (keymap_config.oneshot_disable != active) {
         keymap_config.oneshot_disable = active;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
         clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
         dprintf("Oneshot: active: %d\n", active);
     }

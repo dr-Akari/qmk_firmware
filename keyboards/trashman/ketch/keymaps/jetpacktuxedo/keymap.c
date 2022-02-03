@@ -105,9 +105,9 @@ void keyboard_post_init_user(void) {
         // turn on the rainbow effect which changes the hue I don't actually care
         // what that gets set to, but I am also lowering the saturation to get more
         // of a pastel feel
-        rgblight_sethsv_noeeprom(0, 192, 128);
+        rgblight_sethsv_no_nvram(0, 192, 128);
         // Set LED effects to rainbow
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL);
         rgblight_layers = my_rgb_layers;
     #endif //RGBLIGHT_ENABLE
 }

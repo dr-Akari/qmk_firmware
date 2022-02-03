@@ -50,7 +50,7 @@ COMMAND_ENABLE = yes
 | `MAGIC_KEY_BOOTLOADER` | `B` | ブートローダにジャンプする |
 | `MAGIC_KEY_BOOTLOADER_ALT` | `ESC` | ブートローダにジャンプする (代替) |
 | `MAGIC_KEY_LOCK` | `CAPS` | 何も入力できないようにキーボードをロック |
-| `MAGIC_KEY_EEPROM` | `E` | 保存された EEPROM 設定をコンソールに出力 |
-| `MAGIC_KEY_EEPROM_CLEAR` | `BSPACE` | EEPROM をクリア |
+| `MAGIC_KEY_NVRAM` | `E` | 保存された NVRAM 設定をコンソールに出力 |
+| `MAGIC_KEY_NVRAM_CLEAR` | `BSPACE` | NVRAM をクリア |
 | `MAGIC_KEY_NKRO` | `N` | N キーロールオーバー (NKRO) の有効・無効を切り替え |
 | `MAGIC_KEY_SLEEP_LED` | `Z` | コンピュータがスリープの時に LED を切り替え |

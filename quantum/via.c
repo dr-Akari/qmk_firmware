@@ -67,7 +67,7 @@ bool via_eeprom_is_valid(void) {
     uint8_t magic1 = ((p[5] & 0x0F) << 4) | (p[6] & 0x0F);
     uint8_t magic2 = ((p[8] & 0x0F) << 4) | (p[9] & 0x0F);
 
-    return (eeprom_read_byte((void *)VIA_EEPROM_MAGIC_ADDR + 0) == magic0 && eeprom_read_byte((void *)VIA_EEPROM_MAGIC_ADDR + 1) == magic1 && eeprom_read_byte((void *)VIA_EEPROM_MAGIC_ADDR + 2) == magic2);
+    return (nvram_read_u8(VIA_EEPROM_MAGIC_ADDR + 0) == magic0 && nvram_read_u8(VIA_EEPROM_MAGIC_ADDR + 1) == magic1 && nvram_read_u8(VIA_EEPROM_MAGIC_ADDR + 2) == magic2);
 }
 
 // Sets VIA/keyboard level usage of EEPROM to valid/invalid
@@ -78,9 +78,9 @@ void via_eeprom_set_valid(bool valid) {
     uint8_t magic1 = ((p[5] & 0x0F) << 4) | (p[6] & 0x0F);
     uint8_t magic2 = ((p[8] & 0x0F) << 4) | (p[9] & 0x0F);
 
-    eeprom_update_byte((void *)VIA_EEPROM_MAGIC_ADDR + 0, valid ? magic0 : 0xFF);
-    eeprom_update_byte((void *)VIA_EEPROM_MAGIC_ADDR + 1, valid ? magic1 : 0xFF);
-    eeprom_update_byte((void *)VIA_EEPROM_MAGIC_ADDR + 2, valid ? magic2 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR + 0, valid ? magic0 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR + 1, valid ? magic1 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR + 2, valid ? magic2 : 0xFF);
 }
 
 // Override this at the keyboard code level to check
@@ -100,11 +100,11 @@ void via_init(void) {
     // If the EEPROM has the magic, the data is good.
     // OK to load from EEPROM.
     if (!via_eeprom_is_valid()) {
-        eeconfig_init_via();
+        nvconfig_init_via();
     }
 }
 
-void eeconfig_init_via(void) {
+void nvconfig_init_via(void) {
     // set the magic number to false, in case this gets interrupted
     via_eeprom_set_valid(false);
     // This resets the layout options
@@ -125,7 +125,7 @@ uint32_t via_get_layout_options(void) {
     void *source = (void *)(VIA_EEPROM_LAYOUT_OPTIONS_ADDR);
     for (uint8_t i = 0; i < VIA_EEPROM_LAYOUT_OPTIONS_SIZE; i++) {
         value = value << 8;
-        value |= eeprom_read_byte(source);
+        value |= nvram_read_u8(source);
         source++;
     }
     return value;
@@ -135,7 +135,7 @@ void via_set_layout_options(uint32_t value) {
     // Start at the least significant byte
     void *target = (void *)(VIA_EEPROM_LAYOUT_OPTIONS_ADDR + VIA_EEPROM_LAYOUT_OPTIONS_SIZE - 1);
     for (uint8_t i = 0; i < VIA_EEPROM_LAYOUT_OPTIONS_SIZE; i++) {
-        eeprom_update_byte(target, value & 0xFF);
+        nvram_update_u8(target, value & 0xFF);
         value = value >> 8;
         target--;
     }
@@ -310,10 +310,10 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
         }
         case id_lighting_save: {
 #if defined(VIA_QMK_BACKLIGHT_ENABLE)
-            eeconfig_update_backlight_current();
+            nvconfig_update_backlight_current();
 #endif
 #if defined(VIA_QMK_RGBLIGHT_ENABLE)
-            eeconfig_update_rgblight_current();
+            nvconfig_update_rgblight_current();
 #endif
 #if defined(VIA_CUSTOM_LIGHTING_ENABLE)
             raw_hid_receive_kb(data, length);
@@ -327,7 +327,7 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
 #ifdef VIA_EEPROM_ALLOW_RESET
         case id_eeprom_reset: {
             via_eeprom_set_valid(false);
-            eeconfig_init_via();
+            nvconfig_init_via();
             break;
         }
 #endif
@@ -418,7 +418,7 @@ void via_qmk_backlight_set_value(uint8_t *data) {
     switch (*value_id) {
         case id_qmk_backlight_brightness: {
             // level / 255 * BACKLIGHT_LEVELS
-            backlight_level_noeeprom(((uint16_t)value_data[0]) * BACKLIGHT_LEVELS / 255);
+            backlight_level_no_nvram(((uint16_t)value_data[0]) * BACKLIGHT_LEVELS / 255);
             break;
         }
         case id_qmk_backlight_effect: {
@@ -467,24 +467,24 @@ void via_qmk_rgblight_set_value(uint8_t *data) {
     uint8_t *value_data = &(data[1]);
     switch (*value_id) {
         case id_qmk_rgblight_brightness: {
-            rgblight_sethsv_noeeprom(rgblight_get_hue(), rgblight_get_sat(), value_data[0]);
+            rgblight_sethsv_no_nvram(rgblight_get_hue(), rgblight_get_sat(), value_data[0]);
             break;
         }
         case id_qmk_rgblight_effect: {
-            rgblight_mode_noeeprom(value_data[0]);
+            rgblight_mode_no_nvram(value_data[0]);
             if (value_data[0] == 0) {
-                rgblight_disable_noeeprom();
+                rgblight_disable_no_nvram();
             } else {
-                rgblight_enable_noeeprom();
+                rgblight_enable_no_nvram();
             }
             break;
         }
         case id_qmk_rgblight_effect_speed: {
-            rgblight_set_speed_noeeprom(value_data[0]);
+            rgblight_set_speed_no_nvram(value_data[0]);
             break;
         }
         case id_qmk_rgblight_color: {
-            rgblight_sethsv_noeeprom(value_data[0], value_data[1], rgblight_get_val());
+            rgblight_sethsv_no_nvram(value_data[0], value_data[1], rgblight_get_val());
             break;
         }
     }

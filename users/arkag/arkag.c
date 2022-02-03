@@ -100,7 +100,7 @@ void check_state (void) {
   switch (state) {
   case active:
     if (!activated) {
-      if (slept) {rgblight_mode_noeeprom(1);}
+      if (slept) {rgblight_mode_no_nvram(1);}
       activated = true;
       deactivated = false;
     }
@@ -186,7 +186,7 @@ void flash_rgb (void) {
 void set_os (uint8_t os, bool update) {
   current_os = os;
   if (update) {
-    eeprom_update_byte(EECONFIG_USERSPACE, current_os);
+    nvram_update_u8(NVCONFIG_USERSPACE, current_os);
   }
   switch (os) {
   case OS_MAC:
@@ -304,7 +304,7 @@ void pri_mod_keystroke(uint16_t key) {
 }
 
 void matrix_init_user(void) {
-  current_os = eeprom_read_byte(EECONFIG_USERSPACE);
+  current_os = nvram_read_u8(NVCONFIG_USERSPACE);
   set_os(current_os, false);
 }
 

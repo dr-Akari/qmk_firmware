@@ -130,7 +130,7 @@ If you define these options you will disable the associated feature, which can s
 If you define these options you will enable the associated feature, which may increase your code size.
 
 * `#define FORCE_NKRO`
-  * NKRO by default requires to be turned on, this forces it on during keyboard startup regardless of EEPROM setting. NKRO can still be turned off but will be turned on again if the keyboard reboots.
+  * NKRO by default requires to be turned on, this forces it on during keyboard startup regardless of NVRAM setting. NKRO can still be turned off but will be turned on again if the keyboard reboots.
 * `#define STRICT_LAYER_RELEASE`
   * force a key release to be evaluated using the current layer stack instead of remembering which layer it came from (used for advanced cases)
 

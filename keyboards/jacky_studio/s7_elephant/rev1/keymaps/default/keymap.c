@@ -71,11 +71,11 @@ EEP_RST, _______, _______, _______,                        _______,             
 bool led_update_user(led_t led_state) {
     // Turn LEDs On/Off for Caps Lock
     if (led_state.caps_lock) {
-        rgblight_enable_noeeprom();
-        rgblight_sethsv_noeeprom(0, 0, 80);
+        rgblight_enable_no_nvram();
+        rgblight_sethsv_no_nvram(0, 0, 80);
     } else {
-        rgblight_sethsv_noeeprom(0, 0, 80);
-        rgblight_disable_noeeprom();
+        rgblight_sethsv_no_nvram(0, 0, 80);
+        rgblight_disable_no_nvram();
     }
     return false;
 }

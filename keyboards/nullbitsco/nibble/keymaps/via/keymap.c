@@ -92,7 +92,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
     case PROG:
       if (record->event.pressed) {
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
         bootloader_jump();
       }
     break;
@@ -103,7 +103,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!rgblight_is_enabled()) break;
 
         if (muted) {
-          rgblight_enable_noeeprom();
+          rgblight_enable_no_nvram();
         } else {
           rgblight_timer_disable();
           uint8_t val = rgblight_get_val();
@@ -119,7 +119,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!rgblight_is_enabled()) break;
 
         if (deafened) {
-          rgblight_enable_noeeprom();
+          rgblight_enable_no_nvram();
         } else {
           rgblight_timer_disable();
           uint8_t val = rgblight_get_val();

@@ -37,7 +37,7 @@ enum userspace_layers {
 
 void keyboard_post_init_rgb(void);
 void matrix_scan_keymap(void);
-void eeconfig_init_keymap(void);
+void nvconfig_init_keymap(void);
 bool hasAllBitsInMask(uint8_t value, uint8_t mask);
 
 

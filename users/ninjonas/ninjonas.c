@@ -26,11 +26,11 @@ void keyboard_post_init_user() {
   #ifdef RGBLIGHT_ENABLE
      // Cycles through the entire hue wheel and resetting to default color
      uint16_t default_hue = rgblight_config.hue;
-     rgblight_enable_noeeprom(); 
+     rgblight_enable_no_nvram(); 
      layer_state_set_user(layer_state);
-     rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+     rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
      for (uint16_t i = 255; i > 0; i--) {
-          rgblight_sethsv_noeeprom((i + default_hue) % 255, rgblight_config.sat, rgblight_config.val);
+          rgblight_sethsv_no_nvram((i + default_hue) % 255, rgblight_config.sat, rgblight_config.val);
           matrix_scan();
           wait_ms(10);
      }

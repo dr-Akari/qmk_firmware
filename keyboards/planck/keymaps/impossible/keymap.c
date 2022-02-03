@@ -154,7 +154,7 @@ float music_scale[][2]     = SONG(MUSIC_SCALE_SOUND);
 
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
@@ -183,12 +183,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(tone_plover);
         #endif
-        if (!eeconfig_is_enabled()) {
-          eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+          nvconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        keymap_config.raw = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
         persistent_default_layer_set(1UL<<_PLOVER);
       }
       return false;

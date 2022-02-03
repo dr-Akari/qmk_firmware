@@ -175,7 +175,7 @@ You can switch the input mode at any time by using the following keycodes. Addin
 
 You can also switch the input mode by calling `set_unicode_input_mode(x)` in your code, where _x_ is one of the above input mode constants (e.g. `UC_LNX`).
 
-?> Using `UNICODE_SELECTED_MODES` is preferable to calling `set_unicode_input_mode()` in `matrix_init_user()` or similar functions, since it's better integrated into the Unicode system and has the added benefit of avoiding unnecessary writes to EEPROM.
+?> Using `UNICODE_SELECTED_MODES` is preferable to calling `set_unicode_input_mode()` in `matrix_init_user()` or similar functions, since it's better integrated into the Unicode system and has the added benefit of avoiding unnecessary writes to NVRAM.
 
 #### Audio Feedback
 

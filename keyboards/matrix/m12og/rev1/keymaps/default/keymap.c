@@ -38,11 +38,11 @@ bool led_update_user(led_t led_state) {
     static uint8_t caps_state = 0;
     if (caps_state != led_state.caps_lock) {
         if (led_state.caps_lock) {
-            rgblight_sethsv_noeeprom_cyan();
-            rgblight_mode_noeeprom(1);
+            rgblight_sethsv_no_nvram_cyan();
+            rgblight_mode_no_nvram(1);
         } else {
-            rgblight_sethsv_noeeprom(5, 255, 255);
-            rgblight_mode_noeeprom(37);
+            rgblight_sethsv_no_nvram(5, 255, 255);
+            rgblight_mode_no_nvram(37);
         }
         caps_state = led_state.caps_lock;
     }

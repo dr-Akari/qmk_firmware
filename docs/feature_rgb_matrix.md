@@ -664,67 +664,67 @@ These are defined in [`color.h`](https://github.com/qmk/qmk_firmware/blob/master
                               		// If RGB_MATRIX_KEYPRESSES or RGB_MATRIX_KEYRELEASES is enabled, you also will want to enable SPLIT_TRANSPORT_MIRROR
 ```
 
-## EEPROM storage :id=eeprom-storage
+## NVRAM storage :id=nvram-storage
 
-The EEPROM for it is currently shared with the LED Matrix system (it's generally assumed only one feature would be used at a time), but could be configured to use its own 32bit address with:
+The NVRAM for it is currently shared with the LED Matrix system (it's generally assumed only one feature would be used at a time), but could be configured to use its own 32bit address with:
 
 ```c
-#define EECONFIG_RGB_MATRIX (uint32_t *)28
+#define NVCONFIG_RGB_MATRIX (uint32_t *)28
 ```
 
-Where `28` is an unused index from `eeconfig.h`.
+Where `28` is an unused index from `nvconfig.h`.
 
 ## Functions :id=functions
 
 ### Direct Operation :id=direct-operation
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
-|`rgb_matrix_set_color_all(r, g, b)`         |Set all of the LEDs to the given RGB value, where `r`/`g`/`b` are between 0 and 255 (not written to EEPROM) |
-|`rgb_matrix_set_color(index, r, g, b)`      |Set a single LED to the given RGB value, where `r`/`g`/`b` are between 0 and 255, and `index` is between 0 and `DRIVER_LED_TOTAL` (not written to EEPROM) |
+|`rgb_matrix_set_color_all(r, g, b)`         |Set all of the LEDs to the given RGB value, where `r`/`g`/`b` are between 0 and 255 (not written to NVRAM) |
+|`rgb_matrix_set_color(index, r, g, b)`      |Set a single LED to the given RGB value, where `r`/`g`/`b` are between 0 and 255, and `index` is between 0 and `DRIVER_LED_TOTAL` (not written to NVRAM) |
 
 ### Disable/Enable Effects :id=disable-enable-effects
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`rgb_matrix_toggle()`                       |Toggle effect range LEDs between on and off |
-|`rgb_matrix_toggle_noeeprom()`              |Toggle effect range LEDs between on and off (not written to EEPROM) |
+|`rgb_matrix_toggle_no_nvram()`              |Toggle effect range LEDs between on and off (not written to NVRAM) |
 |`rgb_matrix_enable()`                       |Turn effect range LEDs on, based on their previous state |
-|`rgb_matrix_enable_noeeprom()`              |Turn effect range LEDs on, based on their previous state (not written to EEPROM) |
+|`rgb_matrix_enable_no_nvram()`              |Turn effect range LEDs on, based on their previous state (not written to NVRAM) |
 |`rgb_matrix_disable()`                      |Turn effect range LEDs off, based on their previous state |
-|`rgb_matrix_disable_noeeprom()`             |Turn effect range LEDs off, based on their previous state (not written to EEPROM) |
+|`rgb_matrix_disable_no_nvram()`             |Turn effect range LEDs off, based on their previous state (not written to NVRAM) |
 
 ### Change Effect Mode :id=change-effect-mode
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`rgb_matrix_mode(mode)`                     |Set the mode, if RGB animations are enabled |
-|`rgb_matrix_mode_noeeprom(mode)`            |Set the mode, if RGB animations are enabled (not written to EEPROM) |
+|`rgb_matrix_mode_no_nvram(mode)`            |Set the mode, if RGB animations are enabled (not written to NVRAM) |
 |`rgb_matrix_step()`                         |Change the mode to the next RGB animation in the list of enabled RGB animations |
-|`rgb_matrix_step_noeeprom()`                |Change the mode to the next RGB animation in the list of enabled RGB animations (not written to EEPROM) |
+|`rgb_matrix_step_no_nvram()`                |Change the mode to the next RGB animation in the list of enabled RGB animations (not written to NVRAM) |
 |`rgb_matrix_step_reverse()`                 |Change the mode to the previous RGB animation in the list of enabled RGB animations |
-|`rgb_matrix_step_reverse_noeeprom()`        |Change the mode to the previous RGB animation in the list of enabled RGB animations (not written to EEPROM) |
+|`rgb_matrix_step_reverse_no_nvram()`        |Change the mode to the previous RGB animation in the list of enabled RGB animations (not written to NVRAM) |
 |`rgb_matrix_increase_speed()`               |Increase the speed of the animations |
-|`rgb_matrix_increase_speed_noeeprom()`      |Increase the speed of the animations (not written to EEPROM) |
+|`rgb_matrix_increase_speed_no_nvram()`      |Increase the speed of the animations (not written to NVRAM) |
 |`rgb_matrix_decrease_speed()`               |Decrease the speed of the animations |
-|`rgb_matrix_decrease_speed_noeeprom()`      |Decrease the speed of the animations (not written to EEPROM) |
+|`rgb_matrix_decrease_speed_no_nvram()`      |Decrease the speed of the animations (not written to NVRAM) |
 |`rgb_matrix_set_speed(speed)`               |Set the speed of the animations to the given value where `speed` is between 0 and 255 |
-|`rgb_matrix_set_speed_noeeprom(speed)`      |Set the speed of the animations to the given value where `speed` is between 0 and 255 (not written to EEPROM) |
+|`rgb_matrix_set_speed_no_nvram(speed)`      |Set the speed of the animations to the given value where `speed` is between 0 and 255 (not written to NVRAM) |
 
 ### Change Color :id=change-color
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`rgb_matrix_increase_hue()`                 |Increase the hue for effect range LEDs. This wraps around at maximum hue |
-|`rgb_matrix_increase_hue_noeeprom()`        |Increase the hue for effect range LEDs. This wraps around at maximum hue (not written to EEPROM) |
+|`rgb_matrix_increase_hue_no_nvram()`        |Increase the hue for effect range LEDs. This wraps around at maximum hue (not written to NVRAM) |
 |`rgb_matrix_decrease_hue()`                 |Decrease the hue for effect range LEDs. This wraps around at minimum hue |
-|`rgb_matrix_decrease_hue_noeeprom()`        |Decrease the hue for effect range LEDs. This wraps around at minimum hue (not written to EEPROM) |
+|`rgb_matrix_decrease_hue_no_nvram()`        |Decrease the hue for effect range LEDs. This wraps around at minimum hue (not written to NVRAM) |
 |`rgb_matrix_increase_sat()`                 |Increase the saturation for effect range LEDs. This wraps around at maximum saturation |
-|`rgb_matrix_increase_sat_noeeprom()`        |Increase the saturation for effect range LEDs. This wraps around at maximum saturation (not written to EEPROM) |
+|`rgb_matrix_increase_sat_no_nvram()`        |Increase the saturation for effect range LEDs. This wraps around at maximum saturation (not written to NVRAM) |
 |`rgb_matrix_decrease_sat()`                 |Decrease the saturation for effect range LEDs. This wraps around at minimum saturation |
-|`rgb_matrix_decrease_sat_noeeprom()`        |Decrease the saturation for effect range LEDs. This wraps around at minimum saturation (not written to EEPROM) |
+|`rgb_matrix_decrease_sat_no_nvram()`        |Decrease the saturation for effect range LEDs. This wraps around at minimum saturation (not written to NVRAM) |
 |`rgb_matrix_increase_val()`                 |Increase the value for effect range LEDs. This wraps around at maximum value |
-|`rgb_matrix_increase_val_noeeprom()`        |Increase the value for effect range LEDs. This wraps around at maximum value (not written to EEPROM) |
+|`rgb_matrix_increase_val_no_nvram()`        |Increase the value for effect range LEDs. This wraps around at maximum value (not written to NVRAM) |
 |`rgb_matrix_decrease_val()`                 |Decrease the value for effect range LEDs. This wraps around at minimum value |
-|`rgb_matrix_decrease_val_noeeprom()`        |Decrease the value for effect range LEDs. This wraps around at minimum value (not written to EEPROM) |
+|`rgb_matrix_decrease_val_no_nvram()`        |Decrease the value for effect range LEDs. This wraps around at minimum value (not written to NVRAM) |
 |`rgb_matrix_sethsv(h, s, v)`                |Set LEDs to the given HSV value where `h`/`s`/`v` are between 0 and 255 |
-|`rgb_matrix_sethsv_noeeprom(h, s, v)`       |Set LEDs to the given HSV value where `h`/`s`/`v` are between 0 and 255 (not written to EEPROM) |
+|`rgb_matrix_sethsv_no_nvram(h, s, v)`       |Set LEDs to the given HSV value where `h`/`s`/`v` are between 0 and 255 (not written to NVRAM) |
 
 ### Query Current Status :id=query-current-status
 |Function                         |Description                |
@@ -856,7 +856,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 If you want to just use RGB indicators without RGB matrix effect, it is not possible to disable the latter because toggling RGB off will disable everything. You can workaround it with solid effect and colors off using this init function:
 ```c
 void keyboard_post_init_user(void) {
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_OFF);
+    rgb_matrix_mode_no_nvram(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_no_nvram(HSV_OFF);
 }
 ```

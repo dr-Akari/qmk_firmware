@@ -79,64 +79,64 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #ifdef RGB_MATRIX_ENABLE
         void encoder_action_rgb_speed(bool clockwise) {
             if (clockwise)
-                rgb_matrix_increase_speed_noeeprom();
+                rgb_matrix_increase_speed_no_nvram();
             else
-                rgb_matrix_decrease_speed_noeeprom();
+                rgb_matrix_decrease_speed_no_nvram();
         }
         void encoder_action_rgb_hue(bool clockwise) {
             if (clockwise)
-                rgb_matrix_increase_hue_noeeprom();
+                rgb_matrix_increase_hue_no_nvram();
             else
-                rgb_matrix_decrease_hue_noeeprom();
+                rgb_matrix_decrease_hue_no_nvram();
         }
         void encoder_action_rgb_saturation(bool clockwise) {
             if (clockwise)
-                rgb_matrix_increase_sat_noeeprom();
+                rgb_matrix_increase_sat_no_nvram();
             else
-                rgb_matrix_decrease_sat_noeeprom();
+                rgb_matrix_decrease_sat_no_nvram();
         }
         void encoder_action_rgb_brightness(bool clockwise) {
             if (clockwise)
-                rgb_matrix_increase_val_noeeprom();
+                rgb_matrix_increase_val_no_nvram();
             else
-                rgb_matrix_decrease_val_noeeprom();
+                rgb_matrix_decrease_val_no_nvram();
         }
         void encoder_action_rgb_mode(bool clockwise) {
             if (clockwise)
-                rgb_matrix_step_noeeprom();
+                rgb_matrix_step_no_nvram();
             else
-                rgb_matrix_step_reverse_noeeprom();
+                rgb_matrix_step_reverse_no_nvram();
         }
     #elif defined(RGBLIGHT_ENABLE)
         void encoder_action_rgb_speed(bool clockwise) {
             if (clockwise)
-                rgblight_increase_speed_noeeprom();
+                rgblight_increase_speed_no_nvram();
             else
-                rgblight_decrease_speed_noeeprom();
+                rgblight_decrease_speed_no_nvram();
         }
         void encoder_action_rgb_hue(bool clockwise) {
             if (clockwise)
-                rgblight_increase_hue_noeeprom();
+                rgblight_increase_hue_no_nvram();
             else
-                rgblight_decrease_hue_noeeprom();
+                rgblight_decrease_hue_no_nvram();
         }
         void encoder_action_rgb_saturation(bool clockwise) {
             if (clockwise)
-                rgblight_increase_sat_noeeprom();
+                rgblight_increase_sat_no_nvram();
             else
-                rgblight_decrease_sat_noeeprom();
+                rgblight_decrease_sat_no_nvram();
         }
         void encoder_action_rgb_brightness(bool clockwise) {
             if (clockwise)
-                rgblight_increase_val_noeeprom();
+                rgblight_increase_val_no_nvram();
             else
-                rgblight_decrease_val_noeeprom();
+                rgblight_decrease_val_no_nvram();
         }
         void encoder_action_rgb_mode(bool clockwise) {
             if (clockwise)
-                rgblight_step_noeeprom();
+                rgblight_step_no_nvram();
             else
-                rgblight_step_reverse_noeeprom();
+                rgblight_step_reverse_no_nvram();
         }
     #endif // RGB_MATRIX_ENABLE || RGBLIGHT_ENABLE
 

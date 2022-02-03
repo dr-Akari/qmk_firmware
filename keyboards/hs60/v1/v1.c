@@ -327,7 +327,7 @@ void bootmagic_lite(void)
 		( matrix_get_row(4) & (1<<6) ) )
 	{
 		// Set the TMK/QMK EEPROM state as invalid.
-		eeconfig_disable();
+		nvconfig_disable();
 		//eeprom_set_valid(false);
 		// Jump to bootloader.
 		bootloader_jump();

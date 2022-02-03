@@ -33,14 +33,14 @@ Size after:
     MOUSEKEY_ENABLE, EXTRAKEY_ENABLE, CONSOLE_ENABLE, API_SYSEX_ENABLE
     时请留意
 - DFU工具/不会/允许bootloader被覆写（除非你往DFU工具上塞自己的东西），这个风险不大。
-- EEPROM的写循环一般是 100000（100k）次，不应不停地持续重复地刷写固件，不然很快就烧毁了。
+- NVRAM的写循环一般是 100000（100k）次，不应不停地持续重复地刷写固件，不然很快就烧毁了。
 
 ## NKRO 不好使
 首先请确保在编译固件时有在**Makefile**中启用 `NKRO_ENABLE`
 
 如果依旧不行，尝试一下 `Magic` **N** 指令（默认是左Shift+右Shift+N），这个指令可以让键盘在**NKRO**和**6KRO**模式间临时切换。有的场景下**NKRO**无法工作必须切换到**6KRO**模式，比如在BIOS中操作时。
 
-如果你的固件编译时指定了 `BOOTMAGIC_ENABLE` ，则需要使用 `BootMagic`**N** 指令（默认是空格+N）。这个配置保存在EEPROM中，断电也会留存。
+如果你的固件编译时指定了 `BOOTMAGIC_ENABLE` ，则需要使用 `BootMagic`**N** 指令（默认是空格+N）。这个配置保存在NVRAM中，断电也会留存。
 
 https://github.com/tmk/tmk_keyboard#boot-magic-configuration---virtual-dip-switch
 

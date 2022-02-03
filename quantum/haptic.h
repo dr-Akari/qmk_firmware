@@ -50,7 +50,7 @@ typedef enum HAPTIC_FEEDBACK {
 
 void    haptic_init(void);
 void    haptic_task(void);
-void    eeconfig_debug_haptic(void);
+void    nvconfig_debug_haptic(void);
 void    haptic_enable(void);
 void    haptic_disable(void);
 void    haptic_toggle(void);

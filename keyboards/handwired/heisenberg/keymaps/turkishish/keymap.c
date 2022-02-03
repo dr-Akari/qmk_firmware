@@ -225,8 +225,8 @@ void keyboard_post_init_user(void) {
   //rgblight_config.hue    = 100;
   //rgblight_config.sat    = 255;
   //rgblight_config.val    = 255;
-  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-  rgblight_sethsv_noeeprom(100, 255, 255); // sets the color to greenish without saving
-  //rgblight_sethsv_noeeprom_turquoise();
+  rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+  rgblight_sethsv_no_nvram(100, 255, 255); // sets the color to greenish without saving
+  //rgblight_sethsv_no_nvram_turquoise();
 
 }

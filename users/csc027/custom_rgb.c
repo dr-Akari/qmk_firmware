@@ -21,22 +21,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if defined(RGBLIGHT_ENABLE)
 
 void keyboard_post_init_user(void) {
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     uint16_t user_hue = rgblight_get_hue();
     for (uint16_t i = 0; i < 256; ++i) {
-        rgblight_sethsv_noeeprom((i + user_hue) % 256, 255, 255);
+        rgblight_sethsv_no_nvram((i + user_hue) % 256, 255, 255);
         wait_ms(5);
     }
-    rgblight_sethsv_noeeprom(0, 0, 0);
+    rgblight_sethsv_no_nvram(0, 0, 0);
 }
 
 void on_usb_led_off(void) {
-    rgblight_sethsv_noeeprom(0, 0, rgblight_get_val() - 85);
+    rgblight_sethsv_no_nvram(0, 0, rgblight_get_val() - 85);
 }
 
 void on_usb_led_on(void) {
-    rgblight_sethsv_noeeprom(0, 0, rgblight_get_val() + 85);
+    rgblight_sethsv_no_nvram(0, 0, rgblight_get_val() + 85);
 }
 
 #endif

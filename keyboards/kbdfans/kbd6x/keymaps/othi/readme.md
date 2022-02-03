@@ -51,6 +51,6 @@
 
 **Unicode:**
 
-- In case the keyboard output the 4-digit codepoint instead of the actual unicode, you need to change the rewrite input mode of the keyboard into the EEPROM(you only have to do this if the EEPROM was cleared or your current machine use another unicode compose method other than IBus/Linux's `Ctrl + Shift + U`). Change the corresponding Input `void eeconfig_init_user(void)`. See [this](https://docs.qmk.fm/#/feature_unicode) for availble input modes.
+- In case the keyboard output the 4-digit codepoint instead of the actual unicode, you need to change the rewrite input mode of the keyboard into the EEPROM(you only have to do this if the EEPROM was cleared or your current machine use another unicode compose method other than IBus/Linux's `Ctrl + Shift + U`). Change the corresponding Input `void nvconfig_init_user(void)`. See [this](https://docs.qmk.fm/#/feature_unicode) for availble input modes.
 
 - **NOTE:** make sure to keep your qmk env up to date with upstream

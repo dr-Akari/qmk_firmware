@@ -124,9 +124,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     }
     else if (index == 1) { // Right encoder
         if (clockwise) {
-            rgblight_decrease_hue_noeeprom();
+            rgblight_decrease_hue_no_nvram();
         } else {
-            rgblight_increase_hue_noeeprom();
+            rgblight_increase_hue_no_nvram();
         }
     }
     return true;

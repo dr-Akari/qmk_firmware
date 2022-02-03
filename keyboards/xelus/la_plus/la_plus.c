@@ -74,24 +74,24 @@ void keyboard_post_init_kb(void) {
     // Call the post init code.
     // debug_enable=true;
 
-    keyboard_config.raw = eeconfig_read_kb();
+    keyboard_config.raw = nvconfig_read_kb();
     if (keyboard_config.startup_animation_dots) {
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_startup_animation_dots);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_CUSTOM_startup_animation_dots);
     } else {
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_startup_animation_solid);
+        rgb_matrix_mode_no_nvram(RGB_MATRIX_CUSTOM_startup_animation_solid);
     }
 
     keyboard_post_init_user();
 }
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
 #ifdef STARTUP_ANIMATION_DOTS
     keyboard_config.startup_animation_dots = false;
 #else
     keyboard_config.startup_animation_dots = true;
 #endif
-    eeconfig_update_kb(keyboard_config.raw);
-    eeconfig_init_user();
+    nvconfig_update_kb(keyboard_config.raw);
+    nvconfig_init_user();
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
@@ -104,7 +104,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
         uprintf("keyboard_config startup_animation_dots: %b\n", keyboard_config.startup_animation_dots);
 #endif
-        eeconfig_update_kb(keyboard_config.raw);
+        nvconfig_update_kb(keyboard_config.raw);
     }
 
     return true;

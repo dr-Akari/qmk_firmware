@@ -71,9 +71,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #if defined(ENCODER_ENABLE) && !defined(ENCODER_DEFAULTACTIONS_ENABLE)     // Encoder Functionality when not using userspace defaults
     void encoder_action_rgbhue(bool clockwise) {
         if (clockwise)
-            rgblight_increase_hue_noeeprom();
+            rgblight_increase_hue_no_nvram();
         else
-            rgblight_decrease_hue_noeeprom();
+            rgblight_decrease_hue_no_nvram();
     }
 
     bool encoder_update_user(uint8_t index, bool clockwise) {

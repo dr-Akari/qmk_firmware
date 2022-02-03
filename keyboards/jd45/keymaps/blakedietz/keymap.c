@@ -246,7 +246,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void persistant_default_layer_set(uint16_t default_layer)
 {
-    eeconfig_update_default_layer(default_layer);
+    nvconfig_update_default_layer(default_layer);
     default_layer_set(default_layer);
 }
 
@@ -296,9 +296,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
  */
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-    if (!eeconfig_is_enabled())
+    if (!nvconfig_is_enabled())
     {
-        eeconfig_init();
+        nvconfig_init();
     }
 
     bool use_cmd = true; // Use, for example, Cmd-Tab, Cmd-C, Cmd-V, etc.

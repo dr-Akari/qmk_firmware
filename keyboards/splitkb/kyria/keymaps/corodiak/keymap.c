@@ -196,12 +196,12 @@ void keyboard_post_init_user(void) {
     // Call the post init code.
 
     // Read the user config from EEPROM
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
 
     // Default RGB settings, without saving settings
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_CYAN);
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram(HSV_CYAN);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -284,13 +284,13 @@ void matrix_scan_user(void) {
         // Set current OS indicator to macOs
         SEQ_ONE_KEY(KC_M) {
             user_config.osIsWindows = false;
-            eeconfig_update_user(user_config.raw);
+            nvconfig_update_user(user_config.raw);
         }
 
         // Set current OS indicator to Windows
         SEQ_ONE_KEY(KC_W) {
             user_config.osIsWindows = true;
-            eeconfig_update_user(user_config.raw);
+            nvconfig_update_user(user_config.raw);
         }
 
         // Screenshot

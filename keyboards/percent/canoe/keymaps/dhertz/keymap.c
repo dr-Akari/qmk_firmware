@@ -45,17 +45,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void) {
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
     rgblight_sethsv_teal();
 }
 
 uint32_t layer_state_set_keymap(uint32_t state) {
     switch (biton32(state)) {
         case 1:
-            rgblight_sethsv_noeeprom_magenta();
+            rgblight_sethsv_no_nvram_magenta();
             break;
         default: //  for any other layers, or the default layer
-            rgblight_sethsv_noeeprom_cyan();
+            rgblight_sethsv_no_nvram_cyan();
             break;
     }
     return state;

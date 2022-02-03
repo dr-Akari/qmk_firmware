@@ -415,10 +415,10 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
     void suspend_power_down_user(void) {  // shutdown oled when powered down to prevent OLED from showing Mercutio all the time
         oled_off();
-        rgblight_disable_noeeprom();
+        rgblight_disable_no_nvram();
     }
 
     void suspend_wakeup_init_user(void) {
-        rgblight_enable_noeeprom();
+        rgblight_enable_no_nvram();
     }
 #endif

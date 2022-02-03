@@ -1,8 +1,8 @@
 #include <ch.h>
 #include <hal.h>
 
-#include "eeprom_teensy.h"
-#include "eeconfig.h"
+#include "kinetis_flexram.h"
+#include "nvconfig.h"
 
 /*************************************/
 /*          Hardware backend         */
@@ -113,7 +113,7 @@ void eeprom_initialize(void) {
  *
  * FIXME: needs doc
  */
-uint8_t eeprom_read_byte(const uint8_t *addr) {
+uint8_t nvram_read_u8(uint32_t addr) {
     uint32_t offset = (uint32_t)addr;
     if (offset >= EEPROM_SIZE) return 0;
     if (!(FTFL->FCNFG & FTFL_FCNFG_EEERDY)) eeprom_initialize();
@@ -124,7 +124,7 @@ uint8_t eeprom_read_byte(const uint8_t *addr) {
  *
  * FIXME: needs doc
  */
-uint16_t eeprom_read_word(const uint16_t *addr) {
+uint16_t nvram_read_u16(uint32_t addr) {
     uint32_t offset = (uint32_t)addr;
     if (offset >= EEPROM_SIZE - 1) return 0;
     if (!(FTFL->FCNFG & FTFL_FCNFG_EEERDY)) eeprom_initialize();
@@ -135,7 +135,7 @@ uint16_t eeprom_read_word(const uint16_t *addr) {
  *
  * FIXME: needs doc
  */
-uint32_t eeprom_read_dword(const uint32_t *addr) {
+uint32_t nvram_read_u32(uint32_t addr) {
     uint32_t offset = (uint32_t)addr;
     if (offset >= EEPROM_SIZE - 3) return 0;
     if (!(FTFL->FCNFG & FTFL_FCNFG_EEERDY)) eeprom_initialize();
@@ -146,7 +146,7 @@ uint32_t eeprom_read_dword(const uint32_t *addr) {
  *
  * FIXME: needs doc
  */
-void eeprom_read_block(void *buf, const void *addr, uint32_t len) {
+void nvram_read_block(uint32_t addr, void *buf, uint32_t len) {
     uint32_t offset = (uint32_t)addr;
     uint8_t *dest   = (uint8_t *)buf;
     uint32_t end    = offset + len;
@@ -178,7 +178,7 @@ static void flexram_wait(void) {
  *
  * FIXME: needs doc
  */
-void eeprom_write_byte(uint8_t *addr, uint8_t value) {
+void nvram_write_u8(uint32_t addr, uint8_t value) {
     uint32_t offset = (uint32_t)addr;
 
     if (offset >= EEPROM_SIZE) return;
@@ -193,7 +193,7 @@ void eeprom_write_byte(uint8_t *addr, uint8_t value) {
  *
  * FIXME: needs doc
  */
-void eeprom_write_word(uint16_t *addr, uint16_t value) {
+void nvram_write_u16(uint32_t addr, uint16_t value) {
     uint32_t offset = (uint32_t)addr;
 
     if (offset >= EEPROM_SIZE - 1) return;
@@ -223,7 +223,7 @@ void eeprom_write_word(uint16_t *addr, uint16_t value) {
  *
  * FIXME: needs doc
  */
-void eeprom_write_dword(uint32_t *addr, uint32_t value) {
+void nvram_write_u32(uint32_t addr, uint32_t value) {
     uint32_t offset = (uint32_t)addr;
 
     if (offset >= EEPROM_SIZE - 3) return;
@@ -269,7 +269,7 @@ void eeprom_write_dword(uint32_t *addr, uint32_t value) {
  *
  * FIXME: needs doc
  */
-void eeprom_write_block(const void *buf, void *addr, uint32_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, uint32_t len) {
     uint32_t       offset = (uint32_t)addr;
     const uint8_t *src    = (const uint8_t *)buf;
 
@@ -353,7 +353,7 @@ void eeprom_initialize(void) {
     flashend = (uint32_t)(p - 1);
 }
 
-uint8_t eeprom_read_byte(const uint8_t *addr) {
+uint8_t nvram_read_u8(uint32_t addr) {
     uint32_t        offset = (uint32_t)addr;
     const uint16_t *p      = (uint16_t *)SYMVAL(__eeprom_workarea_start__);
     const uint16_t *end    = (const uint16_t *)((uint32_t)flashend);
@@ -388,7 +388,7 @@ static void flash_write(const uint16_t *code, uint32_t addr, uint32_t data) {
     MCM->PLACR |= MCM_PLACR_CFCC;
 }
 
-void eeprom_write_byte(uint8_t *addr, uint8_t data) {
+void nvram_write_u8(uint32_t addr, uint8_t data) {
     uint32_t        offset = (uint32_t)addr;
     const uint16_t *p, *end = (const uint16_t *)((uint32_t)flashend);
     uint32_t        i, val, flashaddr;
@@ -468,45 +468,45 @@ void do_flash_cmd(volatile uint8_t *fstat)
    c:	4770      	bx	lr
 */
 
-uint16_t eeprom_read_word(const uint16_t *addr) {
+uint16_t nvram_read_u16(uint32_t addr) {
     const uint8_t *p = (const uint8_t *)addr;
-    return eeprom_read_byte(p) | (eeprom_read_byte(p + 1) << 8);
+    return nvram_read_u8(p) | (nvram_read_u8(p + 1) << 8);
 }
 
-uint32_t eeprom_read_dword(const uint32_t *addr) {
+uint32_t nvram_read_u32(uint32_t addr) {
     const uint8_t *p = (const uint8_t *)addr;
-    return eeprom_read_byte(p) | (eeprom_read_byte(p + 1) << 8) | (eeprom_read_byte(p + 2) << 16) | (eeprom_read_byte(p + 3) << 24);
+    return nvram_read_u8(p) | (nvram_read_u8(p + 1) << 8) | (nvram_read_u8(p + 2) << 16) | (nvram_read_u8(p + 3) << 24);
 }
 
-void eeprom_read_block(void *buf, const void *addr, uint32_t len) {
+void nvram_read_block(uint32_t addr, void *buf, uint32_t len) {
     const uint8_t *p    = (const uint8_t *)addr;
     uint8_t *      dest = (uint8_t *)buf;
     while (len--) {
-        *dest++ = eeprom_read_byte(p++);
+        *dest++ = nvram_read_u8(p++);
     }
 }
 
 int eeprom_is_ready(void) { return 1; }
 
-void eeprom_write_word(uint16_t *addr, uint16_t value) {
+void nvram_write_u16(uint32_t addr, uint16_t value) {
     uint8_t *p = (uint8_t *)addr;
-    eeprom_write_byte(p++, value);
-    eeprom_write_byte(p, value >> 8);
+    nvram_write_u8(p++, value);
+    nvram_write_u8(p, value >> 8);
 }
 
-void eeprom_write_dword(uint32_t *addr, uint32_t value) {
+void nvram_write_u32(uint32_t addr, uint32_t value) {
     uint8_t *p = (uint8_t *)addr;
-    eeprom_write_byte(p++, value);
-    eeprom_write_byte(p++, value >> 8);
-    eeprom_write_byte(p++, value >> 16);
-    eeprom_write_byte(p, value >> 24);
+    nvram_write_u8(p++, value);
+    nvram_write_u8(p++, value >> 8);
+    nvram_write_u8(p++, value >> 16);
+    nvram_write_u8(p, value >> 24);
 }
 
-void eeprom_write_block(const void *buf, void *addr, uint32_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, uint32_t len) {
     uint8_t *      p   = (uint8_t *)addr;
     const uint8_t *src = (const uint8_t *)buf;
     while (len--) {
-        eeprom_write_byte(p++, *src++);
+        nvram_write_u8(p++, *src++);
     }
 }
 
@@ -515,26 +515,26 @@ void eeprom_write_block(const void *buf, void *addr, uint32_t len) {
 #endif /* chip selection */
 // The update functions just calls write for now, but could probably be optimized
 
-void eeprom_update_byte(uint8_t *addr, uint8_t value) { eeprom_write_byte(addr, value); }
+void nvram_update_u8(uint32_t addr, uint8_t value) { nvram_write_u8(addr, value); }
 
-void eeprom_update_word(uint16_t *addr, uint16_t value) {
+void nvram_update_u16(uint32_t addr, uint16_t value) {
     uint8_t *p = (uint8_t *)addr;
-    eeprom_write_byte(p++, value);
-    eeprom_write_byte(p, value >> 8);
+    nvram_write_u8(p++, value);
+    nvram_write_u8(p, value >> 8);
 }
 
-void eeprom_update_dword(uint32_t *addr, uint32_t value) {
+void nvram_update_u32(uint32_t addr, uint32_t value) {
     uint8_t *p = (uint8_t *)addr;
-    eeprom_write_byte(p++, value);
-    eeprom_write_byte(p++, value >> 8);
-    eeprom_write_byte(p++, value >> 16);
-    eeprom_write_byte(p, value >> 24);
+    nvram_write_u8(p++, value);
+    nvram_write_u8(p++, value >> 8);
+    nvram_write_u8(p++, value >> 16);
+    nvram_write_u8(p, value >> 24);
 }
 
-void eeprom_update_block(const void *buf, void *addr, size_t len) {
+void nvram_update_block(uint32_t addr, const void *buf, size_t len) {
     uint8_t *      p   = (uint8_t *)addr;
     const uint8_t *src = (const uint8_t *)buf;
     while (len--) {
-        eeprom_write_byte(p++, *src++);
+        nvram_write_u8(p++, *src++);
     }
 }

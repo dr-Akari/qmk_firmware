@@ -146,15 +146,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 userspace_config.rgb_layer_change ^= 1;
                 dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb_layer_change);
-                eeconfig_update_user(userspace_config.raw);
+                nvconfig_update_user(userspace_config.raw);
                 if (userspace_config.rgb_layer_change) {
 #    if defined(RGBLIGHT_ENABLE) && defined(RGB_MATRIX_ENABLE)
-                    rgblight_enable_noeeprom();
+                    rgblight_enable_no_nvram();
 #    endif
                     layer_state_set(layer_state);  // This is needed to immediately set the layer color (looks better)
 #    if defined(RGBLIGHT_ENABLE) && defined(RGB_MATRIX_ENABLE)
                 } else {
-                    rgblight_disable_noeeprom();
+                    rgblight_disable_no_nvram();
 #    endif
                 }
             }
@@ -197,7 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
 #    endif
                 if (is_eeprom_updated) {
-                    eeconfig_update_user(userspace_config.raw);
+                    nvconfig_update_user(userspace_config.raw);
                 }
             }
             break;
@@ -220,7 +220,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         case EEP_RST:
             if (record->event.pressed) {
-                eeconfig_disable();
+                nvconfig_disable();
                 shutdown_user();
 #ifdef __AVR__
                 wdt_enable(WDTO_250MS);

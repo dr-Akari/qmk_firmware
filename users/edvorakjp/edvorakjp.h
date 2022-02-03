@@ -3,7 +3,7 @@
 #include "quantum.h"
 #include "action_layer.h"
 
-#define EECONFIG_EDVORAK (uint8_t *)20
+#define NVCONFIG_EDVORAK (uint8_t *)20
 
 // clang-format off
 #define __EDVORAKJP_BASE_L1__               KC_QUOTE,      KC_COMMA,               KC_DOT,           KC_Y,          KC_Q

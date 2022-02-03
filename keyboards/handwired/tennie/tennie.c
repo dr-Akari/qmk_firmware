@@ -16,6 +16,6 @@
 #include "tennie.h"
 
 void matrix_post_init(void) {
-	rgblight_enable_noeeprom();
+	rgblight_enable_no_nvram();
 	keyboard_post_init_user();
 }

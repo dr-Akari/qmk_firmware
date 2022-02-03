@@ -31,14 +31,14 @@ void matrix_scan_user(void) {
 
 void keyboard_post_init_rgb(void) {
 #if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_STARTUP_ANIMATION)
-    /*if (userspace_config.rgb_layer_change) { rgblight_enable_noeeprom(); }*/
+    /*if (userspace_config.rgb_layer_change) { rgblight_enable_no_nvram(); }*/
     /*if (rgblight_config.enable) {*/
         /*layer_state_set_user(layer_state);*/
         /*uint16_t old_hue = rgblight_config.hue;*/
         uint16_t old_hue = 170;
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
         for (uint16_t i = 255; i > 0; i--) {
-            rgblight_sethsv_noeeprom( ( i + old_hue) % 255, 255, 255);
+            rgblight_sethsv_no_nvram( ( i + old_hue) % 255, 255, 255);
             matrix_scan();
             wait_ms(10);
         }
@@ -47,13 +47,13 @@ void keyboard_post_init_rgb(void) {
     /*layer_state_set_user(layer_state);*/
 }
 
-__attribute__((weak)) void eeconfig_init_keymap(void) {}
+__attribute__((weak)) void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     userspace_config.raw              = 0;
     userspace_config.rgb_layer_change = true;
-    eeconfig_update_user(userspace_config.raw);
-    eeconfig_init_keymap();
+    nvconfig_update_user(userspace_config.raw);
+    nvconfig_init_keymap();
     keyboard_init();
 }
 

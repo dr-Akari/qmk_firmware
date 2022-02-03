@@ -151,12 +151,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   rgblight_enable();
   rgblight_sethsv_cyan();
   rgblight_mode(1);
   user_config.rgb_layer_change = true;
-  eeconfig_update_user(user_config.raw);
+  nvconfig_update_user(user_config.raw);
 }
 
 
@@ -165,7 +165,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // dynamically generate these.
     case EPRM:
       if (record->event.pressed) {
-        eeconfig_init();
+        nvconfig_init();
       }
       return false;
       break;
@@ -186,7 +186,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
      case RGB_LYR:  // This allows me to use underglow as layer indication, or as normal
         if (record->event.pressed) {
             user_config.rgb_layer_change ^= 1; // Toggles the status
-            eeconfig_update_user(user_config.raw); // Writes the new status to EEPROM
+            nvconfig_update_user(user_config.raw); // Writes the new status to EEPROM
             if (user_config.rgb_layer_change) { // if layer state indication is enabled,
                 layer_state_set(layer_state);   // then immediately update the layer color
             }
@@ -196,7 +196,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) { //This disables layer indication, as it's assumed that if you're changing this ... you want that disabled
             if (user_config.rgb_layer_change) {        // only if this is enabled
                 user_config.rgb_layer_change = false;  // disable it, and
-                eeconfig_update_user(user_config.raw); // write the setings to EEPROM
+                nvconfig_update_user(user_config.raw); // write the setings to EEPROM
             }
         }
         return true; break;
@@ -208,13 +208,13 @@ void matrix_init_user(void) {
   // Call the keymap level matrix init.
 
   // Read the user config from EEPROM
-  user_config.raw = eeconfig_read_user();
+  user_config.raw = nvconfig_read_user();
 
   // Set default layer, if enabled
   if (user_config.rgb_layer_change) {
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom_cyan();
-    rgblight_mode_noeeprom(1);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram_cyan();
+    rgblight_mode_no_nvram(1);
   }
 }
 
@@ -231,39 +231,39 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   switch (biton32(state)) {
     case SYMB:
         ergodox_right_led_1_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_red(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_red(); rgblight_mode_no_nvram(1); }
         break;
     case MDIA:
         ergodox_right_led_2_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_green(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_green(); rgblight_mode_no_nvram(1); }
         break;
     case 3:
         ergodox_right_led_3_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_blue(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_blue(); rgblight_mode_no_nvram(1); }
         break;
     case 4:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_orange(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_orange(); rgblight_mode_no_nvram(1); }
         break;
     case 5:
         ergodox_right_led_1_on();
         ergodox_right_led_3_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_yellow(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_yellow(); rgblight_mode_no_nvram(1); }
         break;
     case 6:
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_pink(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_pink(); rgblight_mode_no_nvram(1); }
         break;
     case 7:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_white(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_white(); rgblight_mode_no_nvram(1); }
         break;
     default: //  for any other layers, or the default layer
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_cyan(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_cyan(); rgblight_mode_no_nvram(1); }
         break;
     }
   return state;

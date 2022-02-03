@@ -22,7 +22,7 @@
 #include "keymap.h"
 #include "host.h"
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "bootmagic.h"
 
 keymap_config_t keymap_config;
@@ -35,18 +35,18 @@ __attribute__((weak)) void bootmagic(void) {}
  */
 void magic(void) {
     /* check signature */
-    if (!eeconfig_is_enabled()) {
-        eeconfig_init();
+    if (!nvconfig_is_enabled()) {
+        nvconfig_init();
     }
 
     /* init globals */
-    debug_config.raw  = eeconfig_read_debug();
-    keymap_config.raw = eeconfig_read_keymap();
+    debug_config.raw  = nvconfig_read_debug();
+    keymap_config.raw = nvconfig_read_keymap();
 
     bootmagic();
 
     /* read here just incase bootmagic process changed its value */
-    layer_state_t default_layer = (layer_state_t)eeconfig_read_default_layer();
+    layer_state_t default_layer = (layer_state_t)nvconfig_read_default_layer();
     default_layer_set(default_layer);
 
     /* Also initialize layer state to trigger callback functions for layer_state */

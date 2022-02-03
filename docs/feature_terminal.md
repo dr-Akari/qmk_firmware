@@ -29,7 +29,7 @@ Pressing "up" and "down" will allow you to cycle through the past 5 commands ent
 * *Analog/digital port read/write*
 * RGB mode stuff
 * Macro definitions
-* EEPROM read/write
+* NVRAM read/write
 * Audio control
 
 ## Current Commands

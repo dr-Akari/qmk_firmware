@@ -16,7 +16,7 @@
 #include "pvinis.h"
 //#include "iris.h"
 //#include "action_layer.h"
-//#include "eeconfig.h"
+//#include "nvconfig.h"
 
 #ifdef AUDIO_ENABLE
 #    include "audio.h"

@@ -225,7 +225,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 ### Configuration
 
-Certain values are stored in the `midi_config` struct. This configuration is not persisted to EEPROM. By default, these values are:
+Certain values are stored in the `midi_config` struct. This configuration is not persisted to NVRAM. By default, these values are:
 
 |Configuration      |Value|Comments                 |
 |-------------------|-----|-------------------------|

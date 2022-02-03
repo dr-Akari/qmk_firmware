@@ -36,16 +36,16 @@ float tone_scroll_off[][2] = SONG(SCROLL_LOCK_OFF_SOUND);
 #include "process_clicky.h"
 extern audio_config_t audio_config;
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
     // Reset Keyboard EEPROM value to blank, rather than to a set value
-    eeconfig_update_kb(0);
+    nvconfig_update_kb(0);
 
-    // Need to read here because this isn't done before calling eeconfig_init_kb()
-    audio_config.raw = eeconfig_read_audio();
+    // Need to read here because this isn't done before calling nvconfig_init_kb()
+    audio_config.raw = nvconfig_read_audio();
     // ...and this call needs audio_config initialized.
     clicky_off();
 
-    eeconfig_init_user();
+    nvconfig_init_user();
 }
 #endif // AUDIO_CLICKY
 

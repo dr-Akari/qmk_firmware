@@ -7,7 +7,7 @@
 #ifdef AUDIO_ENABLE
   #include "audio.h"
 #endif
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "ishtob.h"
 
 extern keymap_config_t keymap_config;
@@ -213,7 +213,7 @@ float tone_goodbye[][2] = SONG(GOODBYE_SOUND);
 
 
 void persistant_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
@@ -291,12 +291,12 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         layer_off(_ADJUST);
         layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+            nvconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        keymap_config.raw = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
       }
       return false;
       break;

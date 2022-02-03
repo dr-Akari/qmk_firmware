@@ -38,4 +38,4 @@ WS2811/WS2812{a,b,c} LED のサポート。 詳しくは [RGB ライト](ja/feat
 
 ## 24xx シリーズ 外部 I2C EEPROM
 
-オンチップ EEPROM の代わりに使用する I2C ベースの外部 EEPROM のサポート。ドライバーの設定方法の詳細は [EEPROM ドライバー](ja/eeprom_driver.md)を参照して下さい。 
+オンチップ NVRAM の代わりに使用する I2C ベースの外部 NVRAM のサポート。ドライバーの設定方法の詳細は [NVRAM ドライバー](ja/nvram_driver.md)を参照して下さい。 

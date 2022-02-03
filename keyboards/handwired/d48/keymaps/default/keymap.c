@@ -109,7 +109,7 @@ void keyboard_post_init_user(void) {
     /* debug_matrix = true; */
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     set_unicode_input_mode(UC_LNX);
 }
 

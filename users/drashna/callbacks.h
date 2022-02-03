@@ -15,7 +15,7 @@ void          matrix_scan_secret(void);
 layer_state_t layer_state_set_keymap(layer_state_t state);
 layer_state_t default_layer_state_set_keymap(layer_state_t state);
 void          led_set_keymap(uint8_t usb_led);
-void          eeconfig_init_keymap(void);
+void          nvconfig_init_keymap(void);
 
 #ifdef CUSTOM_UNICODE_ENABLE
 void matrix_init_unicode(void);

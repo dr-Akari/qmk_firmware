@@ -165,10 +165,10 @@ const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
 void keyboard_post_init_user(void) {
     // Enable the LED layers
     rgblight_layers = my_rgb_layers;
-    rgblight_enable_noeeprom(); // Enables RGB, without saving settings
-    //rgblight_sethsv_noeeprom(HSV_CYAN);
-    //rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+    rgblight_enable_no_nvram(); // Enables RGB, without saving settings
+    //rgblight_sethsv_no_nvram(HSV_CYAN);
+    //rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_RAINBOW_SWIRL);
 }
 
 bool led_update_user(led_t led_state) {

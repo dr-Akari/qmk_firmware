@@ -26,11 +26,11 @@ static uint8_t state = ENCODER_DEFAULT;
 const encoder_callback encoder_mapping[][2] = {
     [ENCODER_VOLUME] = {&volume_up, &volume_down},
 #ifdef RGB_MATRIX_ENABLE
-    [ENCODER_RGB_HUE] = {&rgb_matrix_increase_hue_noeeprom, &rgb_matrix_decrease_hue_noeeprom},
-    [ENCODER_RGB_SAT] = {&rgb_matrix_increase_sat_noeeprom, &rgb_matrix_decrease_sat_noeeprom},
-    [ENCODER_RGB_VAL] = {&rgb_matrix_increase_val_noeeprom, &rgb_matrix_decrease_val_noeeprom},
-    [ENCODER_RGB_EFFECT] = {&rgb_matrix_step_noeeprom, &rgb_matrix_step_reverse_noeeprom},
-    [ENCODER_RGB_EFFECT_SPEED] = {&rgb_matrix_increase_speed_noeeprom, &rgb_matrix_decrease_speed_noeeprom},
+    [ENCODER_RGB_HUE] = {&rgb_matrix_increase_hue_no_nvram, &rgb_matrix_decrease_hue_no_nvram},
+    [ENCODER_RGB_SAT] = {&rgb_matrix_increase_sat_no_nvram, &rgb_matrix_decrease_sat_no_nvram},
+    [ENCODER_RGB_VAL] = {&rgb_matrix_increase_val_no_nvram, &rgb_matrix_decrease_val_no_nvram},
+    [ENCODER_RGB_EFFECT] = {&rgb_matrix_step_no_nvram, &rgb_matrix_step_reverse_no_nvram},
+    [ENCODER_RGB_EFFECT_SPEED] = {&rgb_matrix_increase_speed_no_nvram, &rgb_matrix_decrease_speed_no_nvram},
 #endif // RGB_MATRIX_ENABLE
 };
 

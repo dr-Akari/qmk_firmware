@@ -89,7 +89,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             }
             #ifdef RGB_MATRIX_ENABLE
                 if (timeout_threshold > 0 && timeout_counter >= timeout_threshold) {
-                    rgb_matrix_disable_noeeprom();
+                    rgb_matrix_disable_no_nvram();
                 }
             #endif
         } // timeout_threshold = 0 will disable timeout

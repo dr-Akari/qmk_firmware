@@ -225,7 +225,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 				
 				// Store user light settings
 				last_hsv = rgb_matrix_get_hsv();
-				rgb_matrix_sethsv_noeeprom(0, 0, 0);
+				rgb_matrix_sethsv_no_nvram(0, 0, 0);
 
 				rgb_value.r = 0xff;
 				rgb_value.g = 0x00;
@@ -421,7 +421,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 			if (game_start) {
 				// Reset lighting settings
 				game_start = false;
-				rgb_matrix_sethsv_noeeprom(last_hsv.h, last_hsv.s, last_hsv.v);
+				rgb_matrix_sethsv_no_nvram(last_hsv.h, last_hsv.s, last_hsv.v);
 			}
 			break;			
 		}

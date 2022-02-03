@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 //void matrix_init_user(void) {
-//        eeconfig_init();
+//        nvconfig_init();
 //}
 
 layer_state_t layer_state_set_user(layer_state_t state) {

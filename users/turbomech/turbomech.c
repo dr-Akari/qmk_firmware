@@ -41,7 +41,7 @@ void matirx_scan_kb (void) {
 }
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 /*void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {

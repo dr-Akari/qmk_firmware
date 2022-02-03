@@ -71,7 +71,7 @@ void matrix_init(void)
   unselect_rows();
   init_cols();
 
-  //eeprom_update_word(EECONFIG_MAGIC, 0x0000);
+  //nvram_update_u16(NVCONFIG_MAGIC, 0x0000);
 
   // initialize matrix state: all keys off
   for (uint8_t i=0; i < MATRIX_ROWS; i++) {

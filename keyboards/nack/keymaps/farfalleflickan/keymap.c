@@ -172,7 +172,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 key_timer = timer_read32();
                 #ifdef RGB_MATRIX_ENABLE
-                rgb_matrix_disable_noeeprom();
+                rgb_matrix_disable_no_nvram();
                 #endif
             } else {
                 if (timer_elapsed32(key_timer) >= 20) {

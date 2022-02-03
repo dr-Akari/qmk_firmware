@@ -8,7 +8,7 @@
  */
 
 #include "sol3.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "audio.h"
 #include <transactions.h>
 
@@ -21,15 +21,15 @@ void keyboard_post_init_kb(void) {
     keyboard_post_init_user();
 }
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
     // Reset Keyboard EEPROM value to blank, rather than to a set value
-    eeconfig_update_kb(0);
+    nvconfig_update_kb(0);
 
-    audio_config.raw = eeconfig_read_audio();
+    audio_config.raw = nvconfig_read_audio();
     audio_config.clicky_enable = false;
-    eeconfig_update_audio(audio_config.raw);
+    nvconfig_update_audio(audio_config.raw);
 
-    eeconfig_init_user();
+    nvconfig_init_user();
 }
 
 void housekeeping_task_kb(void) {

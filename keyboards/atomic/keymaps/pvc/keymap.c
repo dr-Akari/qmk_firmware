@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "led.h"
 #include "mousekey.h"
 
@@ -254,7 +254,7 @@ float tone_scroll_off[][2] = SONG(SCROLL_LOCK_OFF_SOUND);
 #endif /* AUDIO_ENABLE */
 
 void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 

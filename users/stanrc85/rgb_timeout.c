@@ -36,7 +36,7 @@ void matrix_scan_user(void) {
         if ( (led_on && halfmin_counter >= BACKLIGHT_TIMEOUT * 2) || (rgb_on && halfmin_counter >= BACKLIGHT_TIMEOUT * 2)) {
             if(rgblight_is_enabled()) {
                 rgb_was_on = true;
-                rgblight_disable_noeeprom();
+                rgblight_disable_no_nvram();
                 led_on = false;
                 rgb_on = false;
             } else {
@@ -50,7 +50,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
             if (led_on == false || rgb_on == false ) {
                 if (rgb_was_on) {
-                    rgblight_enable_noeeprom();
+                    rgblight_enable_no_nvram();
                     led_on = true;
                     rgb_on = true;
                 }

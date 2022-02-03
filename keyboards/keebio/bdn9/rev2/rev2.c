@@ -21,7 +21,7 @@ led_config_t g_led_config = { {
 } };
 #endif
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
 #ifdef RGBLIGHT_ENABLE
     rgblight_enable();             // Enable RGB by default
     rgblight_sethsv(0, 255, 255);  // Set default HSV - red hue, full saturation, full brightness
@@ -34,6 +34,6 @@ void eeconfig_init_kb(void) {
     rgb_matrix_enable();  // Enable RGB by default
 #endif
 
-    eeconfig_update_kb(0);
-    eeconfig_init_user();
+    nvconfig_update_kb(0);
+    nvconfig_init_user();
 }

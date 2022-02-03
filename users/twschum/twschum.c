@@ -109,29 +109,29 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case _Base:
         if (rgb_L0_enabled) {
-            rgblight_sethsv_noeeprom(_Base_HSV_ON);
+            rgblight_sethsv_no_nvram(_Base_HSV_ON);
         }
         else {
-            rgblight_sethsv_noeeprom(_Base_HSV_OFF);
+            rgblight_sethsv_no_nvram(_Base_HSV_OFF);
         }
         break;
     case _Vim:
-        rgblight_sethsv_noeeprom(_Vim_HSV);
+        rgblight_sethsv_no_nvram(_Vim_HSV);
         break;
     case _Fn:
-        rgblight_sethsv_noeeprom(_Fn_HSV);
+        rgblight_sethsv_no_nvram(_Fn_HSV);
         break;
     case _Nav:
-        rgblight_sethsv_noeeprom(_Nav_HSV);
+        rgblight_sethsv_no_nvram(_Nav_HSV);
         break;
     case _Num:
-        rgblight_sethsv_noeeprom(_Num_HSV);
+        rgblight_sethsv_no_nvram(_Num_HSV);
         break;
     case _Cfg:
-        rgblight_sethsv_noeeprom(_Cfg_HSV);
+        rgblight_sethsv_no_nvram(_Cfg_HSV);
         break;
     case _None:
-        rgblight_sethsv_noeeprom(_None_HSV);
+        rgblight_sethsv_no_nvram(_None_HSV);
         break;
     }
     return state;

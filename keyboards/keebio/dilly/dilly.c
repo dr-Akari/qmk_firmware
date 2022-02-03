@@ -1,6 +1,6 @@
 #include "dilly.h"
 
-void eeconfig_init_kb(void) {
+void nvconfig_init_kb(void) {
 #ifdef BACKLIGHT_ENABLE
     backlight_enable();
     backlight_level(3);
@@ -13,6 +13,6 @@ void eeconfig_init_kb(void) {
 #endif
 #endif
 
-    eeconfig_update_kb(0);
-    eeconfig_init_user();
+    nvconfig_update_kb(0);
+    nvconfig_init_user();
 }

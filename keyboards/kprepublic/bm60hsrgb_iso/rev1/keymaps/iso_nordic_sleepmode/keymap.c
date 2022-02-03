@@ -76,10 +76,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (sleepmode_before_anim_speed == -1) { sleepmode_before_anim_speed = rgb_matrix_get_speed(); }
 
             if (sleepmode_on == true) {
-                // rgb_matrix_enable_noeeprom();
-                rgb_matrix_mode_noeeprom(sleepmode_before_mode);
-                rgb_matrix_set_speed_noeeprom(sleepmode_before_anim_speed);
-                rgb_matrix_sethsv_noeeprom(rgb_matrix_get_hue(), rgb_matrix_get_sat(), sleepmode_before_brightness);
+                // rgb_matrix_enable_no_nvram();
+                rgb_matrix_mode_no_nvram(sleepmode_before_mode);
+                rgb_matrix_set_speed_no_nvram(sleepmode_before_anim_speed);
+                rgb_matrix_sethsv_no_nvram(rgb_matrix_get_hue(), rgb_matrix_get_sat(), sleepmode_before_brightness);
                 sleepmode_on = false;
             }
             idle_timer = timer_read();
@@ -104,11 +104,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             sleepmode_before_anim_speed = rgb_matrix_get_speed();
             sleepmode_before_brightness = rgb_matrix_get_val();
             sleepmode_before_mode = rgb_matrix_get_mode();
-            //rgb_matrix_disable_noeeprom();
+            //rgb_matrix_disable_no_nvram();
 
-            rgb_matrix_mode_noeeprom(SLEEPMODE_RGB_MODE);
-            rgb_matrix_set_speed_noeeprom(SLEEPMODE_RGB_ANIMATION_SPEED);
-            rgb_matrix_sethsv_noeeprom(rgb_matrix_get_hue(), rgb_matrix_get_sat(), SLEEPMODE_RGB_VAL);
+            rgb_matrix_mode_no_nvram(SLEEPMODE_RGB_MODE);
+            rgb_matrix_set_speed_no_nvram(SLEEPMODE_RGB_ANIMATION_SPEED);
+            rgb_matrix_sethsv_no_nvram(rgb_matrix_get_hue(), rgb_matrix_get_sat(), SLEEPMODE_RGB_VAL);
             sleepmode_on = true;
             halfmin_counter = 0;
         }

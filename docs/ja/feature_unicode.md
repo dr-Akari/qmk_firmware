@@ -178,7 +178,7 @@ QMK での Unicode の入力は、マクロのように、OS への一連の文�
 
 コード内で `set_unicode_input_mode(x)` を呼び出すことで、入力モードを切り替えることもできます。ここで、_x_ は上記の入力モード定数のいずれか (例えば、`UC_LNX`) です。
 
-?> `matrix_init_user()` または同様の関数の中で `set_unicode_input_mode()` を呼び出すよりも、`UNICODE_SELECTED_MODES` を使うほうが望ましいです。Unicode システムとの統合性が高く、EEPROM への不要な書き込みを回避できるという利点があるからです。
+?> `matrix_init_user()` または同様の関数の中で `set_unicode_input_mode()` を呼び出すよりも、`UNICODE_SELECTED_MODES` を使うほうが望ましいです。Unicode システムとの統合性が高く、NVRAM への不要な書き込みを回避できるという利点があるからです。
 
 #### オーディオフィードバック
 

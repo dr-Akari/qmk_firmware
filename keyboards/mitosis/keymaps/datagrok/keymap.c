@@ -114,7 +114,7 @@ bool process_record_layout(uint16_t keycode, keyrecord_t *record) {
 
   if (get_mods() & (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT))) { // shift pressed
     // save default layer. whatever the current default layer is, store that
-    eeconfig_update_default_layer(default_layer_state);
+    nvconfig_update_default_layer(default_layer_state);
     #if defined(AUDIO_ENABLE)
         PLAY_SONG(saved_song);
     #endif

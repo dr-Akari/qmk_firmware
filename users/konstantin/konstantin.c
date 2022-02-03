@@ -24,10 +24,10 @@ void keyboard_pre_init_user(void) {
 }
 
 __attribute__((weak))
-void eeconfig_init_keymap(void) {}
+void nvconfig_init_keymap(void) {}
 
-void eeconfig_init_user(void) {
-    eeconfig_init_keymap();
+void nvconfig_init_user(void) {
+    nvconfig_init_keymap();
 }
 
 __attribute__((weak))

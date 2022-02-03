@@ -264,18 +264,18 @@ void set_mac_mode_keys(bool mac_mode) {
 }
 
 void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     mac_mode        = user_config.mac_mode;
     base_layer      = user_config.base_layer;
     set_mac_mode_keys(mac_mode);
 }
 
 /* Set default values for the EEPROM */
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw        = 0;
     user_config.base_layer = _QWERTY;
     user_config.mac_mode   = false;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
     base_layer = _QWERTY;
     mac_mode   = false;
     set_mac_mode_keys(mac_mode);
@@ -284,7 +284,7 @@ void eeconfig_init_user(void) {
 void persistent_default_layer_set(uint8_t layer) {
     set_single_persistent_default_layer(layer);
     user_config.base_layer = layer;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
     base_layer = layer;
 }
 
@@ -401,7 +401,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 /* Toggle Mac mode value */
                 mac_mode             = !mac_mode;
                 user_config.mac_mode = mac_mode;
-                eeconfig_update_user(user_config.raw);
+                nvconfig_update_user(user_config.raw);
                 set_mac_mode_keys(mac_mode);
             }
             return false;

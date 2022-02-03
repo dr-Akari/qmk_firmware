@@ -71,8 +71,8 @@ To configure the backlighting, `#define` these in your `config.h`:
 |`BREATHING_PERIOD`           |`6`               |The length of one backlight "breath" in seconds                                                                  |
 |`BACKLIGHT_ON_STATE`         |`1`               |The state of the backlight pin when the backlight is "on" - `1` for high, `0` for low                            |
 |`BACKLIGHT_LIMIT_VAL`        |`255`             |The maximum duty cycle of the backlight -- `255` allows for full brightness, any lower will decrease the maximum.|
-|`BACKLIGHT_DEFAULT_LEVEL`    |`BACKLIGHT_LEVELS`|The default backlight level to use upon clearing the EEPROM                                                      |
-|`BACKLIGHT_DEFAULT_BREATHING`|*Not defined*     |Whether to enable backlight breathing upon clearing the EEPROM                                                   |
+|`BACKLIGHT_DEFAULT_LEVEL`    |`BACKLIGHT_LEVELS`|The default backlight level to use upon clearing the NVRAM                                                      |
+|`BACKLIGHT_DEFAULT_BREATHING`|*Not defined*     |Whether to enable backlight breathing upon clearing the NVRAM                                                   |
 
 Unless you are designing your own keyboard, you generally should not need to change the `BACKLIGHT_PIN` or `BACKLIGHT_ON_STATE`.
 
@@ -128,7 +128,7 @@ The desired brightness is calculated and stored in the `OCRxx` register. When th
 In this way `OCRxx` essentially controls the duty cycle of the LEDs, and thus the brightness, where `0x0000` is completely off and `0xFFFF` is completely on.
 
 The breathing effect is achieved by registering an interrupt handler for `TIMER1_OVF_vect` that is called whenever the counter resets, roughly 244 times per second.
-In this handler, the value of an incrementing counter is mapped onto a precomputed brightness curve. To turn off breathing, the interrupt handler is simply disabled, and the brightness reset to the level stored in EEPROM.
+In this handler, the value of an incrementing counter is mapped onto a precomputed brightness curve. To turn off breathing, the interrupt handler is simply disabled, and the brightness reset to the level stored in NVRAM.
 
 #### Timer Assisted PWM Implementation :id=timer-assisted-implementation
 

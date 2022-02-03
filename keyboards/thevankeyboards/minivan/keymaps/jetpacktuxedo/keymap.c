@@ -46,8 +46,8 @@ void keyboard_post_init_user(void) {
     // Set up RGB effects on _only_ the third LED (index 2)
     rgblight_set_effect_range(2, 1);
     // Set LED effects to breathing mode in a tealish blue color
-    rgblight_sethsv_noeeprom(185, 255, 255);
-    rgblight_mode_noeeprom(RGBLIGHT_EFFECT_BREATHING + 2);
+    rgblight_sethsv_no_nvram(185, 255, 255);
+    rgblight_mode_no_nvram(RGBLIGHT_EFFECT_BREATHING + 2);
 
     // Init the first two LEDs to a static color
     setrgb(0, 0, 0, (LED_TYPE *)&led[0]);

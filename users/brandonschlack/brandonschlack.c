@@ -25,11 +25,11 @@ static stoplight_led_t stoplight_led;
  *
  * Default is use rgb for layer indication
  */
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
     user_config.raw = 0;
     user_config.rgb_layer_change = true;
     user_config.rgb_theme = 0;
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
 }
 
 __attribute__((weak))
@@ -48,7 +48,7 @@ void keyboard_post_init_keymap(void){ }
  */
 void keyboard_post_init_user(void){
     // Read the user config from EEPROM
-    user_config.raw = eeconfig_read_user();
+    user_config.raw = nvconfig_read_user();
     // Do Stoplight Animation if enabled
 #ifdef STOPLIGHT_LED
     led_stoplight_start();
@@ -70,9 +70,9 @@ void shutdown_keymap(void) {}
  */
 void shutdown_user (void) {
 #ifdef RGBLIGHT_ENABLE
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    rgblight_sethsv_noeeprom(0, 255, 127);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_no_nvram(0, 255, 127);
 #endif // RGBLIGHT_ENABLE
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_set_color_all( 0xFF, 0x00, 0x00 );

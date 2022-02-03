@@ -239,7 +239,7 @@ float music_scale[][2]     = SONG(MUSIC_SCALE_SOUND);
 
 void persistant_default_layer_set(uint16_t default_layer)
 {
-    eeconfig_update_default_layer(default_layer);
+    nvconfig_update_default_layer(default_layer);
     default_layer_set(default_layer);
 }
 

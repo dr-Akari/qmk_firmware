@@ -229,16 +229,16 @@ void set_mac_mode(bool enable) {
     keymap_config.swap_lalt_lgui = true;
     keymap_config.swap_ralt_rgui = true;
   }
-  eeconfig_update_user(user_config.raw);
+  nvconfig_update_user(user_config.raw);
 }
 
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
   user_config.raw = 0;
-  eeconfig_update_user(user_config.raw);
+  nvconfig_update_user(user_config.raw);
 }
 
 void keyboard_post_init_user(void) {
-  user_config.raw = eeconfig_read_user();
+  user_config.raw = nvconfig_read_user();
   set_mac_mode(user_config.mac_mode);
 }
 
@@ -485,7 +485,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGBRST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
           RGBAnimation = false;
         }
@@ -568,7 +568,7 @@ void led_ripple_effect(char r, char g, char b) {
     static int keys_sum[] = { 0, 6, 12, 18, 25 };
 
     if (scan_count == -1) {
-      rgblight_enable_noeeprom();
+      rgblight_enable_no_nvram();
       rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
     } else if (scan_count >= 0 && scan_count < 5) {
       for (unsigned char c=keybuf_begin; c!=keybuf_end; c++) {

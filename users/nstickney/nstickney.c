@@ -80,10 +80,10 @@ const uint16_t LAYER_HUE[] = {6, 197, 133, 69};
 
 // Initialize RGB underglow (colorful)
 void keyboard_post_init_user(void) {
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     for (uint16_t i = 0; i < 256; ++i) {
-        rgblight_sethsv_noeeprom((i + LAYER_HUE[BASE]) % 256, 255, 136);
+        rgblight_sethsv_no_nvram((i + LAYER_HUE[BASE]) % 256, 255, 136);
         wait_ms(8);
     }
 };
@@ -91,6 +91,6 @@ void keyboard_post_init_user(void) {
 // Turn on RGB underglow according to active layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t user_val = rgblight_get_val();
-    rgblight_sethsv_noeeprom(LAYER_HUE[get_highest_layer(state)], 255, user_val);
+    rgblight_sethsv_no_nvram(LAYER_HUE[get_highest_layer(state)], 255, user_val);
     return state;
 };

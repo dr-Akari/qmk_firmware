@@ -71,7 +71,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 };
 
 /* // EEPROM Reset Function
-void eeconfig_init_user(void) {
+void nvconfig_init_user(void) {
 	backlight_enable(); // Enable backlight by default
 	rgblight_enable(); // Enable RGB by default
 	rgblight_sethsv(HSV_BLUE);  // Set it to orange by default

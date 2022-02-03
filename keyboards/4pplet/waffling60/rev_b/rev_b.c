@@ -23,10 +23,10 @@ bool led_update_kb(led_t led_state) {
             if(led_state.caps_lock){
                 rgblight_enable();
                 rgblight_mode(1);
-                rgblight_sethsv_noeeprom(CAPS_LOCK_COLOR);
+                rgblight_sethsv_no_nvram(CAPS_LOCK_COLOR);
             }
             else
-                rgblight_disable_noeeprom();
+                rgblight_disable_no_nvram();
         }
     }
     return res;

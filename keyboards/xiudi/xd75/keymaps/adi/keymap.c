@@ -109,8 +109,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
   // MACRODOWN only works in this function
   keyevent_t event = record->event;
 
-  if (!eeconfig_is_enabled()) {
-    eeconfig_init();
+  if (!nvconfig_is_enabled()) {
+    nvconfig_init();
   }
   bool use_cmd = true;    // Use, for example, Cmd-Tab, Cmd-C, Cmd-V, etc.
   // Compare to MAGIC_SWAP_ALT_GUI and MAGIC_UNSWAP_ALT_GUI configs, set in:

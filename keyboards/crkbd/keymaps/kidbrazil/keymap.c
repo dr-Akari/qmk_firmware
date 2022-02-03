@@ -52,9 +52,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // [Post Init] --------------------------------------------------------------//
 void keyboard_post_init_user(void) {
     // Set RGB to known state
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
     rgb_matrix_set_color_all(RGB_GREEN);
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_mode_no_nvram(RGB_MATRIX_SOLID_COLOR);
     user_led_enabled = true;
 }
 // [Process User Input] ------------------------------------------------------//
@@ -65,7 +65,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case RGB_TOG:
           if (record->event.pressed) {
               // Toggle matrix on key press
-              user_led_enabled ? rgb_matrix_disable_noeeprom() : rgb_matrix_enable_noeeprom();
+              user_led_enabled ? rgb_matrix_disable_no_nvram() : rgb_matrix_enable_no_nvram();
               // Toggle boolean flag
               user_led_enabled = !user_led_enabled;
           }
@@ -78,7 +78,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               #endif
               // Restore LEDs if they are enabled by user
               if (user_led_enabled) {
-                  rgb_matrix_enable_noeeprom();
+                  rgb_matrix_enable_no_nvram();
               }
           }
           return true;
@@ -100,7 +100,7 @@ void matrix_scan_user(void) {
      }
      // Timeout to turn off LEDs
      else if (timer_elapsed32(oled_timer) > 480000) {
-         rgb_matrix_disable_noeeprom();
+         rgb_matrix_disable_no_nvram();
          return;
      }
      // Set RGB Matrix color based on layers
@@ -120,7 +120,7 @@ void matrix_scan_user(void) {
 
           }
      } else {
-         rgb_matrix_disable_noeeprom();
+         rgb_matrix_disable_no_nvram();
          return;
      }
 }
@@ -187,7 +187,7 @@ bool oled_task_user(void) {
     // Drashna style timeout for LED and OLED Roughly 8mins
     else if (timer_elapsed32(oled_timer) > 480000) {
         oled_off();
-        rgb_matrix_disable_noeeprom();
+        rgb_matrix_disable_no_nvram();
         return;
     }
     else {

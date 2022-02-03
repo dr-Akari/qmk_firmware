@@ -90,7 +90,7 @@ typedef union {
         uint8_t     speed;  // EECONFIG needs to be increased to support this
         led_flags_t flags;
     };
-} led_eeconfig_t;
+} led_nvconfig_t;
 
 #if defined(_MSC_VER)
 #    pragma pack(pop)

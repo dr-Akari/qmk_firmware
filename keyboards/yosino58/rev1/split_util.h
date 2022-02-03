@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 #define SLAVE_I2C_ADDRESS           0x32
 

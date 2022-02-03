@@ -55,7 +55,7 @@
   index 7.
 
   while 16 and 32 bit platforms might allow default_layer_state to include more
-  and higher-numbered layers, eeconfig_update_default_layer saves only the first
+  and higher-numbered layers, nvconfig_update_default_layer saves only the first
   8 bits of default_layer_state to eeprom.
 
 */

@@ -17,8 +17,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "eeprom_driver.h"
-#include "eeprom_transient.h"
+#include "nvram_driver.h"
+#include "nvram_transient.h"
 
 __attribute__((aligned(4))) static uint8_t transientBuffer[TRANSIENT_EEPROM_SIZE] = {0};
 
@@ -30,11 +30,11 @@ size_t clamp_length(intptr_t offset, size_t len) {
     return len;
 }
 
-void eeprom_driver_init(void) { eeprom_driver_erase(); }
+void nvram_driver_init(void) { nvram_driver_erase(); }
 
-void eeprom_driver_erase(void) { memset(transientBuffer, 0x00, TRANSIENT_EEPROM_SIZE); }
+void nvram_driver_erase(void) { memset(transientBuffer, 0x00, TRANSIENT_EEPROM_SIZE); }
 
-void eeprom_read_block(void *buf, const void *addr, size_t len) {
+void nvram_read_block(uint32_t addr, void *buf, size_t len) {
     intptr_t offset = (intptr_t)addr;
     memset(buf, 0x00, len);
     len = clamp_length(offset, len);
@@ -43,7 +43,7 @@ void eeprom_read_block(void *buf, const void *addr, size_t len) {
     }
 }
 
-void eeprom_write_block(const void *buf, void *addr, size_t len) {
+void nvram_write_block(uint32_t addr, const void *buf, size_t len) {
     intptr_t offset = (intptr_t)addr;
     len             = clamp_length(offset, len);
     if (len > 0) {

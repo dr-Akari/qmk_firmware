@@ -168,9 +168,9 @@ void keyboard_pre_init_user(void) {
 ```c
 void keyboard_post_init_user(void) {
   // 调用后初始化代码
-  rgblight_enable_noeeprom(); // 使能Rgb，不保存设置
-  rgblight_sethsv_noeeprom(180, 255, 255); // 将颜色设置到蓝绿色(青色)，不保存设置
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 3); // 设置快速呼吸模式，不保存设置
+  rgblight_enable_no_nvram(); // 使能Rgb，不保存设置
+  rgblight_sethsv_no_nvram(180, 255, 255); // 将颜色设置到蓝绿色(青色)，不保存设置
+  rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING + 3); // 设置快速呼吸模式，不保存设置
 }
 ```
 
@@ -274,13 +274,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 此处的 `state` 为当前活跃层的位掩码, 详见[键映射概述](zh-cn/keymap.md#keymap-layer-status)
 
 
-# 配置的持久存储（EEPROM）
+# 配置的持久存储（NVRAM）
 
-该功能可以让键盘的配置持久存储下来。这些配置存储在控制器的EEPROM中，即便掉电后依旧可以留存下来。可以通过 `eeconfig_read_kb` 和 `eeconfig_read_user` 来读取，通过 `eeconfig_update_kb` and `eeconfig_update_user` 来进行保存。该功能常用于保存一些开关状态（比如rgb层指示灯）。此外，可以通过 `eeconfig_init_kb` 和 `eeconfig_init_user` 来设置EEPROM的默认配置值。
+该功能可以让键盘的配置持久存储下来。这些配置存储在控制器的NVRAM中，即便掉电后依旧可以留存下来。可以通过 `nvconfig_read_kb` 和 `nvconfig_read_user` 来读取，通过 `nvconfig_update_kb` and `nvconfig_update_user` 来进行保存。该功能常用于保存一些开关状态（比如rgb层指示灯）。此外，可以通过 `nvconfig_init_kb` 和 `nvconfig_init_user` 来设置NVRAM的默认配置值。
 
-复杂的地方是，有很多方法可以存储和访问EEPROM数据，并且没有哪种方法是“正确”的。但是，每个功能只有一个双字(四字节)空间可用。
+复杂的地方是，有很多方法可以存储和访问NVRAM数据，并且没有哪种方法是“正确”的。但是，每个功能只有一个双字(四字节)空间可用。
 
-记住EEPROM是有写入寿命的。尽管写入寿命很高，但是并不是只有这些配置信息会写到EEPROM中。如果你写入过于频繁，你的MCU寿命将会急速减少。
+记住NVRAM是有写入寿命的。尽管写入寿命很高，但是并不是只有这些配置信息会写到NVRAM中。如果你写入过于频繁，你的MCU寿命将会急速减少。
 
 * 如果您不理解这个例子，那么您可以不使用这个特性，因为它相当复杂。
 
@@ -301,45 +301,45 @@ typedef union {
 user_config_t user_config;
 ```
 
-以上代码建立了一个32位的结构体，用于在内存及EEPROM中存储配置项。此时不再需要再单独声明变量，因为都已经在该结构体中定义了。须记住 `bool`（布尔）值占用1位，`uint8_t` 占用8位，`uint16_t` 占用16位。你可以混合搭配使用，但改变这些顺序会因为错误的读写而招致问题。
+以上代码建立了一个32位的结构体，用于在内存及NVRAM中存储配置项。此时不再需要再单独声明变量，因为都已经在该结构体中定义了。须记住 `bool`（布尔）值占用1位，`uint8_t` 占用8位，`uint16_t` 占用16位。你可以混合搭配使用，但改变这些顺序会因为错误的读写而招致问题。
 
 我们在 `layer_state_set_*` 函数中会使用 `rgb_layer_change`。通过 `keyboard_post_init_user` 和 `process_record_user` 来配置所需的一切。
 
-在编写 `keyboard_post_init_user` 时，你需要使用 `eeconfig_read_user()` 来计算并填充你刚刚创建的结构体。然后即可以使用结构体数据来控制键映射中的功能。就像这样： 
+在编写 `keyboard_post_init_user` 时，你需要使用 `nvconfig_read_user()` 来计算并填充你刚刚创建的结构体。然后即可以使用结构体数据来控制键映射中的功能。就像这样： 
 ```c
 void keyboard_post_init_user(void) {
   // 调用键映射级别的矩阵初始化
 
-  // 从EEPROM读用户配置
-  user_config.raw = eeconfig_read_user();
+  // 从NVRAM读用户配置
+  user_config.raw = nvconfig_read_user();
 
   // 如使能，设置默认层
   if (user_config.rgb_layer_change) {
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom_cyan(); 
-    rgblight_mode_noeeprom(1);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram_cyan(); 
+    rgblight_mode_no_nvram(1);
   }
 }
 ```
-以上函数会在读EEPROM配置后立即设置默认层的RGB颜色。"raw"值将被转换为上述创建的实际使用的"union"结构体。 
+以上函数会在读NVRAM配置后立即设置默认层的RGB颜色。"raw"值将被转换为上述创建的实际使用的"union"结构体。 
 
 ```c
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
     case _RAISE:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_magenta(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_magenta(); rgblight_mode_no_nvram(1); }
         break;
     case _LOWER:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_red(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_red(); rgblight_mode_no_nvram(1); }
         break;
     case _PLOVER:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_green(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_green(); rgblight_mode_no_nvram(1); }
         break;
     case _ADJUST:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_white(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_white(); rgblight_mode_no_nvram(1); }
         break;
     default: //  针对其他层或默认层
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_cyan(); rgblight_mode_noeeprom(1); }
+        if (user_config.rgb_layer_change) { rgblight_sethsv_no_nvram_cyan(); rgblight_mode_no_nvram(1); }
         break;
     }
   return state;
@@ -366,7 +366,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGB_LYR:  // 这允许我们将背光灯作为层指示，或正常用途
         if (record->event.pressed) { 
             user_config.rgb_layer_change ^= 1; // 切换状态
-            eeconfig_update_user(user_config.raw); // 向EEPROM写入新状态
+            nvconfig_update_user(user_config.raw); // 向NVRAM写入新状态
             if (user_config.rgb_layer_change) { // 如果层指示功能被使能
                 layer_state_set(layer_state);   // 那么立刻更新层颜色
             }
@@ -376,7 +376,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) { // 本句失能层指示功能，假设你现在要调整该功能…你要把它禁用
             if (user_config.rgb_layer_change) {        // 仅当使能时
                 user_config.rgb_layer_change = false;  // 失能，然后
-                eeconfig_update_user(user_config.raw); // 向EEPROM写入设置
+                nvconfig_update_user(user_config.raw); // 向NVRAM写入设置
             }
         }
         return true; break;
@@ -385,15 +385,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 }
 ```
-最后，须添加 `eeconfig_init_user` 函数，从而当EEPROM重置时，可以指定默认值, 甚至自定义操作。若想强制重置EEPROM，请用 `EEP_RST` 键码或[Bootmagic](zh-cn/feature_bootmagic.md) 功能。比如，在你想重置RGB层指示配置，并保存默认值时。
+最后，须添加 `nvconfig_init_user` 函数，从而当NVRAM重置时，可以指定默认值, 甚至自定义操作。若想强制重置NVRAM，请用 `EEP_RST` 键码或[Bootmagic](zh-cn/feature_bootmagic.md) 功能。比如，在你想重置RGB层指示配置，并保存默认值时。
 
 ```c
-void eeconfig_init_user(void) {  // EEPROM被重置
+void nvconfig_init_user(void) {  // NVRAM被重置
   user_config.raw = 0;
   user_config.rgb_layer_change = true; // 我们想要默认使能
-  eeconfig_update_user(user_config.raw); // 向EEPROM写入默认值
+  nvconfig_update_user(user_config.raw); // 向NVRAM写入默认值
 
-  // 通过使用非'noeeprom'版本的函数，可以同时写入这些配置到EEPROM中。
+  // 通过使用非'noeeprom'版本的函数，可以同时写入这些配置到NVRAM中。
   rgblight_enable(); // 默认使能RGB
   rgblight_sethsv_cyan();  // 默认设置青色
   rgblight_mode(1); // 默认设置长亮
@@ -404,10 +404,10 @@ void eeconfig_init_user(void) {  // EEPROM被重置
 
 ### 'EECONFIG' 函数文档
 
-* 键盘/各子版本：`void eeconfig_init_kb(void)`, `uint32_t eeconfig_read_kb(void)` 和 `void eeconfig_update_kb(uint32_t val)`
-* 键映射：`void eeconfig_init_user(void)`, `uint32_t eeconfig_read_user(void)` 和 `void eeconfig_update_user(uint32_t val)`
+* 键盘/各子版本：`void nvconfig_init_kb(void)`, `uint32_t nvconfig_read_kb(void)` 和 `void nvconfig_update_kb(uint32_t val)`
+* 键映射：`void nvconfig_init_user(void)`, `uint32_t nvconfig_read_user(void)` 和 `void nvconfig_update_user(uint32_t val)`
 
-`val` 是你想写入EEPROM的值，`eeconfig_read_*`函数会从EEPROM返回一个32位(双字)的值。
+`val` 是你想写入NVRAM的值，`nvconfig_read_*`函数会从NVRAM返回一个32位(双字)的值。
 
 ### 定时执行 :id=deferred-execution
 

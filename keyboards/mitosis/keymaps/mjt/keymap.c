@@ -121,7 +121,7 @@ static uint16_t function_layer = _FUNCTIONMAC;
 static uint16_t key_timer;
 
 void persistent_function_layer_set(uint16_t new_function_layer) {
-  // eeconfig_update_function_layer(new_function_layer);
+  // nvconfig_update_function_layer(new_function_layer);
   function_layer = new_function_layer;
   // should clear layers to avoid getting stuck.
 }

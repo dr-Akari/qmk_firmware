@@ -54,7 +54,7 @@ void set_rgb_theme(uint8_t index) {
     }
     user_config.rgb_theme = index;
     dprintf("rgb theme [EEPROM]: %u\n", user_config.rgb_theme);
-    eeconfig_update_user(user_config.raw);
+    nvconfig_update_user(user_config.raw);
 }
 
 rgb_theme_t get_rgb_theme(void) {
@@ -129,7 +129,7 @@ void rgb_matrix_cycle_flag (void) {
 
 void rgb_layer_helper(uint8_t hue, uint8_t sat, uint8_t val) {
 #if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-    rgblight_sethsv_noeeprom(hue, sat, val);
+    rgblight_sethsv_no_nvram(hue, sat, val);
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_layer_helper(0, 0, 0, rgb_matrix_get_flags());
 #endif

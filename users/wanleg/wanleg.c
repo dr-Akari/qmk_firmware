@@ -8,8 +8,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         set_single_persistent_default_layer(_QW);
 		#if defined(RGBLIGHT_ENABLE)
-		rgblight_sethsv_noeeprom(0,0,128);
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
+		rgblight_sethsv_no_nvram(0,0,128);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_BREATHING);
 		#endif
       }
       return false;
@@ -18,7 +18,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         set_single_persistent_default_layer(_GK);
 		#if defined(RGBLIGHT_ENABLE)
-        rgblight_sethsv_noeeprom(128,255,64);
+        rgblight_sethsv_no_nvram(128,255,64);
 		#endif
       }
       return false;
@@ -27,8 +27,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         set_single_persistent_default_layer(gGK);
 		#if defined(RGBLIGHT_ENABLE)
-        rgblight_sethsv_noeeprom(128,255,128);
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_KNIGHT);
+        rgblight_sethsv_no_nvram(128,255,128);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_KNIGHT);
 		#endif
       }
       return false;
@@ -127,9 +127,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case RESET:
       if (record->event.pressed) {
 		  #if defined(RGBLIGHT_ENABLE)
-		  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
-		  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-		  rgblight_sethsv_noeeprom_red();
+		  rgblight_enable_no_nvram(); // enables Rgb, without saving settings
+		  rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
+		  rgblight_sethsv_no_nvram_red();
 		  #endif
       }
       return true; // Let QMK send the press/release events as normal
@@ -170,7 +170,7 @@ void matrix_init_user(void) {
 void keyboard_post_init_user(void) {
   #if defined(KEYBOARD_kbdfans_kbd6x)
     set_single_persistent_default_layer(_QW);
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE + 5);
-    rgblight_sethsv_noeeprom(0,0,128);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_SNAKE + 5);
+    rgblight_sethsv_no_nvram(0,0,128);
   #endif
 }

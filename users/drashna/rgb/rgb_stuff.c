@@ -11,9 +11,9 @@ bool has_initialized;
 
 void rgblight_sethsv_default_helper(uint8_t index) { rgblight_sethsv_at(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), index); }
 void rgblight_set_hsv_and_mode(uint8_t hue, uint8_t sat, uint8_t val, uint8_t mode) {
-    rgblight_sethsv_noeeprom(hue, sat, val);
+    rgblight_sethsv_no_nvram(hue, sat, val);
     // wait_us(175);  // Add a slight delay between color and mode to ensure it's processed correctly
-    rgblight_mode_noeeprom(mode);
+    rgblight_mode_no_nvram(mode);
 }
 
 bool process_record_user_rgb_light(uint16_t keycode, keyrecord_t *record) { return true; }
@@ -30,7 +30,7 @@ uint32_t rgb_startup_animation(uint32_t triger_time, void *cb_arg) {
     if (is_rgblight_startup && is_keyboard_master()) {
         static uint8_t counter = 0;
         counter++;
-        rgblight_sethsv_noeeprom((counter + old_hsv.h) % 255, 255, 255);
+        rgblight_sethsv_no_nvram((counter + old_hsv.h) % 255, 255, 255);
         if (counter >= 255) {
             is_rgblight_startup = false;
             if (userspace_config.rgb_layer_change) {
@@ -39,7 +39,7 @@ uint32_t rgb_startup_animation(uint32_t triger_time, void *cb_arg) {
                 rgblight_set_hsv_and_mode(old_hsv.h, old_hsv.s, old_hsv.v, old_mode);
             }
             if (!is_enabled) {
-                rgblight_disable_noeeprom();
+                rgblight_disable_no_nvram();
             }
         }
     }
@@ -54,7 +54,7 @@ void keyboard_post_init_rgb_light(void) {
     }
     old_hsv  = rgblight_get_hsv();
     old_mode = rgblight_get_mode();
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);
     is_rgblight_startup = true;
 #    endif
     if (userspace_config.rgb_layer_change) {

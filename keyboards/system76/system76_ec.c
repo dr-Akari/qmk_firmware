@@ -74,7 +74,7 @@ static bool bootloader_unlocked = false;
 
 void system76_ec_unlock(void) {
 #ifdef RGB_MATRIX_CUSTOM_KB
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_unlocked);
+    rgb_matrix_mode_no_nvram(RGB_MATRIX_CUSTOM_unlocked);
 #endif
 #ifdef SYSTEM76_EC
     bootloader_unlocked = true;
@@ -187,9 +187,9 @@ static bool system76_ec_eeprom_op(void *buf, uint16_t size, uint16_t offset, boo
     // Check for overflow and zero size
     if ((end > addr) && (addr >= SYSTEM76_EC_EEPROM_ADDR) && (end <= (SYSTEM76_EC_EEPROM_ADDR + SYSTEM76_EC_EEPROM_SIZE))) {
         if (write) {
-            eeprom_update_block((const void *)buf, (void *)addr, size);
+            nvram_update_block(addr, buf, size);
         } else {
-            eeprom_read_block((void *)buf, (const void *)addr, size);
+            nvram_read_block(addr, buf, size);
         }
         return true;
     } else {

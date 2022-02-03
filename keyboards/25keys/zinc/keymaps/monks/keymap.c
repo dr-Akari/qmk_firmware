@@ -124,7 +124,7 @@ bool TOG_STATUS = false;
 void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
     #ifdef RGBLIGHT_ENABLE
-       rgblight_mode_noeeprom(RGB_current_config.mode);
+       rgblight_mode_no_nvram(RGB_current_config.mode);
     #endif
     layer_on(layer3);
   } else {
@@ -149,14 +149,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
           TOG_STATUS = !TOG_STATUS;
           #ifdef RGBLIGHT_ENABLE
-            rgblight_mode_noeeprom(16);
+            rgblight_mode_no_nvram(16);
           #endif
         }
         layer_on(_LOWER);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
       } else {
         #ifdef RGBLIGHT_ENABLE
-          rgblight_mode_noeeprom(RGB_current_config.mode);   // revert RGB to initial mode prior to RGB mode change
+          rgblight_mode_no_nvram(RGB_current_config.mode);   // revert RGB to initial mode prior to RGB mode change
         #endif
         TOG_STATUS = false;
         layer_off(_LOWER);
@@ -173,14 +173,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
           TOG_STATUS = !TOG_STATUS;
           #ifdef RGBLIGHT_ENABLE
-            rgblight_mode_noeeprom(15);
+            rgblight_mode_no_nvram(15);
           #endif
         }
         layer_on(_RAISE);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
       } else {
         #ifdef RGBLIGHT_ENABLE
-          rgblight_mode_noeeprom(RGB_current_config.mode);  // revert RGB to initial mode prior to RGB mode change
+          rgblight_mode_no_nvram(RGB_current_config.mode);  // revert RGB to initial mode prior to RGB mode change
         #endif
         layer_off(_RAISE);
         TOG_STATUS = false;
@@ -201,7 +201,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGB_MOD:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          rgblight_mode_noeeprom(RGB_current_config.mode);
+          rgblight_mode_no_nvram(RGB_current_config.mode);
           rgblight_step();
           RGB_current_config.mode = rgblight_config.mode;
         }
@@ -237,7 +237,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGBRST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
           RGB_current_config = rgblight_config;
         }

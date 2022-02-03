@@ -207,7 +207,7 @@ void matrix_scan_user(void) {
         if (idle_second_counter >= rgb_time_out_seconds) {
             rgb_time_out_saved_flag = rgb_matrix_get_flags();
             rgb_matrix_set_flags(LED_FLAG_NONE);
-            rgb_matrix_disable_noeeprom();
+            rgb_matrix_disable_no_nvram();
             rgb_enabled_flag = false;
             idle_second_counter = 0;
         }
@@ -229,7 +229,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // Reset the seconds counter. Without this, something like press> leave x seconds> press, would be x seconds on the effective counter not 0 as it should.
         idle_second_counter = 0;
         if (!rgb_enabled_flag) {
-            rgb_matrix_enable_noeeprom();
+            rgb_matrix_enable_no_nvram();
             rgb_matrix_set_flags(rgb_time_out_saved_flag);
             rgb_enabled_flag = true;
         }
@@ -293,12 +293,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         // This line is for LED idle timer. It disables the toggle so you can turn off LED completely if you like
                         rgb_time_out_enable = false;
                         rgb_matrix_set_flags(LED_FLAG_NONE);
-                        rgb_matrix_disable_noeeprom();
+                        rgb_matrix_disable_no_nvram();
                     }
                     break;
                     default: {
                         rgb_matrix_set_flags(LED_FLAG_ALL);
-                        rgb_matrix_enable_noeeprom();
+                        rgb_matrix_enable_no_nvram();
                     }
                     break;
                 }

@@ -46,7 +46,7 @@ void switch_caps_mode(uint8_t mode){
             default:
             break;           
         }
-        rgblight_sethsv_noeeprom(dir_hue,dir_sat,pre_rgb.val); 
+        rgblight_sethsv_no_nvram(dir_hue,dir_sat,pre_rgb.val); 
     
 }
 
@@ -58,7 +58,7 @@ void init_caps_mode(uint8_t mode){
     pre_rgb.val = rgblight_get_val();
     caps_in = true;
 
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  
+    rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_LIGHT);  
     switch_caps_mode(mode);
 
 }

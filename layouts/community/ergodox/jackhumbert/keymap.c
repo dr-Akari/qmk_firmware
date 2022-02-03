@@ -82,7 +82,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         break;
         case 1:
         if (record->event.pressed) { // For resetting EEPROM
-          eeconfig_init();
+          nvconfig_init();
         }
         break;
       }

@@ -45,7 +45,7 @@ If you would like to change the key assignments for Command, `#define` these in 
 |`MAGIC_KEY_BOOTLOADER`              |`B`                             |Jump to bootloader                              |
 |`MAGIC_KEY_BOOTLOADER_ALT`          |`ESC`                           |Jump to bootloader (alternate)                  |
 |`MAGIC_KEY_LOCK`                    |`CAPS`                          |Lock the keyboard so nothing can be typed       |
-|`MAGIC_KEY_EEPROM`                  |`E`                             |Print stored EEPROM config to the console       |
-|`MAGIC_KEY_EEPROM_CLEAR`            |`BSPACE`                        |Clear the EEPROM                                |
+|`MAGIC_KEY_NVRAM`                  |`E`                             |Print stored NVRAM config to the console       |
+|`MAGIC_KEY_NVRAM_CLEAR`            |`BSPACE`                        |Clear the NVRAM                                |
 |`MAGIC_KEY_NKRO`                    |`N`                             |Toggle N-Key Rollover (NKRO)                    |
 |`MAGIC_KEY_SLEEP_LED`               |`Z`                             |Toggle LED when computer is sleeping            |

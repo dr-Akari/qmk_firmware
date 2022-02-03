@@ -318,7 +318,7 @@ bool process_record_quantum(keyrecord_t *record) {
 #endif
                 return false;
             case QK_CLEAR_EEPROM:
-                eeconfig_init();
+                nvconfig_init();
                 return false;
 #ifdef VELOCIKEY_ENABLE
             case VLK_TOG:
@@ -357,7 +357,7 @@ void set_single_persistent_default_layer(uint8_t default_layer) {
 #if defined(AUDIO_ENABLE) && defined(DEFAULT_LAYER_SONGS)
     PLAY_SONG(default_layer_songs[default_layer]);
 #endif
-    eeconfig_update_default_layer((layer_state_t)1 << default_layer);
+    nvconfig_update_default_layer((layer_state_t)1 << default_layer);
     default_layer_set((layer_state_t)1 << default_layer);
 }
 

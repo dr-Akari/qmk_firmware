@@ -128,7 +128,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGB_RST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
         }
       #endif
@@ -141,9 +141,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   if (isTapAnim) {
-    rgblight_mode_noeeprom(1);
+    rgblight_mode_no_nvram(1);
     uint16_t hue = (rgblight_config.hue + 5) % 360;
-    rgblight_sethsv_noeeprom(hue, rgblight_config.sat, rgblight_config.val);
+    rgblight_sethsv_no_nvram(hue, rgblight_config.sat, rgblight_config.val);
   }
 
   return true;

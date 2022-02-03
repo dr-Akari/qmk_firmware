@@ -20,7 +20,7 @@ else
     RGBLIGHT_STARTUP_ANIMATION  = yes
     RGB_MATRIX_ENABLE           = no
     AUDIO_ENABLE                = yes
-    EEPROM_DRIVER               = i2c
+    NVRAM_DRIVER               = i2c
     ENCODER_MAP_ENABLE          = yes
     AUTOCORRECTION_ENABLE       = yes
     CAPS_WORD_ENABLE            = yes

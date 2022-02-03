@@ -39,8 +39,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
 void matrix_init_user(void) {
   #ifdef RGBLIGHT_ENABLE
-    rgblight_enable_noeeprom();
-    rgblight_mode_noeeprom(RGB_MODE);
+    rgblight_enable_no_nvram();
+    rgblight_mode_no_nvram(RGB_MODE);
     rgblight_sethsv (RGB_HUE, 255, 255);
   #endif
   #ifdef SOLENOID_ENABLE
@@ -140,22 +140,22 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   switch (biton32(state)) {
     case _RAISE:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_sethsv_noeeprom (240, 255, 255);
+      rgblight_sethsv_no_nvram (240, 255, 255);
       #endif
       break;
     case _LOWER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_sethsv_noeeprom (0, 255, 255);
+      rgblight_sethsv_no_nvram (0, 255, 255);
       #endif
       break;
     case _ADJUST:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_sethsv_noeeprom (0, 0, 255);
+      rgblight_sethsv_no_nvram (0, 0, 255);
       #endif
       break;
     default:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_sethsv_noeeprom (RGB_HUE, 255, 255);
+      rgblight_sethsv_no_nvram (RGB_HUE, 255, 255);
       #endif
       break;
     }

@@ -45,7 +45,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case WRTROM:
 #ifdef RGBLIGHT_ENABLE
             if (record->event.pressed) {
-                eeconfig_update_rgblight_current();
+                nvconfig_update_rgblight_current();
             }
 #endif
             return false;
@@ -54,7 +54,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGBRST:
 #ifdef RGBLIGHT_ENABLE
             if (record->event.pressed) {
-                eeconfig_update_rgblight_default();
+                nvconfig_update_rgblight_default();
                 rgblight_enable();
             }
 #endif
@@ -126,9 +126,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             case L_HUE:
 #ifdef RGBLIGHT_ENABLE
                 if (clockwise) {
-                    rgblight_increase_hue_noeeprom();
+                    rgblight_increase_hue_no_nvram();
                 } else {
-                    rgblight_decrease_hue_noeeprom();
+                    rgblight_decrease_hue_no_nvram();
                 }
 #endif
                 break;
@@ -136,9 +136,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             case L_SAT:
 #ifdef RGBLIGHT_ENABLE
                 if (clockwise) {
-                    rgblight_increase_sat_noeeprom();
+                    rgblight_increase_sat_no_nvram();
                 } else {
-                    rgblight_decrease_sat_noeeprom();
+                    rgblight_decrease_sat_no_nvram();
                 }
 #endif
                 break;
@@ -146,9 +146,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             case L_VAL:
 #ifdef RGBLIGHT_ENABLE
                 if (clockwise) {
-                    rgblight_increase_val_noeeprom();
+                    rgblight_increase_val_no_nvram();
                 } else {
-                    rgblight_decrease_val_noeeprom();
+                    rgblight_decrease_val_no_nvram();
                 }
 #endif
                 break;
@@ -156,9 +156,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             case L_MODE:
 #ifdef RGBLIGHT_ENABLE
                 if (clockwise) {
-                    rgblight_step_noeeprom();
+                    rgblight_step_no_nvram();
                 } else {
-                    rgblight_step_reverse_noeeprom();
+                    rgblight_step_reverse_no_nvram();
                 }
 #endif
                 break;

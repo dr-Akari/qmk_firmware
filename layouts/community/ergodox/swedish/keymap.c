@@ -172,7 +172,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // dynamically generate these.
     case EPRM:
       if (record->event.pressed) {
-        eeconfig_init();
+        nvconfig_init();
       }
       return false;
       break;

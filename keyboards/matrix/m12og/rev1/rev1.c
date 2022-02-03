@@ -21,7 +21,7 @@ void board_init(void) {
 }
 
 void keyboard_post_init_kb(void) {
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(5, 255, 255);
-    rgblight_mode_noeeprom(37);
+    rgblight_enable_no_nvram();
+    rgblight_sethsv_no_nvram(5, 255, 255);
+    rgblight_mode_no_nvram(37);
 }

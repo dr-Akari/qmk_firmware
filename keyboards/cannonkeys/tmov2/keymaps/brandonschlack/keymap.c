@@ -165,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_keymap(void) {
-    rgblight_disable_noeeprom();
+    rgblight_disable_no_nvram();
 }
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {

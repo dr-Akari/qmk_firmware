@@ -103,18 +103,18 @@ void  process_record_fled(uint16_t keycode, keyrecord_t *record) {
 void fled_load_conf(void) {
     // Load config
     fled_config fled_conf;
-    fled_conf.raw = eeprom_read_byte(FRONTLED_CONF_ADDR);
+    fled_conf.raw = nvram_read_u8(FRONTLED_CONF_ADDR);
     fled_mode = fled_conf.mode;
     fled_val = fled_conf.val * FLED_VAL_STEP;
 
     // Load color data
-    uint8_t stored_cnt = eeprom_read_byte(FRONTLED_COLOR_CNT_ADDR);
+    uint8_t stored_cnt = nvram_read_u8(FRONTLED_COLOR_CNT_ADDR);
     uint16_t *color_ptr = FRONTLED_COLOR_ADDR;
-    caps_color.raw = eeprom_read_word(color_ptr); // Should always store at least 1 color
+    caps_color.raw = nvram_read_u16(color_ptr); // Should always store at least 1 color
     for (uint8_t i = 1; i < stored_cnt; i++) {
         if (i == lc_size) // Can't load more layers than we have available
             break;
-        layer_colors[i].raw = eeprom_read_word(&color_ptr[i]);
+        layer_colors[i].raw = nvram_read_u16(&color_ptr[i]);
     }
     layer_colors[0].raw = 0; // hue = sat = 0 for layer 0
 }
@@ -133,19 +133,19 @@ void fled_update_conf(void)
         conf.val = fled_val / FLED_VAL_STEP;
 
     // Store config
-    eeprom_update_byte(FRONTLED_CONF_ADDR, conf.raw);
+    nvram_update_u8(FRONTLED_CONF_ADDR, conf.raw);
 
     // Store color data
     uint16_t *color_ptr = FRONTLED_COLOR_ADDR;
-    eeprom_update_word(color_ptr, caps_color.raw);
+    nvram_update_u16(color_ptr, caps_color.raw);
     // Start from 1, layer 0 is not modifiable and therefore not persisted
     uint8_t i = 1;
     for (; i < lc_size; i++) {
         if (i == FRONTLED_COLOR_MAXCNT) // Can't store more than the EEPROM we have available
             break;
-        eeprom_update_word(&color_ptr[i], layer_colors[i].raw);
+        nvram_update_u16(&color_ptr[i], layer_colors[i].raw);
     }
-    eeprom_update_byte(FRONTLED_COLOR_CNT_ADDR, i); // For safety, store the count of colors stored
+    nvram_update_u8(FRONTLED_COLOR_CNT_ADDR, i); // For safety, store the count of colors stored
 }
 
 // Custom keycode functions
@@ -270,9 +270,9 @@ bool via_eeprom_is_valid(void)
     uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
     uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
 
-    return (eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0 ) == magic0 &&
-            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1 ) == magic1 &&
-            eeprom_read_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2 ) == magic2 );
+    return (nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+0 ) == magic0 &&
+            nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+1 ) == magic1 &&
+            nvram_read_u8(VIA_EEPROM_MAGIC_ADDR+2 ) == magic2 );
 }
 
 #endif

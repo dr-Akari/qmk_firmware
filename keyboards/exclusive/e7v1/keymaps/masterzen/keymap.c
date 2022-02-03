@@ -73,7 +73,7 @@ void matrix_init_user(void)
 
 void persistent_default_layer_set(uint16_t default_layer)
 {
-  eeconfig_update_default_layer(default_layer);
+  nvconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
@@ -125,7 +125,7 @@ layer_state_t layer_state_set_user(layer_state_t state)
   {
   case _ADJUST:
     mode = rgblight_get_mode();
-    rgblight_mode_noeeprom(1);
+    rgblight_mode_no_nvram(1);
     rgblight_setrgb(0xD3, 0x7F, 0xED);
     edit = true;
     break;

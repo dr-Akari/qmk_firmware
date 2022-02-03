@@ -2,7 +2,7 @@
 #include "action_layer.h"
 #include "action_util.h"
 #include "debug.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 #include "version.h"
 #include "wait.h"
 
@@ -340,7 +340,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
   case CF_EPRM:
     if (record->event.pressed)
     {
-      eeconfig_init();
+      nvconfig_init();
     }
     return false;
     break;

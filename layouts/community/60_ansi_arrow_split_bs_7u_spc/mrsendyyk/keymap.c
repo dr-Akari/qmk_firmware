@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void keyboard_post_init_user(void) {
-    rgblight_enable_noeeprom();
+    rgblight_enable_no_nvram();
     rgblight_setrgb(100, 255, 100);
 }
 
@@ -105,7 +105,7 @@ void update_led(void) {
     }
     // Scroll Lock Indicator
     if (host_keyboard_led_state().scroll_lock) {
-        rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT + 2);
+        rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_GRADIENT + 2);
     }
 }
 
@@ -120,11 +120,11 @@ void led_set_user(uint8_t usb_led) {
         switch (get_highest_layer(layer_state)) {
             // Fn Layer Indicator
             case _FN:
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT + 1);
+                rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_GRADIENT + 1);
                 break;
             // Reset Layer Indicator
             case _RESET:
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT + 3);
+                rgblight_mode_no_nvram(RGBLIGHT_MODE_STATIC_GRADIENT + 3);
                 break;
             // Base Layer Indicator
             case _BASE:

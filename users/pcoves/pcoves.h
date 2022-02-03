@@ -25,8 +25,8 @@ enum {
     PCOVES_SAFE_RANGE,
 };
 
-__attribute__((weak)) void eeconfig_init_keymap(void);
-void eeconfig_init_user(void);
+__attribute__((weak)) void nvconfig_init_keymap(void);
+void nvconfig_init_user(void);
 
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
 bool process_record_user(uint16_t keycode, keyrecord_t *record);

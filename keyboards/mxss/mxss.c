@@ -67,9 +67,9 @@ void via_eeprom_set_valid(bool valid)
     uint8_t magic1 = ( ( p[5] & 0x0F ) << 4 ) | ( p[6]  & 0x0F );
     uint8_t magic2 = ( ( p[8] & 0x0F ) << 4 ) | ( p[9]  & 0x0F );
 
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+0, valid ? magic0 : 0xFF);
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+1, valid ? magic1 : 0xFF);
-    eeprom_update_byte( (void*)VIA_EEPROM_MAGIC_ADDR+2, valid ? magic2 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+0, valid ? magic0 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+1, valid ? magic1 : 0xFF);
+    nvram_update_u8(VIA_EEPROM_MAGIC_ADDR+2, valid ? magic2 : 0xFF);
 }
 
 #endif

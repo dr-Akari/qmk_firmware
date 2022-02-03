@@ -157,7 +157,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case RGBRST:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
+          nvconfig_update_rgblight_default();
           rgblight_enable();
           RGB_current_mode = rgblight_config.mode;
         }
@@ -183,7 +183,7 @@ void matrix_init_user(void) {
 
 // hook point for 'led_test' keymap
 //   'default' keymap's led_test_init() is empty function, do nothing
-//   'led_test' keymap's led_test_init() force rgblight_mode_noeeprom(35);
+//   'led_test' keymap's led_test_init() force rgblight_mode_no_nvram(35);
 __attribute__ ((weak))
 void led_test_init(void) {}
 

@@ -105,7 +105,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
         case _ADJUST:
             temp_config.mode = rgblight_get_mode();
-            rgblight_mode_noeeprom(1);
+            rgblight_mode_no_nvram(1);
             rgblight_setrgb(0xD3, 0x7F, 0xED);
             edit = true;
             break;

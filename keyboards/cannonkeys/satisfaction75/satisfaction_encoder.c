@@ -221,8 +221,8 @@ uint16_t retrieve_custom_encoder_config(uint8_t encoder_idx, uint8_t behavior){
 #ifdef DYNAMIC_KEYMAP_ENABLE
     void* addr = (void*)(EEPROM_CUSTOM_ENCODER + (encoder_idx * 6) + (behavior * 2));
     //big endian
-    uint16_t keycode = eeprom_read_byte(addr) << 8;
-    keycode |= eeprom_read_byte(addr + 1);
+    uint16_t keycode = nvram_read_u8(addr) << 8;
+    keycode |= nvram_read_u8(addr + 1);
     return keycode;
 #else
     return 0;
@@ -232,7 +232,7 @@ uint16_t retrieve_custom_encoder_config(uint8_t encoder_idx, uint8_t behavior){
 void set_custom_encoder_config(uint8_t encoder_idx, uint8_t behavior, uint16_t new_code){
 #ifdef DYNAMIC_KEYMAP_ENABLE
     void* addr = (void*)(EEPROM_CUSTOM_ENCODER + (encoder_idx * 6) + (behavior * 2));
-    eeprom_update_byte(addr, (uint8_t)(new_code >> 8));
-    eeprom_update_byte(addr + 1, (uint8_t)(new_code & 0xFF));
+    nvram_update_u8(addr, (uint8_t)(new_code >> 8));
+    nvram_update_u8(addr + 1, (uint8_t)(new_code & 0xFF));
 #endif
 }

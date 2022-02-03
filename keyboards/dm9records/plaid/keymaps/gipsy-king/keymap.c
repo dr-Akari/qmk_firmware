@@ -112,7 +112,7 @@ static uint16_t blinken_startled_state = 0;
 
 void matrix_init_user(void) {
   // https://github.com/hsgw/plaid/issues/15#issuecomment-534677102
-  eeconfig_init();
+  nvconfig_init();
 }
 
 void keyboard_post_init_user(void) {

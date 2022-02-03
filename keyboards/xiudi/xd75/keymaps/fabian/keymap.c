@@ -16,7 +16,7 @@
 
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "nvconfig.h"
 
 extern keymap_config_t keymap_config;
 
@@ -267,12 +267,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         layer_off(_ADJUST);
         layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
+        if (!nvconfig_is_enabled()) {
+            nvconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        keymap_config.raw = nvconfig_read_keymap();
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        nvconfig_update_keymap(keymap_config.raw);
       }
       return false;
       break;

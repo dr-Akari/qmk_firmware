@@ -12,7 +12,7 @@ bool is_keyboard_left(void) {
         setPinInput(SPLIT_HAND_PIN);
         return x;
     #elif defined(EE_HANDS)
-        return eeprom_read_byte(EECONFIG_HANDEDNESS);
+        return nvram_read_u8(NVCONFIG_HANDEDNESS);
     #endif
 
     return is_keyboard_master();

@@ -219,12 +219,12 @@ void matrix_scan_keymap(void) {
 #endif
 
 void keyboard_post_init_user(void) {
-    rgblight_sethsv_noeeprom(HSV_BLUE);
+    rgblight_sethsv_no_nvram(HSV_BLUE);
     keyboard_post_init_rgb();
 #ifdef RGBLIGHT_LAYERS
     rgblight_layers = my_rgb_layers;
 #else
-    rgblight_sethsv_noeeprom(HSV_BLUE);
+    rgblight_sethsv_no_nvram(HSV_BLUE);
 #endif
     /*debug_enable=true;*/
     /*debug_matrix=true;*/

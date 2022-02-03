@@ -114,14 +114,14 @@ typedef union {
 } led_config_t;
 led_config_t led_config;
 
-void keyboard_post_init_user(void) { led_config.raw = eeconfig_read_user(); }
+void keyboard_post_init_user(void) { led_config.raw = nvconfig_read_user(); }
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset!
+void nvconfig_init_user(void) {  // EEPROM is getting reset!
     led_config.raw        = 0;
     led_config.red_mode   = LED_ON;
     led_config.green_mode = LED_ON;
-    eeconfig_update_user(led_config.raw);
-    eeconfig_update_user(led_config.raw);
+    nvconfig_update_user(led_config.raw);
+    nvconfig_update_user(led_config.raw);
 }
 
 // When LOWER and RAISE are held together, go to the FUNCTION layer
@@ -174,7 +174,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     led_config.green_mode = LED_ON;
                 }
             }
-            eeconfig_update_user(led_config.raw);
+            nvconfig_update_user(led_config.raw);
             return false;
             break;
     }

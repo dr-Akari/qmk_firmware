@@ -119,17 +119,17 @@ static void set_rgb_layer(int layer) {
             }
             rgb_matrix_set_flags(cur->flags);
             if (cur->mode >= RGB_MATRIX_EFFECT_MAX)
-                rgb_matrix_mode_noeeprom(rgbs[cur->mode - RGB_MATRIX_EFFECT_MAX].mode);
+                rgb_matrix_mode_no_nvram(rgbs[cur->mode - RGB_MATRIX_EFFECT_MAX].mode);
             else
-                rgb_matrix_mode_noeeprom(cur->mode);
-            rgb_matrix_sethsv_noeeprom(cur->hsv.h, cur->hsv.s, cur->hsv.v);
+                rgb_matrix_mode_no_nvram(cur->mode);
+            rgb_matrix_sethsv_no_nvram(cur->hsv.h, cur->hsv.s, cur->hsv.v);
             break;
         case type_rgb:
             rgb_matrix_set_flags(cur->flags);
             if (cur->mode >= RGB_MATRIX_EFFECT_MAX)
-                rgb_matrix_mode_noeeprom(rgbs[cur->mode - RGB_MATRIX_EFFECT_MAX].mode);
+                rgb_matrix_mode_no_nvram(rgbs[cur->mode - RGB_MATRIX_EFFECT_MAX].mode);
             else
-                rgb_matrix_mode_noeeprom(cur->mode);
+                rgb_matrix_mode_no_nvram(cur->mode);
             for (uint8_t i = 0; i < DRIVER_LED_TOTAL; i++) {
                 const RGB *m = &cur->rgb[i];
                 if (!RGB_IS_NULL(*m))
@@ -155,7 +155,7 @@ void matrix_scan_keymap(void) {
         rgb_timer = timer_read();
     }
     if (rgb_idle_seconds > IDLE_TIMEOUT) {
-        rgb_matrix_disable_noeeprom();
+        rgb_matrix_disable_no_nvram();
         rgb_idle_seconds = 0;
     }
 };
@@ -171,7 +171,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     static uint32_t boot_timer;
     struct layer_rgb *rgb_base_layer = &rgbs[save_layer];
     rgb_idle_seconds = 0;
-    rgb_matrix_enable_noeeprom();
+    rgb_matrix_enable_no_nvram();
 
     switch (keycode) {
         case KB_BOOT:

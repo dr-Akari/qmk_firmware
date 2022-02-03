@@ -235,7 +235,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
         case KC_SWAP_NUM:
             if (record->event.pressed) {
                 userspace_config.swapped_numbers ^= 1;
-                eeconfig_update_user(userspace_config.raw);
+                nvconfig_update_user(userspace_config.raw);
             }
             break;
 #ifdef PIMORONI_TRACKBALL_ENABLE
